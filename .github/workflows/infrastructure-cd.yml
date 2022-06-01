@@ -15,7 +15,7 @@ jobs:
       backend_config: ../../environments/backend/dev.conf
     secrets:
       azure_ad_client_id: ${{ secrets.AZURE_AD_CLIENT_ID }}
-      azure_ad_client_secret: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
+      azure_ad_client_secret: ${{ secrets.AZURE_AD_CLIENT_ID_1 }}
       azure_subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       azure_ad_tenant_id: ${{ secrets.AZURE_AD_TENANT_ID }}
       #TODO: Move this to key vault later on
