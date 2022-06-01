@@ -5,13 +5,13 @@ on:
       environment:
         type: string
         required: true
-      working_directory:
+      working_directory_path:
         type: string
         required: true
-      tf_vars:
+      tf_vars_file_path:
         type: string
         required: true
-      backend_config:
+      backend_config_file_path:
         type: string
         required: true
     secrets:
@@ -23,6 +23,7 @@ on:
         required: true
       azure_ad_tenant_id:
         required: true
+      #TODO: Move this to key vault later on, this is required for the terraform backend setup
       azure_storage_account_key:
         required: true
 
@@ -33,17 +34,17 @@ jobs:
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
       run:
-        working-directory: ${{ inputs.working_directory }}
+        working-directory: ${{ inputs.working_directory_path }}
         shell: bash
     env:
       ARM_CLIENT_ID: ${{ secrets.azure_ad_client_id }}
       ARM_CLIENT_SECRET: ${{ secrets.azure_ad_client_secret }}
       ARM_SUBSCRIPTION_ID: ${{ secrets.azure_subscription_id }}
       ARM_TENANT_ID: ${{ secrets.azure_ad_tenant_id }}
-      #TODO: Move this to key vault later on
+      #TODO: Move this to key vault later on, this is required for the terraform backend setup
       ACCOUNT_KEY: ${{ secrets.azure_storage_account_key }}
-      tf_vars: ${{ inputs.tf_vars }}
-      backend_config: ${{ inputs.backend_config }}
+      tf_vars_file_path: ${{ inputs.tf_vars_file_path }}
+      backend_config_file_path: ${{ inputs.backend_config_file_path }}
   
     steps:
     # Checkout the repository to the GitHub Actions runner
@@ -59,7 +60,7 @@ jobs:
          
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
-      run: terraform init -backend-config=$backend_config
+      run: terraform init -backend-config=$backend_config_file_path
     
     # Ensures all the terraform code and files are syntactically correct 
     - name: Terraform Validate
@@ -67,8 +68,8 @@ jobs:
     
     # Generates an execution plan for Terraform
     - name: Terraform Plan
-      run: terraform plan --var-file=$tf_vars
+      run: terraform plan --var-file=$tf_vars_file_path
  
     # On push to main, build or change infrastructure according to Terraform configuration files
     - name: Terraform Apply
-      run: terraform apply --var-file=$tf_vars -auto-approve -input=false 
+      run: terraform apply --var-file=$tf_vars_file_path -auto-approve -input=false 
