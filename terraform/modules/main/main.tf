@@ -1,7 +1,8 @@
-# Configure the Azure provider
+# Configure the Azure provider and backend
 terraform {
   backend "azurerm" {}
-  #Use this when deploying locally
+  #Comment out the block above 'backend "azurerm" {}' and uncomment/use the backend block 
+  #below when deploying locally
   #backend "local" {  
   #  path = "local/terraform.tfstate"
   #}
@@ -15,24 +16,14 @@ terraform {
   required_version = ">= 1.1.0"
 }
 
+#(Required) Configure the Microsoft Azure Provider
 provider "azurerm" {
   features {}
 }
 
-module "storage_account" {
-  source                   = "../resource_templates/storage_account"
-  resource_group_name      = var.resource_group_name
-  name                     = var.test_storage_account_name
-  location                 = var.location
-  account_tier             = "Standard"
-  account_replication_type = "LRS"
-}
-
+#Add terraform here e.g.
 module "terraform_storage_container" {
   source               = "../resource_templates/storage_container"
-  name                 = var.terraform_container_name
-  storage_account_name = var.test_storage_account_name
-  depends_on = [
-    module.storage_account
-  ]
+  name                 = "test"
+  storage_account_name = var.default_storage_account_name
 }
