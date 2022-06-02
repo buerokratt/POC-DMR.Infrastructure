@@ -23,26 +23,26 @@ chart-name
 │   └── ...
 ```
 
-chart-name/ (repo):
-This is the repo that contains your chart.
+chart-name/:
+This is the folder that contains your chart.
 
 .helmignore (file):
-This is the file that contains all the ignores files when packaging the chart, like gitignore.   
+This is the file that contains all the ignored files when packaging the chart, like gitignore.   
 
 Chart.yaml (file):
-This is the file that contains meta data/information about the chart that is being packaged e.g. version no., name of chart etc.
+This is the file that contains metadata/information about the chart that is being packaged e.g. version no., name of chart etc.
 
 values.yaml (file):
-This is the file that contains all the values you want to inject into your templates. Think of this as Helm's version of Terraform's variables.tf file. This is where the magic happens when it comes to versioning, every time you make a change to the chart or app you upgrade the version number variables in here which will create the basis for rolling/upgrading the Kubernetes cluster.
+This is the file that contains all the values you want to inject into your templates. Think of this as Helm's version of Terraform's variables.tf file. This is where the magic happens when it comes to versioning, every time you make a change to the chart or app you upgrade the version number variables in here which will create the basis for rolling/upgrading this Helm deployment in the Kubernetes cluster.
 
-charts/ (repo):
-This is the repo that contains other library charts that your chart depends on.
+charts/:
+This is the folder that contains other library charts that your chart depends on.
 
-templates/ (repo):
-This is the repo that contains the actual manifest files (yaml) that you are deploying with the chart. For example you might be deploying an nginx deployment that needs a service, configmap and secrets. You will have your deployment.yaml, service.yaml, config.yaml and secrets.yaml all in the template repo. They will all get their values from values.yaml from above.
+templates/:
+This is the folder that contains the actual manifest files (yaml) that you are deploying with the chart. For example you might be deploying an nginx deployment that needs a service, configmap and secrets. You will have your deployment.yaml, service.yaml, config.yaml and secrets.yaml all in the template repo. They will all get their values from values.yaml from above.
 
 crds/ (repo):
-This is the repo that contains the custom resource definitions.             
+This is the folder that contains the custom resource definitions.             
     
 ## Helm commands
 Helm commands provides us with a set of powerful and useful commands that helps to create, manage, install, deploy, roll back, etc our charts. Firstly, the helm CLI needs to installed on the machine, below is a list of useful and basic helm commands.
