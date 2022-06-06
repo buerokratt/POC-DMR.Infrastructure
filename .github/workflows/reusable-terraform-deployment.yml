@@ -57,6 +57,10 @@ jobs:
     # Checks that all Terraform configuration files adhere to a canonical format
     - name: Terraform Format
       run: terraform fmt -check
+
+    # Update tf state
+    - name: Terraform State update
+      run: terraform import azurerm_resource_group.resource_group /subscriptions/b683ce64-51fa-4215-8064-e42408230343/resourceGroups/rgbeurokrattdev
          
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
