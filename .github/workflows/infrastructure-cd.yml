@@ -1,5 +1,6 @@
 name: Infrastructure_cd
 on:
+  workflow_dispatch:
   push:
     branches:
     - main

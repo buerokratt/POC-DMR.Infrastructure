@@ -1,6 +1,6 @@
 name: Reusable_terraform_deployment
 on:
-  [workflow_call, workflow_dispatch]:
+  workflow_call:
     inputs:
       environment:
         type: string
