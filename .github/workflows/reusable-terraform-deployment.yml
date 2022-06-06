@@ -36,15 +36,15 @@ jobs:
       run:
         working-directory: ${{ inputs.working_directory_path }}
         shell: bash
-    env:
-      ARM_CLIENT_ID: ${{ secrets.azure_ad_client_id }}
-      ARM_CLIENT_SECRET: ${{ secrets.azure_ad_client_secret }}
-      ARM_SUBSCRIPTION_ID: ${{ secrets.azure_subscription_id }}
-      ARM_TENANT_ID: ${{ secrets.azure_ad_tenant_id }}
-      #TODO: Move this to key vault later on, this is required for the terraform backend setup
-      ACCOUNT_KEY: ${{ secrets.azure_storage_account_key }}
-      tf_vars_file_path: ${{ inputs.tf_vars_file_path }}
-      backend_config_file_path: ${{ inputs.backend_config_file_path }}
+    #env:
+    #  ARM_CLIENT_ID: ${{ secrets.azure_ad_client_id }}
+    #  ARM_CLIENT_SECRET: ${{ secrets.azure_ad_client_secret }}
+    #  ARM_SUBSCRIPTION_ID: ${{ secrets.azure_subscription_id }}
+    #  ARM_TENANT_ID: ${{ secrets.azure_ad_tenant_id }}
+    #  #TODO: Move this to key vault later on, this is required for the terraform backend setup
+    #  ACCOUNT_KEY: ${{ secrets.azure_storage_account_key }}
+    #  tf_vars_file_path: ${{ inputs.tf_vars_file_path }}
+    #  backend_config_file_path: ${{ inputs.backend_config_file_path }}
   
     steps:
     # Checkout the repository to the GitHub Actions runner
@@ -60,7 +60,7 @@ jobs:
          
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
-      run: terraform init -backend-config=$backend_config_file_path
+      run: terraform init -backend-config=${{ inputs.backend_config_file_path }}
     
     # Ensures all the terraform code and files are syntactically correct 
     - name: Terraform Validate
