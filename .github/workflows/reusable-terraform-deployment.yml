@@ -60,26 +60,13 @@ jobs:
          
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
+      env:
+        TF_VAR_client_id: ${{ secrets.azure_ad_client_id }}
       run: terraform init -backend-config=${{ inputs.backend_config_file_path }}
     
     # Ensures all the terraform code and files are syntactically correct 
     - name: Terraform Validate
       run: terraform validate
-
-    # Test Creds Substitution
-    - name: Run a multi-line script
-      working-directory: infrastructure
-      run: |
-          cp credentials-template.tfvars credentials.tfvars
-  
-    - uses: microsoft/variable-substitution@v1 
-      with:
-          files: 'infrastructure/credentials.tfvars'
-      env:
-          client_id: ${{ secrets.azure_ad_client_id }}
-          client_secret: ${{ secrets.azure_ad_client_secret }}
-          tenent_id: ${{ secrets.azure_ad_tenant_id }}
-          subscription_id: ${{ secrets.azure_subscription_id }}
     
     # Generates an execution plan for Terraform
     - name: Terraform Plan
