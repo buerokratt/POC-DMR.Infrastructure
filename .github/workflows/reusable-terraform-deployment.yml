@@ -37,10 +37,10 @@ jobs:
         working-directory: ${{ inputs.working_directory_path }}
         shell: bash
     env:
-      ARM_CLIENT_ID: ${{ secrets.azure_ad_client_id }}
-      ARM_CLIENT_SECRET: ${{ secrets.azure_ad_client_secret }}
-      ARM_SUBSCRIPTION_ID: ${{ secrets.azure_subscription_id }}
-      ARM_TENANT_ID: ${{ secrets.azure_ad_tenant_id }}
+      TF_VAR_client_id: ${{ secrets.azure_ad_client_id }}
+      TF_VAR_client_secret: ${{ secrets.azure_ad_client_secret }}
+      TF_VAR_subscription_id: ${{ secrets.azure_subscription_id }}
+      TF_VAR_tenant_id: ${{ secrets.azure_ad_tenant_id }}
       #TODO: Move this to key vault later on, this is required for the terraform backend setup
       ACCOUNT_KEY: ${{ secrets.azure_storage_account_key }}
       tf_vars_file_path: ${{ inputs.tf_vars_file_path }}
@@ -68,12 +68,6 @@ jobs:
     
     # Generates an execution plan for Terraform
     - name: Terraform Plan
-      env:
-        TF_VAR_client_id: ${{ secrets.azure_ad_client_id }}
-        TF_VAR_client_secret: ${{ secrets.azure_ad_client_secret }}
-        TF_VAR_tenant_id: ${{ secrets.azure_ad_tenant_id }}
-        TF_VAR_subscription_id: ${{ secrets.azure_subscription_id }}
-        
       run: terraform plan --var-file=$tf_vars_file_path -input=false 
  
     # On push to main, build or change infrastructure according to Terraform configuration files
