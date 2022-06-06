@@ -1,7 +1,7 @@
 resource "azurerm_storage_account" "storage_account" {
-  name = var.name
-  resource_group_name = var.resource_group_name
-  location = var.location
-  account_tier = var.account_tier
-  account_replication_type = var.account_replication_type
+  name                     = var.name
+  resource_group_name      = var.resource_group_name
+  location                 = "uksouth"
+  account_replication_type = "ZRS"
+  account_tier             = "Standard"
 }
