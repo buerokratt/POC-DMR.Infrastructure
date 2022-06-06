@@ -64,7 +64,7 @@ jobs:
     
     # Update tf state
     - name: Terraform State update
-      run: terraform import --var-file=$tf_vars_file_path -auto-approve module.resource_group.azurerm_resource_group.resource_group /subscriptions/${{ secrets.azure_subscription_id }}/resourceGroups/rgbeurokrattdevac
+      run: terraform import --var-file=$tf_vars_file_path -input=false module.resource_group.azurerm_resource_group.resource_group /subscriptions/${{ secrets.azure_subscription_id }}/resourceGroups/rgbeurokrattdevac
     
     # Ensures all the terraform code and files are syntactically correct 
     - name: Terraform Validate
