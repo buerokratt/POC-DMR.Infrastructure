@@ -44,7 +44,7 @@ variable "keyvault_name" {
 }
 
 variable "keyvault_enabled_for_deployment" {
-  description = "true/false for VMs to able to fetch secrets/keys/certificates"
+  description = "true/false for VMs to be able to fetch secrets/keys/certificates"
   type        = bool
 }
 
