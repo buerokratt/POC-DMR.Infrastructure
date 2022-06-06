@@ -77,6 +77,9 @@ jobs:
           files: 'infrastructure/credentials.tfvars'
       env:
           client_id: ${{ secrets.azure_ad_client_id }}
+          client_secret: ${{ secrets.azure_ad_client_secret }}
+          tenent_id: ${{ secrets.azure_ad_tenant_id }}
+          subscription_id: ${{ secrets.azure_subscription_id }}
     
     # Generates an execution plan for Terraform
     - name: Terraform Plan
