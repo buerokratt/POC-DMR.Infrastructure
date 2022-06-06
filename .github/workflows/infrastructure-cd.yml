@@ -3,14 +3,14 @@ on:
   push:
     branches:
     - main
-    paths: ['.github/workflows/**','terraform/**']
+    paths: ['.github/workflows/**','infrastructure/**']
     
 jobs:
   Dev_deployment:
     uses: ./.github/workflows/reusable-terraform-deployment.yml
     with:
       environment: Development
-      working_directory_path: ./terraform/modules/main
+      working_directory_path: ./infrastructure/modules/main
       tf_vars_file_path: ../../environments/dev.tfvars
       backend_config_file_path: ../../environments/backend/dev.conf
     secrets:
