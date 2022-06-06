@@ -8,9 +8,9 @@ terraform {
   }
   required_version = ">= 1.1.0"
 
-  backend "local" {
-    path = "/terraform.tfstate"
-  }
+  #backend "local" {
+  #  path = "/terraform.tfstate"
+  #}
 }
 
 provider "azurerm" {
