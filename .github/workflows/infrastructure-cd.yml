@@ -3,7 +3,7 @@ on:
   push:
     branches:
     - main
-    - feature\12-migrate-terraform-code
+    - feature/12-migrate-terraform-code
     paths: ['.github/workflows/**','infrastructure/**']
     
 jobs:
