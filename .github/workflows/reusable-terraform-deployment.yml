@@ -74,7 +74,7 @@ jobs:
   
     - uses: microsoft/variable-substitution@v1 
       with:
-          files: 'credentials.tfvars'
+          files: 'infrastructure/scredentials.tfvars'
       env:
           client_id: env.ARM_CLIENT_ID
     
