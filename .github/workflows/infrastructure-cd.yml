@@ -11,9 +11,9 @@ jobs:
     uses: ./.github/workflows/reusable-terraform-deployment.yml
     with:
       environment: Development
-      working_directory_path: ./infrastructure/modules/main
-      tf_vars_file_path: ../../environments/dev.tfvars
-      backend_config_file_path: ../../environments/backend/dev.conf
+      working_directory_path: infrastructure
+      tf_vars_file_path: environments/dev.tfvars
+      backend_config_file_path: environments/backend/dev.conf
     secrets:
       azure_ad_client_id: ${{ secrets.AZURE_AD_CLIENT_ID }}
       azure_ad_client_secret: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
