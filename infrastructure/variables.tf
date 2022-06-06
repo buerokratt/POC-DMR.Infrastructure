@@ -14,7 +14,7 @@ variable "storage_account_name" {
 }
 
 variable "aks_name" {
-  description = "Name of the azure kubernetes cluster"
+  description = "The name of the azure kubernetes cluster"
   type        = string
 }
 
