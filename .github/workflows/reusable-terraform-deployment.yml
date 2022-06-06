@@ -62,10 +62,6 @@ jobs:
     - name: Terraform Init
       run: terraform init -backend-config=${{ inputs.backend_config_file_path }}
 
-    # Update tf state
-    - name: Terraform State update
-      run: terraform import azurerm_resource_group.resource_group /subscriptions/b683ce64-51fa-4215-8064-e42408230343/resourceGroups/rgbeurokrattdev
-    
     # Ensures all the terraform code and files are syntactically correct 
     - name: Terraform Validate
       run: terraform validate
