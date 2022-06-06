@@ -70,7 +70,7 @@ jobs:
     
     # Generates an execution plan for Terraform
     - name: Terraform Plan
-      run: terraform plan --var-file=$tf_vars_file_path
+      run: terraform plan --var-file=$tf_vars_file_path -input=false 
  
     # On push to main, build or change infrastructure according to Terraform configuration files
     - name: Terraform Apply
