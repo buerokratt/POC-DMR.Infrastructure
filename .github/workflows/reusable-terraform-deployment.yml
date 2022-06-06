@@ -60,8 +60,6 @@ jobs:
          
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
-      env:
-        TF_VAR_client_id: ${{ secrets.azure_ad_client_id }}
       run: terraform init -backend-config=${{ inputs.backend_config_file_path }}
     
     # Ensures all the terraform code and files are syntactically correct 
@@ -70,6 +68,12 @@ jobs:
     
     # Generates an execution plan for Terraform
     - name: Terraform Plan
+      env:
+        TF_VAR_client_id: ${{ secrets.azure_ad_client_id }}
+        TF_VAR_client_secret: ${{ secrets.azure_ad_client_secret }}
+        TF_VAR_tenant_id: ${{ secrets.azure_ad_tenant_id }}
+        TF_VAR_subscription_id: ${{ secrets.azure_subscription_id }}
+        
       run: terraform plan --var-file=$tf_vars_file_path -input=false 
  
     # On push to main, build or change infrastructure according to Terraform configuration files
