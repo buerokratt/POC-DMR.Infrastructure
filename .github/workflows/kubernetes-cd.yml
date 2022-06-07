@@ -47,7 +47,7 @@ jobs:
       #ToDo: sign chart
      - name: Package Helm chart
        run: |
-         mkdir -p temp/upload/packages
+         mkdir -p $temporary_upload_artifact_directory
          helm package $helm_chart_directory_path/mock-classifier --destination $temporary_upload_artifact_directory
     
      - name: Upload Helm package artifacts
