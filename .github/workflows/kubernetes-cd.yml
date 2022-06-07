@@ -52,7 +52,7 @@ jobs:
     
      - name: test
        run: |
-        search_dir=temporary_upload_artifact_directory/
+        search_dir=temporary_upload_artifact_directory
         for entry in "$search_dir"/*
         do
           echo "$entry"
