@@ -78,11 +78,11 @@ jobs:
      
      - name: Deploy to Kubernetes cluster
        run: |
-        helm upgrade
-        $app_name
-        $helm_chart_directory_path/$app_name
-        --install 
-        --namespace=$app_name
-        --dry-run
-        --set image.tag=$image_tag
+        helm upgrade \
+        $app_name \
+        $helm_chart_directory_path/$app_name \
+        --install \
+        --namespace=$app_name \
+        --dry-run \
+        --set image.tag=$image_tag \
         --set image.repository=container_registry_domain/$app_name
