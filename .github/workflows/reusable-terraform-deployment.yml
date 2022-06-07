@@ -42,7 +42,7 @@ jobs:
       TF_VAR_subscription_id: ${{ secrets.azure_subscription_id }}
       TF_VAR_tenant_id: ${{ secrets.azure_ad_tenant_id }}
       #TODO: Move this to key vault later on, this is required for the terraform backend setup
-      ACCOUNT_KEY: ${{ secrets.azure_storage_account_key }}
+      ARM_ACCESS_KEY: ${{ secrets.azure_storage_account_key }}
       tf_vars_file_path: ${{ inputs.tf_vars_file_path }}
       backend_config_file_path: ${{ inputs.backend_config_file_path }}
   
@@ -61,19 +61,7 @@ jobs:
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
       run: terraform init -backend-config=${{ inputs.backend_config_file_path }}
-    
-    # Update tf state
-    - name: Terraform State update rg
-      run: terraform import --var-file=$tf_vars_file_path -input=false module.resource_group.azurerm_resource_group.resource_group /subscriptions/${{ secrets.azure_subscription_id }}/resourceGroups/rgbeurokrattdevac
-    
-    # Update tf state
-    - name: Terraform State update aks
-      run: terraform import --var-file=$tf_vars_file_path -input=false module.aks.azurerm_kubernetes_cluster.aks /subscriptions/${{ secrets.azure_subscription_id }}/resourceGroups/rgbeurokrattdevac/providers/Microsoft.ContainerService/managedClusters/bykaksdevac
-    
-    # Update tf state
-    - name: Terraform State update kv
-      run: terraform import --var-file=$tf_vars_file_path -input=false module.key_vault.azurerm_key_vault.keyvault /subscriptions/${{ secrets.azure_subscription_id }}/resourceGroups/rgbeurokrattdevac/providers/Microsoft.KeyVault/vaults/bykkeyvaultac
-    
+
     # Ensures all the terraform code and files are syntactically correct 
     - name: Terraform Validate
       run: terraform validate

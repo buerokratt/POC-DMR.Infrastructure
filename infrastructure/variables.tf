@@ -29,7 +29,7 @@ variable "client_secret" {
 }
 
 variable "tenant_id" {
-  description = "The directory/tenent that the service principal lives in"
+  description = "The directory/tenant that the service principal lives in"
   type        = string
 }
 
