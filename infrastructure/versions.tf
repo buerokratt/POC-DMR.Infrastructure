@@ -5,6 +5,10 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "~> 3.5.0"
     }
+    github = {
+      source  = "integrations/github"
+      version = "4.26.0"
+    }
   }
   required_version = ">= 1.1.0"
 
@@ -19,4 +23,10 @@ provider "azurerm" {
   tenant_id       = var.tenant_id
   subscription_id = var.subscription_id
   features {}
+}
+
+provider "github" {
+  alias        = "provider"
+  owner        = var.GITHUB_OWNER
+  organization = var.GITHUB_OWNER
 }

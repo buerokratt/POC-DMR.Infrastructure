@@ -22,5 +22,8 @@ module "aks" {
   source              = "./modules/resource_templates/aks"
   aks_name            = var.aks_name
   resource_group_name = module.resource_group.resource_group_name
-  depends_on          = [module.resource_group]
+  providers = {
+    github = github.provider
+  }
+  depends_on = [module.resource_group]
 }

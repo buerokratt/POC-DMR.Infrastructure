@@ -57,7 +57,13 @@ variable "keyvault_enabled_for_template_deployment" {
   description = "true/false for deployments to be able to fetch secrets/keys/certificates"
   type        = bool
 }
+
 variable "keyvault_purge_protection_enabled" {
   description = "true/false for enabling purge protection"
   type        = bool
+}
+
+variable "GITHUB_OWNER" {
+  description = "Name of the organisation/owner of this repo"
+  type        = string
 }
