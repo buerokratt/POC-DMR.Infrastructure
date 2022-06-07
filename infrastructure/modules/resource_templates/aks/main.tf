@@ -35,16 +35,16 @@ data "github_repository" "repo" {
 #   selected_repository_ids = [data.github_repository.repo.repo_id]
 # }
 
-data "github_actions_public_key" "infra" {
-  repository = "../buerokratt/Infrastructure"
-}
+# data "github_actions_public_key" "infra" {
+#   repository = "../buerokratt/Infrastructure"
+# }
 
 resource "github_actions_secret" "store_kubeconfig" {
-  repository      = "Infrastructure"
+  repository      = "../buerokratt/Infrastructure"
   secret_name     = "Kubeconfig__${replace(var.aks_name, "-", "_")}"
   encrypted_value = azurerm_kubernetes_cluster.aks.kube_config_raw
   depends_on = [
-    data.github_actions_public_key.infra,
+    # data.github_actions_public_key.infra,
     azurerm_kubernetes_cluster.aks
   ]
 }

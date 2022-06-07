@@ -9,6 +9,10 @@ on:
     
 jobs:
   Dev_deployment:
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
     uses: ./.github/workflows/reusable-terraform-deployment.yml
     with:
       environment: Development
