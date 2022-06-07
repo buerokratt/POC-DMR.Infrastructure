@@ -4,12 +4,36 @@ on:
     branches:
     - yahya/features/mock-classifier-helm-chart
 
+  # workflow_dispatch:
+  #   inputs:
+  #     app_name:
+  #       type: string
+  #       required: true 
+  #       description: Specifies the app name which is required to reference the correct helm chart
+  #     image_tag:
+  #       type: string
+  #       required: true
+  #       description: Specifies the docker image tag which is required to reference the latest image version
+  #     image_pull_secret_name:
+  #       type: string
+  #       required: true
+  #       description: Specifies the imagePullSecretName which is required for a container registry pull
+
 jobs:
   package_and_upload_helm_chart:
     runs-on: ubuntu-latest
     defaults:
       run:
         shell: bash
+    env:
+      helm_chart_directory_path: ./helm-charts 
+      temporary_upload_artifact_directory: ./temp/upload/packages
+      temporary_download_artifact_directory: ./temp/download/packages
+      container_registry_domain: ghcr.io/buerokratt
+    #delete
+      app_name: mock-classifier
+      image_tag: 1.0.5
+    ###
     steps:
      - name: Checkout
        uses: actions/checkout@v3
@@ -19,19 +43,19 @@ jobs:
 
      - name: Lint Helm chart
        run: |
-          helm lint ./helm-charts/mock-classifier
+          helm lint $helm_chart_directory_path/mock-classifier
 
       #ToDo: sign chart
      - name: Package Helm chart
        run: |
          mkdir -p temp/upload/packages
-         helm package ./helm-charts/mock-classifier --destination ./temp/packages
+         helm package $helm_chart_directory_path/mock-classifier --destination $temporary_upload_artifact_directory
     
      - name: Upload Helm package artifacts
        uses: actions/upload-artifact@v3.0.0
        with: 
         name: helm-package-${{ github.run_id }}
-        path: ./temp/packages
+        path: $temporary_upload_artifact_directory
 
   download_and_deploy_helm_package:
     needs: package_and_upload_helm_chart
@@ -45,18 +69,21 @@ jobs:
      
      - name: Create temporary working directory for artifacts
        run: |
-        mkdir -p temp/download/packages
+        mkdir -p $temporary_download_artifact_directory
   
      - name: Download Helm package artifacts
        uses: actions/download-artifact@v3
        with:
         name: helm-package-${{ github.run_id }}
-        path: ./temp/download/packages
+        path: $temporary_download_artifact_directory
      
-     - name: Test downloaded packages
+     - name: Deploy to Kubernetes cluster
        run: |
-        search_dir=./temp/download/packages/
-        for entry in "$search_dir"/*
-        do
-          echo "$entry"
-        done
+        helm upgrade
+        $app_name
+        $helm_chart_directory_path/$app_name
+        --install 
+        --namespace=$app_name
+        --dry-run
+        --set image.tag=$image_tag
+        --set image.repository=container_registry_domain/$app_name
