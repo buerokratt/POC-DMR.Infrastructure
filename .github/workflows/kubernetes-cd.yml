@@ -3,7 +3,6 @@ on:
   push:
     branches:
     - yahya/features/mock-classifier-helm-chart
-
   # workflow_dispatch:
   #   inputs:
   #     app_name:
@@ -18,6 +17,15 @@ on:
   #       type: string
   #       required: true
   #       description: Specifies the imagePullSecretName which is required for a container registry pull
+env:
+  helm_chart_directory_path: ./helm-charts 
+  temporary_upload_artifact_directory: ./temp/upload/packages
+  temporary_download_artifact_directory: ./temp/download/packages
+  container_registry_domain: ghcr.io/buerokratt
+  #delete
+  app_name: mock-classifier
+  image_tag: 1.05
+  ###
 
 jobs:
   package_and_upload_helm_chart:
@@ -25,15 +33,6 @@ jobs:
     defaults:
       run:
         shell: bash
-    env:
-      helm_chart_directory_path: ./helm-charts 
-      temporary_upload_artifact_directory: ./temp/upload/packages
-      temporary_download_artifact_directory: ./temp/download/packages
-      container_registry_domain: ghcr.io/buerokratt
-    #delete
-      app_name: mock-classifier
-      image_tag: 1.0.5
-    ###
     steps:
      - name: Checkout
        uses: actions/checkout@v3
