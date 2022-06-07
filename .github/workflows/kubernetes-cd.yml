@@ -76,7 +76,7 @@ jobs:
      - name: Get AKS Credentials
        uses: Azure/aks-set-context@v1
        with:
-        creds: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
         # Resource Group Name
         resource-group: rgbeurokrattdev
         # AKS Cluster Name
