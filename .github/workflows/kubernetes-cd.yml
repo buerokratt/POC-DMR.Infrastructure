@@ -19,7 +19,7 @@ on:
   #       description: Specifies the imagePullSecretName which is required for a container registry pull
 env:
   helm_chart_directory_path: ./helm-charts
-  temporary_upload_artifact_directory: ${{./temp/upload/packages }}
+  temporary_upload_artifact_directory: ${{ ./temp/upload/packages }}
   temporary_download_artifact_directory: ./temp/download/packages
   container_registry_domain: ghcr.io/buerokratt
   #delete
@@ -54,7 +54,7 @@ jobs:
        uses: actions/upload-artifact@v3.0.0
        with: 
         name: helm-package-${{ github.run_id }}
-        path: temporary_upload_artifact_directory
+        path: $temporary_upload_artifact_directory
 
   download_and_deploy_helm_package:
     needs: package_and_upload_helm_chart
