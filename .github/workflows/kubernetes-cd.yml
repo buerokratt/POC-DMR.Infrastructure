@@ -20,3 +20,15 @@ jobs:
     - name: Lint Helm chart
       run: |
         helm lint ./helm-charts/mock-classifier
+    
+    #ToDo: sign chart
+    - name: Package helm chart
+      run: |
+        mkdir temp/packages
+        helm package ./helm-charts/mock-classifier --destination ./temp/packages
+    
+    - name: Upload package artifacts
+      uses: actions/upload-artifact@v3.0.0
+      with: 
+        name: helm-packages
+        path: ./temp/packages
