@@ -1,34 +1,58 @@
-name: Infrastructure cd
+name: Kubernetes cd
 on:
   push:
     branches:
     - yahya/features/mock-classifier-helm-chart
-  
+
 jobs:
-  Kubernetes_deploy:
+  package_and_upload_helm_chart:
     runs-on: ubuntu-latest
     defaults:
       run:
         shell: bash
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
+     - name: Checkout
+       uses: actions/checkout@v3
 
-    - name: Setup Helm
-      uses: azure/setup-helm@v1
+     - name: Setup Helm
+       uses: azure/setup-helm@v1
 
-    - name: Lint Helm chart
-      run: |
-        helm lint ./helm-charts/mock-classifier
+     - name: Lint Helm chart
+       run: |
+          helm lint ./helm-charts/mock-classifier
+
+      #ToDo: sign chart
+     - name: Package Helm chart
+       run: |
+         mkdir -p temp/upload/packages
+         helm package ./helm-charts/mock-classifier --destination ./temp/packages
     
-    #ToDo: sign chart
-    - name: Package helm chart
-      run: |
-        mkdir -p temp/packages
-        helm package ./helm-charts/mock-classifier --destination ./temp/packages
-    
-    - name: Upload package artifacts
-      uses: actions/upload-artifact@v3.0.0
-      with: 
-        name: helm-packages
+     - name: Upload Helm package artifacts
+       uses: actions/upload-artifact@v3.0.0
+       with: 
+        name: helm-package-${{ github.run_id }}
         path: ./temp/packages
+
+  download_and_deploy_helm_package:
+    needs: package_and_upload_helm_chart
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:  
+     - name: Setup Helm
+       uses: azure/setup-helm@v1
+     
+     - name: Create temporary working directory for artifacts
+       run: |
+        mkdir -p temp/download/packages
+  
+     - name: Download Helm package artifacts
+       uses: actions/download-artifact@v3
+       with:
+        name: helm-package-${{ github.run_id }}
+        path: ./temp/download/packages
+     
+     - name: Test downloaded packages
+       run: |
+        ls -d ./temp/download/packages/
