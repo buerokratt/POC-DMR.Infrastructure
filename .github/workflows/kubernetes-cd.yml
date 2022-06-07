@@ -71,7 +71,7 @@ jobs:
        uses: actions/download-artifact@v3
        with:
         name: helm-package-${{ github.run_id }}
-        path: $temporary_download_artifact_directory
+        path: ${{ env.temporary_download_artifact_directory }}
      
      - name: Get AKS Credentials
        uses: Azure/aks-set-context@v1
