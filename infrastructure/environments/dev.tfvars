@@ -12,5 +12,4 @@ keyvault_purge_protection_enabled        = "false"
 #AKS Configuration
 aks_name = "bykaksdevaz"
 
-GITHUB_OWNER        = "buerokratt"
-GITHUB_ORGANIZATION = "buerokratt"
+GITHUB_OWNER = "buerokratt"

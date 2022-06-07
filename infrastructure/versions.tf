@@ -26,7 +26,6 @@ provider "azurerm" {
 }
 
 provider "github" {
-  alias        = "provider"
-  owner        = var.GITHUB_OWNER
-  organization = var.GITHUB_OWNER
+  alias = "provider"
+  owner = var.GITHUB_OWNER
 }
