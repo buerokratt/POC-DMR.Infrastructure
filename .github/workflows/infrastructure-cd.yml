@@ -4,6 +4,7 @@ on:
     branches:
     - main
     - feature/12-migrate-terraform-code
+    - feature/aks-kubeconfig-secret
     paths: ['.github/workflows/**','infrastructure/**']
     
 jobs:
