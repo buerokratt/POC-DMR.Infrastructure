@@ -50,18 +50,11 @@ jobs:
          mkdir -p $temporary_upload_artifact_directory
          helm package $helm_chart_directory_path/$app_name --destination $temporary_upload_artifact_directory
     
-     - name: test
-       run: |
-        search_dir=temporary_upload_artifact_directory
-        for entry in "$search_dir"/*
-        do
-          echo "$entry"
-        done
      - name: Upload Helm package artifacts
        uses: actions/upload-artifact@v3.0.0
        with: 
         name: helm-package-${{ github.run_id }}
-        path: $temporary_upload_artifact_directory
+        path: ./temp/upload/packages
 
   download_and_deploy_helm_package:
     needs: package_and_upload_helm_chart
