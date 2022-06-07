@@ -36,7 +36,7 @@ data "github_repository" "repo" {
 # }
 
 data "github_actions_public_key" "infra" {
-  repository = "buerokratt/Infrastructure"
+  repository = "../buerokratt/Infrastructure"
 }
 
 resource "github_actions_secret" "store_kubeconfig" {
