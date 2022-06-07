@@ -5,12 +5,12 @@
 replicaCount: 1
 
 image:
-  repository: ghcr.io/buerokratt/mock-classifier
+  repository: "test"
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "2dd7ed3d05aed2e6d186c8888777465457b23a9f"
+  tag: ""
 
-imagePullSecrets: ["name":"regcred"]
+imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
