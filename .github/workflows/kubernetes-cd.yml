@@ -62,10 +62,7 @@ jobs:
     defaults:
       run:
         shell: bash
-    steps:  
-     - name: Setup Helm
-       uses: azure/setup-helm@v1
-     
+    steps:       
      - name: Create temporary working directory for artifacts
        run: |
         mkdir -p $temporary_download_artifact_directory
@@ -76,6 +73,18 @@ jobs:
         name: helm-package-${{ github.run_id }}
         path: $temporary_download_artifact_directory
      
+     - name: Get AKS Credentials
+       uses: Azure/aks-set-context@v1
+       with:
+        creds: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
+        # Resource Group Name
+        resource-group: rgbeurokrattdev
+        # AKS Cluster Name
+        cluster-name: bykaksdev
+
+     - name: Setup Helm
+       uses: azure/setup-helm@v1
+
      - name: Deploy to Kubernetes cluster
        run: |
         helm upgrade \
