@@ -19,7 +19,8 @@ jobs:
     - uses: azure/setup-helm@v1
 
     - name: Lint Helm chart
-    - run: helm lint ../../helm-charts/mock_classifier
+    - run: |
+        helm lint ../../helm-charts/mock_classifier
 
   
 
