@@ -21,8 +21,3 @@ jobs:
     - name: Lint Helm chart
     - run: |
         helm lint ../../helm-charts/mock_classifier
-
-  
-
-        
-
