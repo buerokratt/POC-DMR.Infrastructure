@@ -89,7 +89,7 @@ jobs:
        run: |
         helm upgrade \
         $app_name \
-        $helm_chart_directory_path/$app_name \
+        $temporary_download_artifact_directory/$app_name.tgz-${{ github.run_id }} \
         --install \
         --namespace=$app_name \
         --dry-run \
