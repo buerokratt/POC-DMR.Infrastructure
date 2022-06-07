@@ -55,4 +55,8 @@ jobs:
      
      - name: Test downloaded packages
        run: |
-        ls -d ./temp/download/packages/
+        search_dir=./temp/download/packages/
+        for entry in "$search_dir"/*
+        do
+          echo "$entry"
+        done
