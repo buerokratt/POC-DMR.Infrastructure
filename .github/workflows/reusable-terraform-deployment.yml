@@ -42,7 +42,7 @@ jobs:
       TF_VAR_subscription_id: ${{ secrets.azure_subscription_id }}
       TF_VAR_tenant_id: ${{ secrets.azure_ad_tenant_id }}
       #TODO: Move this to key vault later on, this is required for the terraform backend setup
-      ACCOUNT_KEY: ${{ secrets.azure_storage_account_key }}
+      ARM_ACCESS_KEY: ${{ secrets.azure_storage_account_key }}
       tf_vars_file_path: ${{ inputs.tf_vars_file_path }}
       backend_config_file_path: ${{ inputs.backend_config_file_path }}
   
