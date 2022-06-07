@@ -24,7 +24,7 @@ jobs:
     #ToDo: sign chart
     - name: Package helm chart
       run: |
-        mkdir temp/packages
+        mkdir -p temp/packages
         helm package ./helm-charts/mock-classifier --destination ./temp/packages
     
     - name: Upload package artifacts
