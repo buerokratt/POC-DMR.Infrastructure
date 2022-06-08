@@ -81,12 +81,12 @@ jobs:
       run: terraform validate
     
     # Generates an execution plan for Terraform
-    - name: Terraform Plan
-      run: |
-        terraform plan --var-file=$tf_vars_file_path \
-          --var='environment_postfix=${{ inputs.environment_postfix }}' \
-          --var='gh_token=${{ secrets.gh_token }}' \
-          -input=false 
+    # - name: Terraform Plan
+    #   run: |
+    #     terraform plan --var-file=$tf_vars_file_path \
+    #       --var='environment_postfix=${{ inputs.environment_postfix }}' \
+    #       --var='gh_token=${{ secrets.gh_token }}' \
+    #       -input=false 
  
     # On push to main, build or change infrastructure according to Terraform configuration files
     - name: Terraform Apply
