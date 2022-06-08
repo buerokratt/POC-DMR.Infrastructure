@@ -23,17 +23,3 @@ resource "azurerm_kubernetes_cluster" "aks" {
     type = "SystemAssigned"
   }
 }
-
-# data "github_actions_public_key" "infra" {
-#   repository = "../buerokratt/Infrastructure"
-# }
-
-resource "github_actions_secret" "store_kubeconfig" {
-  repository      = "../buerokratt/Infrastructure"
-  secret_name     = "Kubeconfig__${replace(var.aks_name, "-", "_")}"
-  encrypted_value = base64encode(azurerm_kubernetes_cluster.aks.kube_config_raw)
-  depends_on = [
-    # data.github_actions_public_key.infra,
-    azurerm_kubernetes_cluster.aks
-  ]
-}
