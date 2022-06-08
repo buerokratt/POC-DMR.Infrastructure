@@ -93,7 +93,7 @@ jobs:
 
      - name: Check/create Kubernetes secret
        run: |
-        check_secret=$(kubectl get secret $image_pull_secret_name --ignore-not-found) 
+        check_secret=$(kubectl get secret $image_pull_secret_name --namespace $namespace --ignore-not-found) 
         if ! [[ $check_secret ]]; then 
           kubectl create secret docker-registry $image_pull_secret_name \
           --namespace $namespace \
