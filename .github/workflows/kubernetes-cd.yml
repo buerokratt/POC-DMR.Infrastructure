@@ -84,13 +84,15 @@ jobs:
         # AKS Cluster Name
         cluster-name: bykaksdev
 
-     - name: Check/create Kubernetes secret
+     - name: Check/create namespace for Kubernetes secrets
        run: |
         check_namespace=$(kubectl get namespace $namespace --ignore-not-found) 
         if ! [[ $check_namespace ]]; then \
           kubectl create namespace $namespace \
         fi 
 
+     - name: Check/create Kubernetes secret
+       run: |
         check_secret=$(kubectl get secret $image_pull_secret_name --ignore-not-found) 
         if ! [[ $check_secret ]]; then \
           kubectl create secret docker-registry $image_pull_secret_name \
