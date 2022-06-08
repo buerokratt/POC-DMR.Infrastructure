@@ -74,7 +74,7 @@ jobs:
     - name: Terraform Init
       run: |
         terraform init -backend-config=${{ inputs.backend_config_file_path }} \
-            -backend-config='key=statefile$(environment_full).tfstate'
+            -backend-config='key=statefile${{ env.environment_full }}.tfstate'
 
     # Ensures all the terraform code and files are syntactically correct 
     - name: Terraform Validate
