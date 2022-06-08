@@ -25,8 +25,8 @@ jobs:
     with:
       gh_environment: PR
       working_directory_path: infrastructure
-      tf_vars_file_path: infrastructure/environments/pr.tfvars
-      backend_config_file_path: infrastructure/environments/backend/pr.conf
+      tf_vars_file_path: environments/pr.tfvars
+      backend_config_file_path: environments/backend/pr.conf
       environment_name: pr
       environment_postfix: ${{ github.event.number }}
     secrets:
