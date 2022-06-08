@@ -12,11 +12,8 @@ terraform {
   }
   required_version = ">= 1.1.0"
 
+  # For local development, comment out the backend azurerm block below
   backend "azurerm" {}
-
-  #backend "local" {
-  #  path = "/terraform.tfstate"
-  #}
 }
 
 provider "azurerm" {
@@ -29,5 +26,5 @@ provider "azurerm" {
 
 provider "github" {
   alias = "provider"
-  token = var.gh_token
+  # token = var.gh_token
 }
