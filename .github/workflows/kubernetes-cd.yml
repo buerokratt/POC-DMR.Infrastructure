@@ -32,7 +32,7 @@ env:
 permissions:
       contents: read
       packages: read
-      id-token: write
+      id-token: read
 
 jobs:
   package_and_upload_helm_chart:
