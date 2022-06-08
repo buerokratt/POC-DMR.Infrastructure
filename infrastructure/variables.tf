@@ -22,11 +22,6 @@ variable "subscription_id" {
   type        = string
 }
 
-variable "gh_token" {
-  description = "The GitHub token used for authentication."
-  type        = string
-}
-
 #
 # Environment specific variables
 #
