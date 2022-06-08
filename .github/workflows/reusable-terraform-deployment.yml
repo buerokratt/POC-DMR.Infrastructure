@@ -2,7 +2,7 @@ name: Reusable_terraform_deployment
 on:
   workflow_call:
     inputs:
-      environment:
+      gh_environment:
         type: string
         required: true
       working_directory_path:
@@ -14,6 +14,13 @@ on:
       backend_config_file_path:
         type: string
         required: true
+      environment_name:
+        type: string
+        required: true
+      environment_postfix:
+        type: string
+        required: false
+        default: ""
     secrets:
       azure_ad_client_id:
         required: true
@@ -27,10 +34,13 @@ on:
       azure_storage_account_key:
         required: true
 
+env:
+  environment_full: "${{ inputs.environment_name }}${{ inputs.environment_postfix }}"
+
 jobs:
   Terraform:
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}
+    environment: ${{ inputs.gh_environment }}
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
       run:
@@ -60,7 +70,9 @@ jobs:
         
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
-      run: terraform init -backend-config=${{ inputs.backend_config_file_path }}
+      run: |
+        terraform init -backend-config=${{ inputs.backend_config_file_path }} \
+            -backend-config='key=statefile$environment_full.tfstate'
 
     # Ensures all the terraform code and files are syntactically correct 
     - name: Terraform Validate
@@ -68,8 +80,8 @@ jobs:
     
     # Generates an execution plan for Terraform
     - name: Terraform Plan
-      run: terraform plan --var-file=$tf_vars_file_path -input=false 
+      run: terraform plan --var-file=$tf_vars_file_path --var='postfix=${{ inputs.environment_postfix }}' -input=false 
  
     # On push to main, build or change infrastructure according to Terraform configuration files
     - name: Terraform Apply
-      run: terraform apply --var-file=$tf_vars_file_path -auto-approve -input=false 
+      run: terraform apply --var-file=$tf_vars_file_path --var='postfix=${{ inputs.environment_postfix }}' -auto-approve -input=false 
