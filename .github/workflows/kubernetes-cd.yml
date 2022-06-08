@@ -29,6 +29,10 @@ env:
   image_tag: 89581bcf2718cc49eb3afdce9ebb848f1d7236e4
   image_pull_secret_name: byrokratt
   ###
+permissions:
+      contents: read
+      packages: read
+      id-token: write
 
 jobs:
   package_and_upload_helm_chart:
@@ -117,3 +121,4 @@ jobs:
         --namespace=$namespace \
         --set image.tag=$image_tag \
         --set image.repository=$container_registry_domain/$container_registry_domain_suffix/$app_name
+        --set imagePullSecrets[0].name=$image_pull_secret_name
