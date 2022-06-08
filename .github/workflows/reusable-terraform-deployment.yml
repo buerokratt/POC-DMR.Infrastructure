@@ -33,6 +33,8 @@ on:
       #TODO: Move this to key vault later on, this is required for the terraform backend setup
       azure_storage_account_key:
         required: true
+      gh_token:
+        required: true
 
 env:
   environment_full: "${{ inputs.environment_name }}${{ inputs.environment_postfix }}"
@@ -72,7 +74,7 @@ jobs:
     - name: Terraform Init
       run: |
         terraform init -backend-config=${{ inputs.backend_config_file_path }} \
-            -backend-config='key=statefile$environment_full.tfstate'
+            -backend-config='key=statefile$(environment_full).tfstate'
 
     # Ensures all the terraform code and files are syntactically correct 
     - name: Terraform Validate
@@ -80,8 +82,17 @@ jobs:
     
     # Generates an execution plan for Terraform
     - name: Terraform Plan
-      run: terraform plan --var-file=$tf_vars_file_path --var='postfix=${{ inputs.environment_postfix }}' -input=false 
+      run: |
+        terraform plan --var-file=$tf_vars_file_path \
+          --var='environment_postfix=${{ inputs.environment_postfix }}' \
+          --var='gh_token=${{ inputs.gh_token }}' \
+          -input=false 
  
     # On push to main, build or change infrastructure according to Terraform configuration files
     - name: Terraform Apply
-      run: terraform apply --var-file=$tf_vars_file_path --var='postfix=${{ inputs.environment_postfix }}' -auto-approve -input=false 
+      run: |
+        terraform apply --var-file=$tf_vars_file_path \
+          --var='environment_postfix=${{ inputs.environment_postfix }}' \
+          --var='gh_token=${{ inputs.gh_token }}' \
+          -auto-approve \
+          -input=false

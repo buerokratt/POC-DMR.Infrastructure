@@ -35,6 +35,7 @@ jobs:
       azure_ad_tenant_id: ${{ secrets.AZURE_AD_TENANT_ID }}
       #TODO: Move this to key vault later on, this is required for the terraform backend setup
       azure_storage_account_key: ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }}
+      gh_token: ${{ secrets.GITHUB_TOKEN }}
   
   # Dev_deployment:
   #   if: ${{ env.IS_MAIN_BRANCH == true }}
