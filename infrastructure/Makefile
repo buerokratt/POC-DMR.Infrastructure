@@ -17,14 +17,14 @@ tf-validate:
 tf-deploy: tf-format tf-validate
 	@cd $(tf_development) && \
 		terraform init && \
-		terraform apply -auto-approve -var-file=./environments/dev.tfvars -var-file=credentials.tfvars -lock=false
+		terraform apply -auto-approve -var-file=./environments/local_defaults.tfvars -var-file=credentials.tfvars -lock=false
 
 tf-destroy:
 	@cd $(tf_development) && \
-		terraform destroy -var-file=./environments/dev.tfvars -lock=false
+		terraform destroy -var-file=./environments/local_defaults.tfvars -var-file=credentials.tfvars -lock=false
 
 tf-format:
-	terraform fmt -recursive $(tf_development)
+	@terraform fmt -recursive $(tf_development)
 
 # tf-deploy-cd: tf-validate
 # 	@cd $(tf_development) && \

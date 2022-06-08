@@ -27,5 +27,5 @@ provider "azurerm" {
 
 provider "github" {
   alias = "provider"
-  owner = var.GITHUB_OWNER
+  token = var.gh_token
 }
