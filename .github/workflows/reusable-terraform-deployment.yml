@@ -85,7 +85,7 @@ jobs:
       run: |
         terraform plan --var-file=$tf_vars_file_path \
           --var='environment_postfix=${{ inputs.environment_postfix }}' \
-          --var='gh_token=${{ inputs.gh_token }}' \
+          --var='gh_token=${{ secrets.gh_token }}' \
           -input=false 
  
     # On push to main, build or change infrastructure according to Terraform configuration files
@@ -93,6 +93,6 @@ jobs:
       run: |
         terraform apply --var-file=$tf_vars_file_path \
           --var='environment_postfix=${{ inputs.environment_postfix }}' \
-          --var='gh_token=${{ inputs.gh_token }}' \
+          --var='gh_token=${{ secrets.gh_token }}' \
           -auto-approve \
           -input=false
