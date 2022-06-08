@@ -37,5 +37,5 @@ terraform.rc
 *.hcl
 *.backup
 !dev.tfvars
-!test.tfvars
+!pr.tfvars
 !credentials-template.tfvars
