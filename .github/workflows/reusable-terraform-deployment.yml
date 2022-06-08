@@ -45,6 +45,8 @@ jobs:
     environment: ${{ inputs.gh_environment }}
     permissions:
       actions: read
+      contents: read
+      packages: write
       id-token: write
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
