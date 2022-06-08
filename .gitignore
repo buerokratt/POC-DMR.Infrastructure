@@ -36,3 +36,7 @@ terraform.rc
 # Project specific rules
 *.hcl
 *.backup
+!local_defaults.tfvars
+!dev.tfvars
+!pr.tfvars
+!credentials-template.tfvars
