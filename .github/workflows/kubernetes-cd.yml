@@ -84,7 +84,7 @@ jobs:
         # AKS Cluster Name
         cluster-name: bykaksdev
 
-     - name: Check/create namespace for Kubernetes secrets
+     - name: Check/create namespace for Kubernetes secret
        run: |
         check_namespace=$(kubectl get namespace $namespace --ignore-not-found) 
         if ! [[ $check_namespace ]]; then 
@@ -111,7 +111,7 @@ jobs:
         $app_name \
         $temporary_download_artifact_directory/*.tgz \
         --install \
-        --create-namespace=$namespace \
+        --create-namespace $namespace \
         --set image.tag=$image_tag \
         --set image.repository=$container_registry_domain/$app_name \
         --set imagePullSecrets[0].name=$image_pull_secret_name \
