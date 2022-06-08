@@ -17,6 +17,7 @@ jobs:
   Pr_deployment:
     if: github.event_name == 'pull_request'
     permissions:
+      actions: read
       contents: read
       packages: write
       id-token: write
