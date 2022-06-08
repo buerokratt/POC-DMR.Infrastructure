@@ -22,10 +22,11 @@ env:
   temporary_upload_artifact_directory: ./temp/upload/packages
   temporary_download_artifact_directory: ./temp/download/packages
   container_registry_domain: ghcr.io
+  container_registry_domain_suffix: buerokratt
   namespace: applications
   #delete
   app_name: mock-classifier
-  image_tag: 1.0.0
+  image_tag: sha256-248ee0cd02f71e792664f5912cbccf3be248f532d39f54484bb594e95cb91c15.sig
   image_pull_secret_name: byrokratt
   ###
 
@@ -113,5 +114,5 @@ jobs:
         --install \
         --namespace=$namespace \
         --set image.tag=$image_tag \
-        --set image.repository=$container_registry_domain/$app_name \
+        --set image.repository=$container_registry_domain/$container_registry_domain_suffix/$app_name \
         --set imagePullSecrets[0].name=$image_pull_secret_name \
