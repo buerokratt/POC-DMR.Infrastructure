@@ -21,10 +21,12 @@ env:
   helm_chart_directory_path: ./helm-charts
   temporary_upload_artifact_directory: ./temp/upload/packages
   temporary_download_artifact_directory: ./temp/download/packages
-  container_registry_domain: ghcr.io/buerokratt
+  container_registry_domain: ghcr.io
+  namespace: applications
   #delete
   app_name: mock-classifier
   image_tag: 1.05
+  image_pull_secret_name: byrokratt
   ###
 
 jobs:
@@ -82,16 +84,28 @@ jobs:
         # AKS Cluster Name
         cluster-name: bykaksdev
 
+     - name: Check/create Kubernetes secret
+       run: |
+        check_secret = $(kubectl get secret $image_pull_secret_name --ignore-not-found) 
+        if ! [[ $check_secret ]]; then 
+          kubectl create secret docker-registry $image_pull_secret_name \
+          --namespace $namespace \
+          --docker-server=$container_registry_domain \
+          --docker-username=${{ github.actor }} \
+          --docker-password=${{ secrets.GITHUB_TOKEN }} 
+        fi
+
      - name: Setup Helm
        uses: azure/setup-helm@v1
-
+     
      - name: Deploy to Kubernetes cluster
        run: |
         helm upgrade \
         $app_name \
         $temporary_download_artifact_directory/*.tgz \
         --install \
-        --namespace=$app_name \
+        --namespace=$namespace \
         --dry-run \
         --set image.tag=$image_tag \
-        --set image.repository=container_registry_domain/$app_name
+        --set image.repository=$container_registry_domain/$app_name \
+        --set imagePullSecrets[0].name=$image_pull_secret_name
