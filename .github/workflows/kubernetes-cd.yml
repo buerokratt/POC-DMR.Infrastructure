@@ -111,8 +111,7 @@ jobs:
         $app_name \
         $temporary_download_artifact_directory/*.tgz \
         --install \
-        --namespace=$app_name \
+        --namespace=$namespace \
         --set image.tag=$image_tag \
         --set image.repository=$container_registry_domain/$app_name \
         --set imagePullSecrets[0].name=$image_pull_secret_name \
-        --dry-run 
