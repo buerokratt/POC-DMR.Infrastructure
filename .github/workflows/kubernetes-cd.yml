@@ -67,6 +67,7 @@ jobs:
         shell: bash
     permissions:
       packages: read
+      id-token: read
     steps:       
      - name: Create temporary working directory for artifacts
        run: |
