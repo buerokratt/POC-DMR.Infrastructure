@@ -98,8 +98,8 @@ jobs:
         if ! [[ $check_secret ]]; then 
           kubectl create secret docker-registry $image_pull_secret_name \
           --namespace $namespace \
-          --docker-server=$container_registry_domain \
-          --docker-username=$ \
+          --docker-server=https://ghcr.io/ \
+          --docker-username=notneeded \
           --docker-password=${{ secrets.GITHUB_TOKEN }} 
         fi
 
