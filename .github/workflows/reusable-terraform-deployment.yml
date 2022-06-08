@@ -8,12 +8,6 @@ on:
       working_directory_path:
         type: string
         required: true
-      tf_vars_file_path:
-        type: string
-        required: true
-      backend_config_file_path:
-        type: string
-        required: true
       environment_name:
         type: string
         required: true
@@ -58,8 +52,8 @@ jobs:
       TF_VAR_tenant_id: ${{ secrets.azure_ad_tenant_id }}
       #TODO: Move this to key vault later on, this is required for the terraform backend setup
       ARM_ACCESS_KEY: ${{ secrets.azure_storage_account_key }}
-      tf_vars_file_path: ${{ inputs.tf_vars_file_path }}
-      backend_config_file_path: ${{ inputs.backend_config_file_path }}
+      tf_vars_file_path: environments/${{ inputs.environment_name }}.tfvars
+      backend_config_file_path: environments/backend/${{ inputs.environment_name }}.conf
   
     steps:
     # Checkout the repository to the GitHub Actions runner
@@ -75,7 +69,7 @@ jobs:
         
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
-      run: terraform init -backend-config='${{ inputs.backend_config_file_path }}' -backend-config='key=statefile${{ env.environment_full }}.tfstate'
+      run: terraform init -backend-config='${{ env.backend_config_file_path }}' -backend-config='key=statefile${{ env.environment_full }}.tfstate'
 
     # Ensures all the terraform code and files are syntactically correct 
     - name: Terraform Validate
@@ -84,7 +78,7 @@ jobs:
     # On push to main, build or change infrastructure according to Terraform configuration files
     - name: Terraform Apply
       run: |
-        terraform apply --var-file=$tf_vars_file_path \
+        terraform apply --var-file=${{ env.tf_vars_file_path }} \
           --var='environment_postfix=${{ inputs.environment_postfix }}' \
           -auto-approve \
           -input=false
