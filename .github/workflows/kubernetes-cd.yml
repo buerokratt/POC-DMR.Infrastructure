@@ -86,6 +86,11 @@ jobs:
 
      - name: Check/create Kubernetes secret
        run: |
+        check_namespace=$(kubectl get namespace $namespace --ignore-not-found) \
+        if ! [[ $check_namespace ]]; then \
+          kubectl create namespace $namespace \
+        fi 
+
         check_secret=$(kubectl get secret $image_pull_secret_name --ignore-not-found) 
         if ! [[ $check_secret ]]; then 
           kubectl create secret docker-registry $image_pull_secret_name \
@@ -104,8 +109,8 @@ jobs:
         $app_name \
         $temporary_download_artifact_directory/*.tgz \
         --install \
-        --namespace=$namespace \
-        --dry-run \
+        --create-namespace=$namespace \
         --set image.tag=$image_tag \
         --set image.repository=$container_registry_domain/$app_name \
-        --set imagePullSecrets[0].name=$image_pull_secret_name
+        --set imagePullSecrets[0].name=$image_pull_secret_name \
+        --dry-run 
