@@ -62,12 +62,11 @@ jobs:
   download_and_deploy_helm_package:
     needs: package_and_upload_helm_chart
     runs-on: ubuntu-latest
-    permissions:
-      id-token: read
-      packages: read
     defaults:
       run:
         shell: bash
+    permissions:
+      packages: read
     steps:       
      - name: Create temporary working directory for artifacts
        run: |
