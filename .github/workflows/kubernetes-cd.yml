@@ -26,7 +26,7 @@ env:
   namespace: applications
   #delete
   app_name: mock-classifier
-  image_tag: sha256-248ee0cd02f71e792664f5912cbccf3be248f532d39f54484bb594e95cb91c15.sig
+  image_tag: 89581bcf2718cc49eb3afdce9ebb848f1d7236e4
   image_pull_secret_name: byrokratt
   ###
 
