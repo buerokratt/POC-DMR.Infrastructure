@@ -98,7 +98,7 @@ jobs:
         if ! [[ $check_secret ]]; then 
           kubectl create secret docker-registry $image_pull_secret_name \
           --namespace $namespace \
-          --docker-server=https://ghcr.io/ \
+          --docker-server=ghcr.io \
           --docker-username=notneeded \
           --docker-password=${{ secrets.GITHUB_TOKEN }} 
         fi
@@ -114,5 +114,4 @@ jobs:
         --install \
         --namespace=$namespace \
         --set image.tag=$image_tag \
-        --set image.repository=$container_registry_domain/$container_registry_domain_suffix/$app_name \
-        --set imagePullSecrets[0].name=$image_pull_secret_name \
+        --set image.repository=$container_registry_domain/$container_registry_domain_suffix/$app_name
