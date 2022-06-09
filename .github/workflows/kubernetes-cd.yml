@@ -85,7 +85,7 @@ jobs:
         resource_group_name: $resource_group
         kubernetes_cluster_name: $kubernetes_cluster_name
     
-    # Might be needed in the future, but packages are intended for open source
+    # Might be needed in the future, if so pre-create namespace but packages are intended for open source
     #  - name: Check/create Kubernetes secret
     #    run: |
     #     check_secret=$(kubectl get secret $image_pull_secret_name --namespace $namespace --ignore-not-found) 
