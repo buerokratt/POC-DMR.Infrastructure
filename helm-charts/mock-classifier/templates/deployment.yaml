@@ -38,11 +38,11 @@ spec:
               containerPort: 80
               protocol: TCP
           livenessProbe:
-            httpPost:
+            httpGet:
               path: /dmr-api/messages
               port: http
           readinessProbe:
-            httpPost:
+            httpGet:
               path: /dmr-api/messages
               port: http
           resources:
