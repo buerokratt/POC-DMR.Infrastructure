@@ -2,18 +2,18 @@ locals {
   project_name       = "buerokratt"
   project_name_short = "byk"
   environment        = "${var.environment_name}${var.environment_postfix}"
-  primary_location   = "uksouth"
+  primary_location   = "westeurope"
 
-  # buerokratt-dev-rg
+  # Example: buerokratt-dev-rg
   resource_group_name = "${local.project_name}-${local.environment}-rg"
 
-  # bykdevstg
+  # Example: bykdevstg
   storage_account_name = "${local.project_name_short}${local.environment}stg"
 
-  # byk-dev-kv
+  # Example: byk-dev-kv
   keyvault_name = "${local.project_name_short}-${local.environment}-kv"
 
-  # byk-dev-aks
+  # Example: byk-dev-aks
   aks_name = "${local.project_name_short}-${local.environment}-aks"
 }
 
