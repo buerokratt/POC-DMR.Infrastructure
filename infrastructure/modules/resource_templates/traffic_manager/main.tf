@@ -10,12 +10,12 @@ resource "azurerm_public_ip" "public_ip" {
 
 
 resource "azurerm_traffic_manager_profile" "traffic_manager_profile" {
-  name                   = var.traffic_manager_name
+  name                   = var.name
   resource_group_name    = data.azurerm_resource_group.resource_group.name
   traffic_routing_method = "Weighted"
 
   dns_config {
-    relative_name = var.traffic_manager_name
+    relative_name = var.name
     ttl           = 100
   }
 
@@ -34,7 +34,7 @@ resource "azurerm_traffic_manager_profile" "traffic_manager_profile" {
 }
 
 resource "azurerm_traffic_manager_azure_endpoint" "traffic_manager_azure_endpoint" {
-  name               = var.traffic_manager_endpoint_name
+  name               = var.endpoint_name
   profile_id         = azurerm_traffic_manager_profile.traffic_manager_profile.id
   weight             = 100
   target_resource_id = azurerm_public_ip.public_ip.id
