@@ -4,7 +4,7 @@ location="westeurope"
 resourceGroup="byk-admin-rg"
 keyVault="byk-admin-kv"
 storage="bykadminstg"
-container="containerterraform"
+container="tfstate-nonprod"
 
 # Create admin resource group.
 if [ $(az group exists --name $resourceGroup) = false ]; then 
