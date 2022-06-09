@@ -5,7 +5,7 @@ locals {
   primary_location   = "westeurope"
 
   # Example: buerokratt-dev-rg
-  resource_group_name = "${local.project_name}-${local.environment}-rg"
+  resource_group_name = "${local.project_name_short}-${local.environment}-rg"
 
   # Example: bykdevstg
   storage_account_name = "${local.project_name_short}${local.environment}stg"
