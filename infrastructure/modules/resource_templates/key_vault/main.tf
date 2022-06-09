@@ -1,17 +1,17 @@
 data "azurerm_client_config" "current" {}
 
 resource "azurerm_key_vault" "keyvault" {
-  name                = var.keyvault_name
-  tenant_id           = var.keyvault_tenant_id
-  location            = var.keyvault_location
+  name                = var.name
+  tenant_id           = var.tenant_id
+  location            = var.location
   resource_group_name = var.resource_group_name
 
   sku_name = "standard"
 
-  enabled_for_deployment          = var.keyvault_enabled_for_deployment
-  enabled_for_disk_encryption     = var.keyvault_enabled_for_disk_encryption
-  enabled_for_template_deployment = var.keyvault_enabled_for_template_deployment
-  purge_protection_enabled        = var.keyvault_purge_protection_enabled
+  enabled_for_deployment          = var.enabled_for_deployment
+  enabled_for_disk_encryption     = var.enabled_for_disk_encryption
+  enabled_for_template_deployment = var.enabled_for_template_deployment
+  purge_protection_enabled        = var.purge_protection_enabled
 }
 
 resource "azurerm_key_vault_access_policy" "deployer" {
