@@ -1,4 +1,4 @@
-variable "aks_name" {
+variable "name" {
   description = "Name of the azure kubernetes cluster"
   type        = string
 }

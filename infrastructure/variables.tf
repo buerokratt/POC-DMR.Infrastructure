@@ -1,22 +1,6 @@
-variable "resource_group_name" {
-  type        = string
-  description = "The name of the resource group"
-}
-
-variable "resource_group_location" {
-  type        = string
-  description = "The location of the resource group"
-}
-
-variable "storage_account_name" {
-  type        = string
-  description = "The name of the storage account"
-}
-
-variable "aks_name" {
-  description = "The name of the azure kubernetes cluster"
-  type        = string
-}
+#
+# Secret variables
+#
 
 variable "client_id" {
   description = "The service principal's client ID"
@@ -38,9 +22,19 @@ variable "subscription_id" {
   type        = string
 }
 
-variable "keyvault_name" {
-  description = "Key vault name"
+#
+# Environment specific variables
+#
+
+variable "environment_name" {
+  description = "The name of the environment being provisioned"
   type        = string
+}
+
+variable "environment_postfix" {
+  description = "(Optional) A unique value that is appended to get the complete environment name."
+  type        = string
+  default     = ""
 }
 
 variable "keyvault_enabled_for_deployment" {
@@ -57,6 +51,7 @@ variable "keyvault_enabled_for_template_deployment" {
   description = "true/false for deployments to be able to fetch secrets/keys/certificates"
   type        = bool
 }
+
 variable "keyvault_purge_protection_enabled" {
   description = "true/false for enabling purge protection"
   type        = bool

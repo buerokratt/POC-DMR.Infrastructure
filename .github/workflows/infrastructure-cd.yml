@@ -1,23 +1,30 @@
 name: Infrastructure_cd
 on:
+  workflow_dispatch:
   push:
     branches:
-    - main
-    - feature/12-migrate-terraform-code
+      - main
     paths: ['.github/workflows/**','infrastructure/**']
-    
+  pull_request:
+    branches:
+      - main
+    paths: ['.github/workflows/**','infrastructure/**']
+
+env:
+  IS_MAIN_BRANCH: github.event_name == 'push' && github.ref_name == 'main'
+
 jobs:
-  Dev_deployment:
+  Pr_deployment:
+    if: github.event_name == 'pull_request'
     uses: ./.github/workflows/reusable-terraform-deployment.yml
     with:
-      environment: Development
+      gh_environment: PR
       working_directory_path: infrastructure
-      tf_vars_file_path: environments/dev.tfvars
-      backend_config_file_path: environments/backend/dev.conf
+      environment_name: pr
+      environment_postfix: ${{ github.event.number }}
     secrets:
       azure_ad_client_id: ${{ secrets.AZURE_AD_CLIENT_ID }}
       azure_ad_client_secret: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
       azure_subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       azure_ad_tenant_id: ${{ secrets.AZURE_AD_TENANT_ID }}
-      #TODO: Move this to key vault later on, this is required for the terraform backend setup
       azure_storage_account_key: ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }}
