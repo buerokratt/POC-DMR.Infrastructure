@@ -12,6 +12,11 @@ tf-validate:
 	fi
 	@cd $(tf_development) && terraform init -backend=false && terraform validate
 
+tf-plan: tf-format tf-validate
+	@cd $(tf_development) && \
+		terraform init && \
+		terraform plan -auto-approve -var-file=./environments/local_defaults.tfvars -var-file=credentials.tfvars -lock=false
+
 tf-deploy: tf-format tf-validate
 	@cd $(tf_development) && \
 		terraform init && \
