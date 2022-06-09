@@ -8,8 +8,14 @@ terraform {
   }
   required_version = ">= 1.1.0"
 
-  ## LOCAL DEV: Comment out this line for local development. DO NOT check it in.
   backend "azurerm" {}
+
+  # LOCAL DEV: Comment out the block above 'backend "azurerm" {}' and uncomment/use the backend block 
+  # below when deploying locally - this ensure tfstate to be stored locally/remotely
+
+  #backend "local" {
+  #  path = "/terraform.tfstate"
+  #}
 }
 
 provider "azurerm" {
