@@ -8,7 +8,7 @@ terraform {
   }
   required_version = ">= 1.1.0"
 
-  # For local development, comment out the backend azurerm block below
+  ## LOCAL DEV: Comment out this line for local development. DO NOT check it in.
   backend "azurerm" {}
 }
 
