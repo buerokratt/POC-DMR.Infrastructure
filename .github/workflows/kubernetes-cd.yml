@@ -1,36 +1,35 @@
 name: Kubernetes cd
 on:
-  push:
-    branches:
-    - yahya/features/mock-classifier-helm-chart
-  # workflow_dispatch:
-  #   inputs:
-  #     app_name:
-  #       type: string
-  #       required: true 
-  #       description: Specifies the app name which is required to reference the correct helm chart
-  #     image_tag:
-  #       type: string
-  #       required: true
-  #       description: Specifies the docker image tag which is required to reference the latest image version
-  #     image_pull_secret_name:
-  #       type: string
-  #       required: true
-  #       description: Specifies the imagePullSecretName which is required for a container registry pull
+  workflow_dispatch:
+    inputs:
+      app_name:
+        type: string
+        required: true 
+        description: Specifies the name of the application to be deployed which is required to reference the correct helm chart and create the job
+      image_tag:
+        type: string
+        required: true
+        description: Specifies the docker image tag which is required to reference the latest image version
+      # Might be needed in the future, if so pre-create namespace but packages are intended for open source  
+      # image_pull_secret_name:
+      #   type: string
+      #   required: true
+      #   description: Specifies the imagePullSecretName which is required for a container registry pull   
+      resource_group_name: 
+        type: string
+        required: true
+        description: Specifies the name of the resource group which is required to authenticate to the AKS cluster
+      kubernetes_cluster_name: 
+        type: string
+        required: true
+        description: Specifies the name of the AKS cluster which is required to authenticate to the AKS cluster
 env:
   helm_chart_directory_path: ./helm-charts
   temporary_upload_artifact_directory: ./temp/upload/packages
   temporary_download_artifact_directory: ./temp/download/packages
   container_registry_domain: ghcr.io
-  container_registry_domain_suffix: buerokratt
+  organization_domain_name: buerokratt
   namespace: applications
-  #delete
-  app_name: mock-classifier
-  image_tag: 89581bcf2718cc49eb3afdce9ebb848f1d7236e4
-  image_pull_secret_name: byrokratt
-  resource_group_name: rgbeurokrattdev
-  kubernetes_cluster_name: bykaksdev
-  ###
 
 jobs:
   package_and_upload_helm_chart:
@@ -109,4 +108,4 @@ jobs:
         --namespace=$namespace \
         --create-namespace      \
         --set image.tag=$image_tag \
-        --set image.repository=$container_registry_domain/$container_registry_domain_suffix/$app_name
+        --set image.repository=$container_registry_domain/$organization_domain_name/$app_name
