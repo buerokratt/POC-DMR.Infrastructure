@@ -82,8 +82,8 @@ jobs:
        uses: Azure/aks-set-context@v1
        with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-        resource_group_name: ${{ env.resource_group_name }}
-        kubernetes_cluster_name: ${{ env.kubernetes_cluster_name }}
+        resource-group: ${{ env.resource_group_name }}
+        cluster-name: ${{ env.kubernetes_cluster_name }}
     
     # Might be needed in the future, if so pre-create namespace but packages are intended for open source
     #  - name: Check/create Kubernetes secret
