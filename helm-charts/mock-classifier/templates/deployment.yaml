@@ -38,12 +38,12 @@ spec:
               containerPort: 80
               protocol: TCP
           livenessProbe:
-            httpGet:
-              path: /
+            httpPost:
+              path: /dmr-api/messages
               port: http
           readinessProbe:
-            httpGet:
-              path: /
+            httpPost:
+              path: /dmr-api/messages
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
