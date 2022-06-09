@@ -28,7 +28,7 @@ env:
   app_name: mock-classifier
   image_tag: 89581bcf2718cc49eb3afdce9ebb848f1d7236e4
   image_pull_secret_name: byrokratt
-  resource_group: rgbeurokrattdev
+  resource_group_name: rgbeurokrattdev
   kubernetes_cluster_name: bykaksdev
   ###
 
@@ -82,8 +82,8 @@ jobs:
        uses: Azure/aks-set-context@v1
        with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-        resource_group_name: $resource_group
-        kubernetes_cluster_name: $kubernetes_cluster_name
+        resource_group_name: ${{ env.resource_group_name }}
+        kubernetes_cluster_name: ${{ env.kubernetes_cluster_name }}
     
     # Might be needed in the future, if so pre-create namespace but packages are intended for open source
     #  - name: Check/create Kubernetes secret
