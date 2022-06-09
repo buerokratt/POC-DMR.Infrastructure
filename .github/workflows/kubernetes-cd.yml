@@ -119,5 +119,4 @@ jobs:
         --install \
         --namespace=$namespace \
         --set image.tag=$image_tag \
-        --set image.repository=$container_registry_domain/$container_registry_domain_suffix/$app_name \
-        --set imagePullSecrets[0].name=$image_pull_secret_name
+        --set image.repository=$container_registry_domain/$container_registry_domain_suffix/$app_name
