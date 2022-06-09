@@ -28,10 +28,9 @@ env:
   app_name: mock-classifier
   image_tag: 89581bcf2718cc49eb3afdce9ebb848f1d7236e4
   image_pull_secret_name: byrokratt
+  resource_group: rgbeurokrattdev
+  kubernetes_cluster_name: bykaksdev
   ###
-permissions:
-      contents: read
-      packages: read
 
 jobs:
   package_and_upload_helm_chart:
@@ -68,8 +67,6 @@ jobs:
     defaults:
       run:
         shell: bash
-    permissions:
-      packages: read
     steps:       
      - name: Create temporary working directory for artifacts
        run: |
@@ -85,28 +82,20 @@ jobs:
        uses: Azure/aks-set-context@v1
        with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-        # Resource Group Name
-        resource-group: rgbeurokrattdev
-        # AKS Cluster Name
-        cluster-name: bykaksdev
-
-     - name: Check/create namespace for Kubernetes
-       run: |
-        check_namespace=$(kubectl get namespace $namespace --ignore-not-found) 
-        if ! [[ $check_namespace ]]; then 
-          kubectl create namespace $namespace 
-        fi 
-
-     - name: Check/create Kubernetes secret
-       run: |
-        check_secret=$(kubectl get secret $image_pull_secret_name --namespace $namespace --ignore-not-found) 
-        if ! [[ $check_secret ]]; then 
-          kubectl create secret docker-registry $image_pull_secret_name \
-          --namespace $namespace \
-          --docker-server=ghcr.io \
-          --docker-username=notneeded \
-          --docker-password=${{ secrets.GITHUB_TOKEN }} 
-        fi
+        resource_group_name: $resource_group
+        kubernetes_cluster_name: $kubernetes_cluster_name
+    
+    # Might be needed in the future, but packages are intended for open source
+    #  - name: Check/create Kubernetes secret
+    #    run: |
+    #     check_secret=$(kubectl get secret $image_pull_secret_name --namespace $namespace --ignore-not-found) 
+    #     if ! [[ $check_secret ]]; then 
+    #       kubectl create secret docker-registry $image_pull_secret_name \
+    #       --namespace $namespace \
+    #       --docker-server=ghcr.io \
+    #       --docker-username=notneeded \
+    #       --docker-password=${{ secrets.GITHUB_TOKEN }} 
+    #     fi
 
      - name: Setup Helm
        uses: azure/setup-helm@v1
@@ -118,5 +107,6 @@ jobs:
         $temporary_download_artifact_directory/*.tgz \
         --install \
         --namespace=$namespace \
+        --create-namespace      \
         --set image.tag=$image_tag \
         --set image.repository=$container_registry_domain/$container_registry_domain_suffix/$app_name
