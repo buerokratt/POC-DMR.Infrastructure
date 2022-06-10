@@ -21,8 +21,8 @@ resource "azurerm_kubernetes_cluster" "aks" {
 }
 
 resource "azurerm_kubernetes_cluster_node_pool" "application_pool" {
-  name = "applications"
-  node_count = 3
-  vm_size = "Standard_D2_v3"
+  name                  = "applications"
+  node_count            = 3
+  vm_size               = "Standard_D2_v3"
   kubernetes_cluster_id = azurerm_kubernetes_cluster.aks.id
 }
