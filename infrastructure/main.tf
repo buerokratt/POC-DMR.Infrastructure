@@ -47,9 +47,9 @@ module "aks" {
 }
 
 module "traffic_manager" {
-  source                        = "./modules/resource_templates/traffic_manager"
-  resource_group_name           = module.resource_group.resource_group_name
-  traffic_manager_name          = local.traffic_manager_name
-  traffic_manager_endpoint_name = local.traffic_manager_endpoint_name
-  depends_on                    = [module.resource_group]
+  source              = "./modules/resource_templates/traffic_manager"
+  name                = local.traffic_manager_name
+  resource_group_name = module.resource_group.resource_group_name
+  endpoint_name       = local.traffic_manager_endpoint_name
+  depends_on          = [module.resource_group]
 }
