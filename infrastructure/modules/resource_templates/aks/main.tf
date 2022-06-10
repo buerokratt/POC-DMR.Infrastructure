@@ -3,7 +3,7 @@ data "azurerm_resource_group" "resource_group" {
 }
 
 resource "azurerm_resource_group" "aks_nodes_resource_group" {
-  name     = "${var.name}-nodes-rg"
+  name     = "${var.name}-pip-rg"
   location = data.azurerm_resource_group.resource_group.location
 }
 
@@ -21,7 +21,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   location            = data.azurerm_resource_group.resource_group.location
   resource_group_name = data.azurerm_resource_group.resource_group.name
   dns_prefix          = var.name
-  node_resource_group = azurerm_resource_group.aks_nodes_resource_group.name
+  node_resource_group = "${var.name}-nodes-rg"
 
   default_node_pool {
     name       = "default"
