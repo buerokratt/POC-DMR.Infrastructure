@@ -2,7 +2,7 @@
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ include "mock-classifier.fullname" . }}
+  name: {{ include "mock-classifier.fullname" . }}-hpa
   labels:
     {{- include "mock-classifier.labels" . | nindent 4 }}
 spec:
