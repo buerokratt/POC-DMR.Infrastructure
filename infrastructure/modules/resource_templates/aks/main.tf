@@ -1,6 +1,6 @@
 locals {
-  public_ip_name = "${var.name}-pip"
-  public_ip_domain = "${var.name}-ingress"
+  public_ip_name       = "${var.name}-pip"
+  public_ip_domain     = "${var.name}-ingress"
   nodes_resource_group = "${var.name}-nodes-rg"
 }
 

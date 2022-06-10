@@ -10,7 +10,7 @@ output "kube_config" {
 
 output "aks_pip" {
   value = {
-    name = azurerm_public_ip.aks_pip.name
+    name                = azurerm_public_ip.aks_pip.name
     resource_group_name = azurerm_public_ip.aks_pip.resource_group_name
   }
 }

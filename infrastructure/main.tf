@@ -53,7 +53,7 @@ module "traffic_manager" {
   endpoint_name       = local.traffic_manager_endpoint_name
   depends_on          = [module.resource_group]
   aks_pip = {
-    name = module.aks.aks_pip.name
+    name                = module.aks.aks_pip.name
     resource_group_name = module.aks.aks_pip.resource_group_name
   }
 }
