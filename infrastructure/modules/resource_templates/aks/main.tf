@@ -2,15 +2,10 @@ data "azurerm_resource_group" "resource_group" {
   name = var.resource_group_name
 }
 
-resource "azurerm_resource_group" "nodes_resource_group" {
-  name     = "${var.name}-nodes-rg"
-  location = data.azurerm_resource_group.resource_group.location
-}
-
 resource "azurerm_public_ip" "aks_pip" {
   name                = "${var.name}-pip"
-  resource_group_name = azurerm_resource_group.nodes_resource_group.name
-  location            = azurerm_resource_group.nodes_resource_group.location
+  resource_group_name = data.azurerm_resource_group.resource_group.name
+  location            = data.azurerm_resource_group.resource_group.location
   allocation_method   = "Static"
   sku                 = "Standard"
   domain_name_label   = "${var.name}-ingress"
@@ -21,7 +16,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   location            = data.azurerm_resource_group.resource_group.location
   resource_group_name = data.azurerm_resource_group.resource_group.name
   dns_prefix          = var.name
-  node_resource_group = azurerm_resource_group.nodes_resource_group.name
+  node_resource_group = data.azurerm_resource_group.resource_group.name
 
   default_node_pool {
     name       = "default"
