@@ -8,11 +8,6 @@ variable "endpoint_name" {
   type        = string
 }
 
-variable "public_ip_name" {
-  description = "Name of the public ip"
-  type        = string
-}
-
 variable "resource_group_name" {
   description = "Name of the resource group"
   type        = string

@@ -15,7 +15,6 @@ locals {
   # Example: byk-dev-aks
   aks_name = "${local.project_name_short}-${local.environment}-aks"
 
-  public_ip_name                = "${local.project_name_short}-${local.environment}-public-ip"
   traffic_manager_name          = "${local.project_name_short}-${local.environment}-traffic-manager"
   traffic_manager_endpoint_name = "${local.project_name_short}-${local.environment}-traffic-manager-endpoint"
 }
@@ -51,7 +50,6 @@ module "traffic_manager" {
   source                        = "./modules/resource_templates/traffic_manager"
   resource_group_name           = module.resource_group.resource_group_name
   traffic_manager_name          = local.traffic_manager_name
-  public_ip_name                = local.public_ip_name
   traffic_manager_endpoint_name = local.traffic_manager_endpoint_name
   depends_on                    = [module.resource_group]
 }
