@@ -61,6 +61,20 @@ resource "azurerm_kubernetes_cluster_node_pool" "application_pool" {
 #   }
 # }
 
+resource "null_resource" "aks_get_creds" {
+  triggers = {
+    cluster_id = azurerm_kubernetes_cluster.aks.id
+  }
+
+  provisioner "local-exec" {
+    command = "az az aks get-credentials -g ${var.resource_group_name} -n ${var.name}"
+  }
+  
+  depends_on = [
+    azurerm_kubernetes_cluster.aks
+  ]
+}
+
 resource "helm_release" "nginx" {
   name       = "nginx-ingress-controller"
   repository = "https://kubernetes.github.io/ingress-nginx"
@@ -93,7 +107,11 @@ resource "helm_release" "nginx" {
     value = ""
   }
 
-  provisioner "local-exec" {
-    command = "az aks get-credentials -g ${var.resource_group_name} -n ${var.name}"
-  }
+  # provisioner "local-exec" {
+  #   command = "az aks get-credentials -g ${var.resource_group_name} -n ${var.name}"
+  # }
+
+  depends_on = [
+    null_resource.aks_get_creds
+  ]
 }
