@@ -67,9 +67,10 @@ resource "null_resource" "aks_get_creds" {
   }
 
   provisioner "local-exec" {
-    command = "az az aks get-credentials -g ${var.resource_group_name} -n ${var.name}"
+    # command = "az az aks get-credentials -g ${var.resource_group_name} -n ${var.name}"
+    command = "ls -R ~/.kube"
   }
-  
+
   depends_on = [
     azurerm_kubernetes_cluster.aks
   ]
