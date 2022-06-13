@@ -32,8 +32,7 @@ resource "azurerm_traffic_manager_profile" "traffic_manager_profile" {
 }
 
 resource "azurerm_traffic_manager_azure_endpoint" "traffic_manager_azure_endpoint" {
-  name               = var.endpoint_name
+  name               = "aks_cluster"
   profile_id         = azurerm_traffic_manager_profile.traffic_manager_profile.id
-  weight             = 100
   target_resource_id = data.azurerm_public_ip.aks_pip.id
 }

@@ -15,8 +15,7 @@ locals {
   # Example: byk-dev-aks
   aks_name = "${local.project_name_short}-${local.environment}-aks"
 
-  traffic_manager_name          = "${local.project_name_short}-${local.environment}-traffic-manager"
-  traffic_manager_endpoint_name = "${local.project_name_short}-${local.environment}-traffic-manager-endpoint"
+  traffic_manager_name          = "${local.project_name_short}-${local.environment}-tm"
 }
 
 data "azurerm_client_config" "current" {}
@@ -50,7 +49,6 @@ module "traffic_manager" {
   source              = "./modules/resource_templates/traffic_manager"
   name                = local.traffic_manager_name
   resource_group_name = module.resource_group.resource_group_name
-  endpoint_name       = local.traffic_manager_endpoint_name
   environment_name    = local.environment
   aks_pip = {
     name                = module.aks.aks_pip.name
