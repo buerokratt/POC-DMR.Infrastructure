@@ -21,13 +21,13 @@ locals {
 data "azurerm_client_config" "current" {}
 
 module "resource_group" {
-  source   = "./modules/resource_templates/resource_group"
+  source   = "./modules/resource_group"
   name     = local.resource_group_name
   location = local.primary_location
 }
 
 module "key_vault" {
-  source                          = "./modules/resource_templates/key_vault"
+  source                          = "./modules/key_vault"
   resource_group_name             = module.resource_group.resource_group_name
   name                            = local.keyvault_name
   location                        = local.primary_location
@@ -39,7 +39,7 @@ module "key_vault" {
 }
 
 module "aks" {
-  source              = "./modules/resource_templates/aks"
+  source              = "./modules/aks"
   name                = local.aks_name
   resource_group_name = module.resource_group.resource_group_name
   depends_on          = [module.resource_group]
@@ -50,7 +50,7 @@ module "aks" {
 }
 
 module "traffic_manager" {
-  source              = "./modules/resource_templates/traffic_manager"
+  source              = "./modules/traffic_manager"
   name                = local.traffic_manager_name
   resource_group_name = module.resource_group.resource_group_name
   environment_name    = local.environment
