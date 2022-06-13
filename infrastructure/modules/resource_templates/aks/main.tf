@@ -48,6 +48,19 @@ resource "azurerm_kubernetes_cluster_node_pool" "application_pool" {
   kubernetes_cluster_id = azurerm_kubernetes_cluster.aks.id
 }
 
+# provider "kubectl" {
+#   host                   = azurerm_kubernetes_cluster.aks.fqdn
+#   cluster_ca_certificate = base64decode(azurerm_kubernetes_cluster.aks.kube_config.0.client_certificate)
+#   token                  = azurerm_kubernetes_cluster.aks.token
+#   load_config_file       = true
+
+#   alias = "aks"
+
+#   environment {
+#     KUBECONFIG = azurerm_kubernetes_cluster.aks.kube_config
+#   }
+# }
+
 resource "helm_release" "nginx" {
   name       = "nginx-ingress-controller"
   repository = "https://kubernetes.github.io/ingress-nginx"
@@ -59,20 +72,28 @@ resource "helm_release" "nginx" {
     name  = "controller.replicaCount"
     value = 2
   }
+
   set {
     name  = "controller.nodeSelector.\"kubernetes.io/os"
     value = "linux"
   }
+
   set {
     name  = "controller.service.annotations.\"service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path"
     value = "/healthz"
   }
+
   set {
     name  = "defaultBackend.nodeSelector.\"kubernetes.io/os"
     value = "linux"
   }
+
   set {
     name  = "defaultBackend.image.digest"
     value = ""
+  }
+
+  provisioner "local-exec" {
+    command = "az aks get-credentials -g ${var.resource_group_name} -n ${var.name}"
   }
 }
