@@ -51,7 +51,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "application_pool" {
 resource "helm_release" "nginx" {
   name       = "nginx-ingress-controller"
   repository = "https://kubernetes.github.io/ingress-nginx"
-  chart      = "ingress-nginx/ingress-nginx"
+  chart      = "ingress-nginx"
   version    = "4.0.13"
   namespace  = "nginx-ingress-ns"
 
