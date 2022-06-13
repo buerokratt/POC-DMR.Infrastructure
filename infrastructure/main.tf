@@ -43,6 +43,10 @@ module "aks" {
   name                = local.aks_name
   resource_group_name = module.resource_group.resource_group_name
   depends_on          = [module.resource_group]
+
+  providers = {
+    kubectl = kubectl.aks
+  }
 }
 
 module "traffic_manager" {

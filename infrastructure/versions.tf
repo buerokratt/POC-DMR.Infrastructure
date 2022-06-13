@@ -5,6 +5,10 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "~> 3.5.0"
     }
+    kubectl = {
+      source  = "gavinbunney/kubectl"
+      version = ">= 1.7.0"
+    }
   }
   required_version = ">= 1.1.0"
 
@@ -26,8 +30,22 @@ provider "azurerm" {
   features {}
 }
 
+provider "kubectl" {
+  host                   = azurerm_kubernetes_cluster.aks.fqdn
+  cluster_ca_certificate = base64decode(azurerm_kubernetes_cluster.aks.kube_config.0.client_certificate)
+  token                  = azurerm_kubernetes_cluster.aks.token
+  load_config_file       = true
+
+  alias = "aks"
+
+  environment {
+    KUBECONFIG = azurerm_kubernetes_cluster.aks.kube_config
+  }
+}
+
 provider "helm" {
   kubernetes {
     config_path = "~/.kube/config"
   }
 }
+
