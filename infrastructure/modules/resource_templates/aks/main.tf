@@ -47,3 +47,33 @@ resource "azurerm_kubernetes_cluster_node_pool" "application_pool" {
   vm_size               = "Standard_D2_v3"
   kubernetes_cluster_id = azurerm_kubernetes_cluster.aks.id
 }
+
+resource "helm_release" "nginx" {
+  name       = "nginx-ingress-controller"
+  repository = "https://kubernetes.github.io/ingress-nginx"
+  chart      = "ingress-nginx/ingress-nginx"
+  version    = "4.0.13"
+  namespace  = "nginx-ingress-ns"
+
+
+  set {
+    name  = "controller.replicaCount"
+    value = 2
+  }
+  set {
+    name  = "controller.nodeSelector.\"kubernetes.io/os"
+    value = "linux"
+  }
+  set {
+    name  = "controller.service.annotations.\"service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path"
+    value = "/healthz"
+  }
+  set {
+    name  = "defaultBackend.nodeSelector.\"kubernetes.io/os"
+    value = "linux"
+  }
+  set {
+    name  = "defaultBackend.image.digest"
+    value = ""
+  }
+}

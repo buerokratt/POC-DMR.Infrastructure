@@ -25,3 +25,9 @@ provider "azurerm" {
   subscription_id = var.subscription_id
   features {}
 }
+
+provider "helm" {
+  kubernetes {
+    config_path = "~/.kube/config"
+  }
+}
