@@ -48,13 +48,23 @@ resource "azurerm_kubernetes_cluster_node_pool" "application_pool" {
   kubernetes_cluster_id = azurerm_kubernetes_cluster.aks.id
 }
 
+provider "kubectl" {
+  host                   = azurerm_kubernetes_cluster.aks.fqdn
+  cluster_ca_certificate = base64decode(azurerm_kubernetes_cluster.aks.kube_config.0.client_certificate)
+  token                  = azurerm_kubernetes_cluster.aks.token
+  load_config_file       = true
+
+  environment {
+    KUBECONFIG = azurerm_kubernetes_cluster.aks.kube_config
+  }
+}
+
 resource "helm_release" "nginx" {
   name       = "nginx-ingress-controller"
   repository = "https://kubernetes.github.io/ingress-nginx"
   chart      = "ingress-nginx"
   version    = "4.0.13"
   namespace  = "nginx-ingress-ns"
-
 
   set {
     name  = "controller.replicaCount"
