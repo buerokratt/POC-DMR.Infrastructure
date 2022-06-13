@@ -15,7 +15,7 @@ locals {
   # Example: byk-dev-aks
   aks_name = "${local.project_name_short}-${local.environment}-aks"
 
-  traffic_manager_name          = "${local.project_name_short}-${local.environment}-tm"
+  traffic_manager_name = "${local.project_name_short}-${local.environment}-tm"
 }
 
 data "azurerm_client_config" "current" {}
