@@ -1,4 +1,5 @@
 name: Deploy to k8s cluster
+
 on:
   workflow_dispatch:
     inputs:
@@ -10,78 +11,23 @@ on:
         type: string
         required: true
         description: The tag/version of the docker image to be deployed in this workflow.
+
 env:
-  helm_chart_directory_path: ./helm-charts
-  temporary_upload_artifact_directory: ./temp/upload/packages
-  temporary_download_artifact_directory: ./temp/download/packages
-  container_registry_domain: ghcr.io
-  organization_domain_name: buerokratt
   namespace: applications
   k8s_cluster_name: bykaksdev
   resource_group_name: rgbeurokrattdev
 
-
 jobs:
   package_and_upload_helm_chart:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+    uses: ./.github/workflows/reusable-helm-package-upload.yml
+    with:
+      app_name: ${{ github.event.inputs.app_name }}
 
-      - name: Setup Helm
-        uses: azure/setup-helm@v1
-
-      - name: Lint Helm chart
-        run:  helm lint $helm_chart_directory_path/${{ github.event.inputs.app_name }}
-
-      #ToDo: sign chart
-      - name: Package Helm chart
-        run: |
-          mkdir -p $temporary_upload_artifact_directory
-          helm package $helm_chart_directory_path/${{ github.event.inputs.app_name }} --destination $temporary_upload_artifact_directory
-    
-      - name: Upload Helm package artifacts
-        uses: actions/upload-artifact@v3.0.0
-        with: 
-          name: helm-package-${{ github.run_id }}
-          path: ${{ env.temporary_upload_artifact_directory }}
-
-  download_and_deploy_helm_package:
+  dev_deploy:
     needs: package_and_upload_helm_chart
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
-    steps:       
-      - name: Create temporary working directory for artifacts
-        run: mkdir -p $temporary_download_artifact_directory
-  
-      - name: Download Helm package artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: helm-package-${{ github.run_id }}
-          path: ${{ env.temporary_download_artifact_directory }}
-     
-      - name: Get AKS Credentials
-        uses: Azure/aks-set-context@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-          resource-group: ${{ env.resource_group_name }}
-          cluster-name: ${{ env.k8s_cluster_name }}
-
-      - name: Setup Helm
-        uses: azure/setup-helm@v1
-     
-      - name: Deploy to Kubernetes cluster
-        run: |
-          helm upgrade \
-            ${{ github.event.inputs.app_name}} \
-            $temporary_download_artifact_directory/*.tgz \
-            --install \
-            --namespace=$namespace \
-            --create-namespace      \
-            --set image.tag=${{ github.event.inputs.image_tag }} \
-            --set image.repository=$container_registry_domain/$organization_domain_name/${{ github.event.inputs.app_name }}
+    uses: ./.github/workflows/reusable-k8s-deployment.yml
+    with:
+      app_name: ${{ github.event.inputs.app_name }}
+      image_tag: ${{ github.event.inputs.image_tag }}
+    secrets:
+      AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
