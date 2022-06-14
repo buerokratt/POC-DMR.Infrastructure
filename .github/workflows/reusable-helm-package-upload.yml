@@ -1,4 +1,5 @@
 name: Reusable Helm package upload
+
 on:
   workflow_call:  
     inputs:
@@ -6,6 +7,7 @@ on:
         type: string
         required: true 
         description: The name of the application to be deployed. Also used as the helm chart directory.     
+
 jobs:
   package_and_upload_helm_chart:
     env:
@@ -36,6 +38,3 @@ jobs:
         with: 
           name: helm-package-${{ github.run_id }}
           path: ${{ env.temporary_upload_artifact_directory }}
-
-
-

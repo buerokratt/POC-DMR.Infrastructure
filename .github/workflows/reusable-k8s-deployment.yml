@@ -11,6 +11,18 @@ on:
       type: string
       required: true
       description: The tag/version of the docker image to be deployed in this workflow.
+    resource_group_name:
+      type: string
+      required: true
+      description: The name of the resource group that contains the k8s cluster, needed for authentication.
+    k8s_cluster_name:
+      type: string
+      required: true
+      description: The name of the k8s cluster, needed for authentication.
+    namespace_name:
+      type: string
+      required: true
+      description: The name of the k8s namespace to deploy the application too.
   secrets:
     AZURE_CREDENTIALS:
       required: true
@@ -19,9 +31,6 @@ env:
   temporary_download_artifact_directory: ./temp/download/packages
   container_registry_domain: ghcr.io
   organization_domain_name: buerokratt
-  namespace: applications
-  k8s_cluster_name: bykaksdev
-  resource_group_name: rgbeurokrattdev
 
 jobs:
   download_and_deploy_helm_package:
@@ -43,8 +52,8 @@ jobs:
         uses: Azure/aks-set-context@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-          resource-group: ${{ env.resource_group_name }}
-          cluster-name: ${{ env.k8s_cluster_name }}
+          resource-group: ${{ inputs.resource_group_name }}
+          cluster-name: ${{ inputs.k8s_cluster_name }}
 
       - name: Setup Helm
         uses: azure/setup-helm@v1
@@ -55,7 +64,7 @@ jobs:
             ${{ inputs.app_name}} \
             $temporary_download_artifact_directory/*.tgz \
             --install \
-            --namespace=$namespace \
+            --namespace=${{ inputs.namespace_name }} \
             --create-namespace      \
             --set image.tag=${{ inputs.image_tag }} \
             --set image.repository=$container_registry_domain/$organization_domain_name/${{ inputs.app_name }}
