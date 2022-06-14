@@ -15,9 +15,9 @@ on:
 env:
   temp_namespace_name: applications
   resource_group_base_name: rgbeurokratt
-  k8s_cluster_base_name: bykaks
+  k8s_cluster_base_name: bykaks 
 
-jobs:
+jobs:  
   package_and_upload_helm_chart:
     uses: ./.github/workflows/reusable-helm-package-upload.yml
     with:
@@ -30,8 +30,8 @@ jobs:
     with:
       app_name: ${{ github.event.inputs.app_name }}
       image_tag: ${{ github.event.inputs.image_tag }}
-      resource_group_name: ${{ env.resource_group_base_name }}dev
-      k8s_cluster_name: ${{ env.k8s_cluster_base_name }}dev
+      resource_group_name: ${{ resource_group_base_name }}dev
+      k8s_cluster_name: ${{ k8s_cluster_base_name }}dev
       namespace_name: $temp_namespace_name
     secrets:
       AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}

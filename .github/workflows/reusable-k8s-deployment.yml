@@ -27,13 +27,12 @@ on:
     AZURE_CREDENTIALS:
       required: true
 
-env:
-  temporary_download_artifact_directory: ./temp/download/packages
-  container_registry_domain: ghcr.io
-  organization_domain_name: buerokratt
-
 jobs:
   download_and_deploy_helm_package:
+    env:
+      temporary_download_artifact_directory: ./temp/download/packages
+      container_registry_domain: ghcr.io
+      organization_domain_name: buerokratt
     runs-on: ubuntu-latest
     defaults:
       run:
