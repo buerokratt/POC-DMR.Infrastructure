@@ -6,9 +6,6 @@ locals {
   # Example: byk-dev-rg
   resource_group_name = "${local.project_name_short}-${local.environment}-rg"
 
-  # Example: bykdevstg
-  storage_account_name = "${local.project_name_short}${local.environment}stg"
-
   # Example: byk-dev-kv
   keyvault_name = "${local.project_name_short}-${local.environment}-kv"
 
@@ -20,15 +17,23 @@ locals {
 
 data "azurerm_client_config" "current" {}
 
-module "resource_group" {
-  source   = "./modules/resource_group"
+resource "azurerm_resource_group" "resource_group" {
   name     = local.resource_group_name
   location = local.primary_location
 }
 
+module "aks" {
+  source = "./modules/aks"
+  name   = local.aks_name
+  resource_group = {
+    location = local.primary_location
+    name     = azurerm_resource_group.resource_group.name
+  }
+}
+
 module "key_vault" {
   source                          = "./modules/key_vault"
-  resource_group_name             = module.resource_group.resource_group_name
+  resource_group_name             = azurerm_resource_group.resource_group.name
   name                            = local.keyvault_name
   location                        = local.primary_location
   tenant_id                       = data.azurerm_client_config.current.tenant_id
@@ -38,17 +43,10 @@ module "key_vault" {
   purge_protection_enabled        = var.keyvault_purge_protection_enabled
 }
 
-module "aks" {
-  source              = "./modules/aks"
-  name                = local.aks_name
-  resource_group_name = module.resource_group.resource_group_name
-  depends_on          = [module.resource_group]
-}
-
 module "traffic_manager" {
   source              = "./modules/traffic_manager"
   name                = local.traffic_manager_name
-  resource_group_name = module.resource_group.resource_group_name
+  resource_group_name = azurerm_resource_group.resource_group.name
   environment_name    = local.environment
   aks_pip = {
     name                = module.aks.aks_pip.name
@@ -56,7 +54,10 @@ module "traffic_manager" {
   }
 
   depends_on = [
-    module.resource_group,
     module.aks
   ]
 }
+
+# module "aks_resources" {
+#   source = "./modules/aks_resources"
+# }

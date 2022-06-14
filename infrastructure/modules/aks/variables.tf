@@ -3,7 +3,10 @@ variable "name" {
   type        = string
 }
 
-variable "resource_group_name" {
-  description = "Name of the resource group"
-  type        = string
+variable "resource_group" {
+  description = "The resource group"
+  type = object({
+    name     = string,
+    location = string
+  })
 }
