@@ -18,7 +18,7 @@ locals {
 
   public_ip_name = "${local.project_name_short}-${local.environment}-pip"
 
-  traffic_manager_name          = "${local.project_name_short}-${local.environment}-traffic-manager"
+  traffic_manager_name = "${local.project_name_short}-${local.environment}-traffic-manager"
 }
 
 data "azurerm_client_config" "current" {}
