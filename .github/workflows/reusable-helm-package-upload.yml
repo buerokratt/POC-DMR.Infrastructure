@@ -28,6 +28,7 @@ jobs:
         run:  helm lint $helm_chart_directory_path/${{ inputs.app_name }}
 
       #ToDo: sign chart
+      #ToDo: versioning system
       - name: Package Helm chart
         run: |
           mkdir -p $temporary_upload_artifact_directory

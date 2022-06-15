@@ -19,6 +19,7 @@ jobs:
       app_name: ${{ github.event.inputs.app_name }}
 
   #deploy by environment area
+  #note that reusable workflows do not currently support the evaluation of environmental variables
   dev_deploy:
     needs: package_and_upload_helm_chart
     uses: ./.github/workflows/reusable-k8s-deployment.yml
