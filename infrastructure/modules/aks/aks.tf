@@ -1,23 +1,9 @@
-resource "azurerm_resource_group" "aks_pip" {
-  name     = "${var.name}-pip-rg"
-  location = var.resource_group.location
-}
-
-resource "azurerm_public_ip" "aks_pip" {
-  name                = "${var.name}-pip"
-  resource_group_name = azurerm_resource_group.aks_pip.name
-  location            = azurerm_resource_group.aks_pip.location
-  allocation_method   = "Static"
-  sku                 = "Standard"
-  domain_name_label   = "${var.name}-ingress"
-}
-
 resource "azurerm_kubernetes_cluster" "aks" {
   name                = var.name
   location            = var.resource_group.location
   resource_group_name = var.resource_group.name
   dns_prefix          = var.name
-  node_resource_group = "${var.name}-nodes-rg"
+  node_resource_group = local.node_resource_group
 
   default_node_pool {
     name       = "default"
@@ -27,13 +13,6 @@ resource "azurerm_kubernetes_cluster" "aks" {
 
   identity {
     type = "SystemAssigned"
-  }
-
-  network_profile {
-    network_plugin = "kubenet"
-    load_balancer_profile {
-      outbound_ip_address_ids = [azurerm_public_ip.aks_pip.id]
-    }
   }
 }
 
