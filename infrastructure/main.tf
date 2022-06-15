@@ -15,6 +15,11 @@ locals {
 
   # Example: byk-dev-aks
   aks_name = "${local.project_name_short}-${local.environment}-aks"
+
+  public_ip_name = "${local.project_name_short}-${local.environment}-pip"
+
+  traffic_manager_name          = "${local.project_name_short}-${local.environment}-traffic-manager"
+  traffic_manager_endpoint_name = "${local.project_name_short}-${local.environment}-traffic-manager-endpoint"
 }
 
 data "azurerm_client_config" "current" {}
@@ -41,5 +46,14 @@ module "aks" {
   source              = "./modules/resource_templates/aks"
   name                = local.aks_name
   resource_group_name = module.resource_group.resource_group_name
+  depends_on          = [module.resource_group]
+}
+
+module "traffic_manager" {
+  source              = "./modules/resource_templates/traffic_manager"
+  name                = local.traffic_manager_name
+  resource_group_name = module.resource_group.resource_group_name
+  public_ip_name      = local.public_ip_name
+  endpoint_name       = local.traffic_manager_endpoint_name
   depends_on          = [module.resource_group]
 }
