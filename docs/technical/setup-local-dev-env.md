@@ -1,23 +1,36 @@
 ## Setting up local development environment
 
 ### Prerequisite Technology Installs
+
+**For full installation instructions please refer to the `Installation Guide` which includes nuances for each OS distribution**
+
+#### OS Software Managers
 - Chocolatey
   * Windows software manager - think of it like NuGet but for Windows software
   * Setup guide: https://docs.chocolatey.org/en-us/choco/setup
+- Homebrew
+  * Mac software manager
+  * Setup guide: https://docs.brew.sh/Installation.html
+
+#### Software Tools
 - Azure CLI 
   * A cross-platform command-line tool to connect to Azure and execute administrative commands on Azure resource
   * Installation Guide: https://docs.microsoft.com/en-us/cli/azure/install-azure-cli
   * Chocolatey Command: `choco install azure-cli`
+  * Homebrew Command: `brew update && brew install azure-cli`
 - Terraform
   * Infrastructure as Code (IaC) tool
   * Installation Guide: https://learn.hashicorp.com/tutorials/terraform/install-cli
-  * Chocolatey Command recommended: `choco install terraform`
+  * Chocolatey Command: `choco install terraform`
+  * Homebrew Command: `brew tap hashicorp/tap` `brew install hashicorp/tap/terraform`
 - Terraform Extension (only if using VS Code)
   * VS Code extension to help with syntax highlighting, IntelliSense, code navigation, code formatting, module explorer, etc.
   * Installation Guide: https://marketplace.visualstudio.com/items?itemName=HashiCorp.terraform
 - Make
   * A tool to define a set of steps 
   * Chocolatey Command: `choco install make`
+  * Homebrew Command: `brew install make`
+  * Unix/Linux: `make` is part of the default distribution
 
 ### Creating a service principal
 1. Sign in to your Azure Account through the Azure portal
