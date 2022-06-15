@@ -47,6 +47,8 @@
     - `client_secret` = The secret created for the service principal
     - `tenent_id` = Directory (tenent) ID of the service principal
     - `subscription_id` = Subscription ID of the subscription
+    - `environment_name` = Unique name used to create resource names
+    - `environment_postfix` = An identifier (usually an integer) to help distinguish deployments
  
 ### Deploying the infrastructure locally
 1. Ensure that you have `make` installed and are in the terraform directory
