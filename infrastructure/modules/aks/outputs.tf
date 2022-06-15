@@ -8,9 +8,6 @@ output "kube_config" {
   sensitive = true
 }
 
-output "aks_pip" {
-  value = {
-    name                = azurerm_public_ip.aks_pip.name
-    resource_group_name = azurerm_public_ip.aks_pip.resource_group_name
-  }
+output "ingress_pip_id" {
+  value = azurerm_public_ip.nginx_ingress.id
 }
