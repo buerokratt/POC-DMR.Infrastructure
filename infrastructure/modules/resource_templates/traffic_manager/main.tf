@@ -9,7 +9,6 @@ resource "azurerm_public_ip" "public_ip" {
   sku                 = "Standard"
 }
 
-
 resource "azurerm_traffic_manager_profile" "traffic_manager_profile" {
   name                   = var.name
   resource_group_name    = data.azurerm_resource_group.resource_group.name
@@ -35,7 +34,7 @@ resource "azurerm_traffic_manager_profile" "traffic_manager_profile" {
 }
 
 resource "azurerm_traffic_manager_azure_endpoint" "traffic_manager_azure_endpoint" {
-  name               = var.endpoint_name
+  name               = "aks_cluster"
   profile_id         = azurerm_traffic_manager_profile.traffic_manager_profile.id
   weight             = 100
   target_resource_id = azurerm_public_ip.public_ip.id
