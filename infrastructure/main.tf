@@ -51,10 +51,7 @@ module "traffic_manager" {
   aks_pip_id          = module.aks.ingress_pip_id
 
   depends_on = [
+    module.aks,
     azurerm_resource_group.resource_group
   ]
 }
-
-# module "aks_resources" {
-#   source = "./modules/aks_resources"
-# }
