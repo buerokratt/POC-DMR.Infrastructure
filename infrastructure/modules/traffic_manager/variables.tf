@@ -8,9 +8,9 @@ variable "resource_group_name" {
   type        = string
 }
 
-variable "aks_pip" {
-  description = "Name of the Azure Public IP for the AKS cluster"
-  type        = map(string)
+variable "aks_pip_id" {
+  description = "ID of the Ingress Public IP for the AKS cluster"
+  type        = string
 }
 
 variable "environment_name" {

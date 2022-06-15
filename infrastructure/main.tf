@@ -48,13 +48,10 @@ module "traffic_manager" {
   name                = local.traffic_manager_name
   resource_group_name = azurerm_resource_group.resource_group.name
   environment_name    = local.environment
-  aks_pip = {
-    name                = module.aks.aks_pip.name
-    resource_group_name = module.aks.aks_pip.resource_group_name
-  }
+  aks_pip_id          = module.aks.ingress_pip_id
 
   depends_on = [
-    module.aks
+    azurerm_resource_group.resource_group
   ]
 }
 

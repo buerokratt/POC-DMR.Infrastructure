@@ -2,11 +2,6 @@ data "azurerm_resource_group" "resource_group" {
   name = var.resource_group_name
 }
 
-data "azurerm_public_ip" "aks_pip" {
-  name                = var.aks_pip.name
-  resource_group_name = var.aks_pip.resource_group_name
-}
-
 resource "azurerm_traffic_manager_profile" "traffic_manager_profile" {
   name                   = var.name
   resource_group_name    = data.azurerm_resource_group.resource_group.name
@@ -35,5 +30,5 @@ resource "azurerm_traffic_manager_azure_endpoint" "traffic_manager_azure_endpoin
   name               = "aks_cluster"
   profile_id         = azurerm_traffic_manager_profile.traffic_manager_profile.id
   weight             = 100
-  target_resource_id = data.azurerm_public_ip.aks_pip.id
+  target_resource_id = var.aks_pip_id
 }
