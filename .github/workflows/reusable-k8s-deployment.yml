@@ -1,0 +1,69 @@
+name: Reusable deploy to k8s cluster
+
+on:
+ workflow_call:
+  inputs:
+    app_name:
+      type: string
+      required: true 
+      description: The name of the application to be deployed. Also used as the helm chart directory.
+    image_tag:
+      type: string
+      required: true
+      description: The tag/version of the docker image to be deployed in this workflow.
+    resource_group_name:
+      type: string
+      required: true
+      description: The name of the resource group that contains the k8s cluster, needed for authentication.
+    k8s_cluster_name:
+      type: string
+      required: true
+      description: The name of the k8s cluster, needed for authentication.
+    namespace_name:
+      type: string
+      required: true
+      description: The name of the k8s namespace to deploy the application too.
+  secrets:
+    AZURE_CREDENTIALS:
+      required: true
+
+jobs:
+  download_and_deploy_helm_package:
+    env:
+      temporary_download_artifact_directory: ./temp/download/packages
+      container_registry_domain: ghcr.io
+      organization_domain_name: buerokratt
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:       
+      - name: Create temporary working directory for artifacts
+        run: mkdir -p $temporary_download_artifact_directory
+  
+      - name: Download Helm package artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: helm-package-${{ github.run_id }}
+          path: ${{ env.temporary_download_artifact_directory }}
+     
+      - name: Get AKS Credentials
+        uses: Azure/aks-set-context@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          resource-group: ${{ inputs.resource_group_name }}
+          cluster-name: ${{ inputs.k8s_cluster_name }}
+
+      - name: Setup Helm
+        uses: azure/setup-helm@v1
+     
+      - name: Deploy to Kubernetes cluster
+        run: |
+          helm upgrade \
+            ${{ inputs.app_name}} \
+            $temporary_download_artifact_directory/*.tgz \
+            --install \
+            --namespace=${{ inputs.namespace_name }} \
+            --create-namespace      \
+            --set image.tag=${{ inputs.image_tag }} \
+            --set image.repository=$container_registry_domain/$organization_domain_name/${{ inputs.app_name }}

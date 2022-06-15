@@ -1,0 +1,41 @@
+name: Reusable Helm package upload
+
+on:
+  workflow_call:  
+    inputs:
+      app_name:
+        type: string
+        required: true 
+        description: The name of the application to be deployed. Also used as the helm chart directory.     
+
+jobs:
+  package_and_upload_helm_chart:
+    env:
+      helm_chart_directory_path: ./helm-charts
+      temporary_upload_artifact_directory: ./temp/upload/packages
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Helm
+        uses: azure/setup-helm@v1
+
+      - name: Lint Helm chart
+        run:  helm lint $helm_chart_directory_path/${{ inputs.app_name }}
+
+      #ToDo: sign chart
+      #ToDo: versioning system
+      - name: Package Helm chart
+        run: |
+          mkdir -p $temporary_upload_artifact_directory
+          helm package $helm_chart_directory_path/${{ inputs.app_name }} --destination $temporary_upload_artifact_directory
+    
+      - name: Upload Helm package artifacts
+        uses: actions/upload-artifact@v3.0.0
+        with: 
+          name: helm-package-${{ github.run_id }}
+          path: ${{ env.temporary_upload_artifact_directory }}

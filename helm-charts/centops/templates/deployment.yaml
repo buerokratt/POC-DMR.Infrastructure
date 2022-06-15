@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "mock-classifier.fullname" . }}
+  name: {{ include "centops.fullname" . }}
   labels:
-    {{- include "mock-classifier.labels" . | nindent 4 }}
+    {{- include "centops.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "mock-classifier.selectorLabels" . | nindent 6 }}
+      {{- include "centops.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -18,7 +18,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "mock-classifier.selectorLabels" . | nindent 8 }}
+        {{- include "centops.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -38,11 +38,11 @@ spec:
               protocol: TCP
           # livenessProbe:
           #   httpGet:
-          #     path: /dmr-api/messages
+          #     path: /
           #     port: http
           # readinessProbe:
           #   httpGet:
-          #     path: /dmr-api/messages
+          #     path: /
           #     port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}

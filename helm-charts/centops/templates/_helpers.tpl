@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "mock-classifier.name" -}}
+{{- define "centops.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "mock-classifier.fullname" -}}
+{{- define "centops.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,16 +26,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "mock-classifier.chart" -}}
+{{- define "centops.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "mock-classifier.labels" -}}
-helm.sh/chart: {{ include "mock-classifier.chart" . }}
-{{ include "mock-classifier.selectorLabels" . }}
+{{- define "centops.labels" -}}
+helm.sh/chart: {{ include "centops.chart" . }}
+{{ include "centops.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,7 +45,18 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "mock-classifier.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "mock-classifier.name" . }}
+{{- define "centops.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "centops.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+
+{{/*
+Create the name of the service account to use
+*/}}
+{{- define "centops.serviceAccountName" -}}
+{{- if .Values.serviceAccount.create }}
+{{- default (include "centops.fullname" .) .Values.serviceAccount.name }}
+{{- else }}
+{{- default "default" .Values.serviceAccount.name }}
+{{- end }}
 {{- end }}
