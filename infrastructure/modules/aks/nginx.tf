@@ -4,11 +4,11 @@
 
 resource "azurerm_public_ip" "nginx_ingress" {
   name                = "${var.name}-ingress-pip"
-  resource_group_name = local.node_resource_group
+  resource_group_name = local.nodes_resource_group
   location            = var.resource_group.location
   allocation_method   = "Static"
-  sku                 = "Standard"
-  domain_name_label   = "${var.name}-ingress"
+  sku                 = local.public_ip_sku
+  domain_name_label   = local.public_ip_domain_name_label
 
   depends_on = [
     azurerm_kubernetes_cluster.aks
@@ -35,7 +35,7 @@ resource "helm_release" "nginx" {
 
   set {
     name  = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/azure-load-balancer-health-probe-request-path"
-    value = "/healthz"
+    value = local.health_endpoint
   }
 
   set {

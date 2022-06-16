@@ -11,3 +11,7 @@ output "kube_config" {
 output "ingress_pip_id" {
   value = azurerm_public_ip.nginx_ingress.id
 }
+
+output "ingress_health_endpoint" {
+  value = local.health_endpoint
+}

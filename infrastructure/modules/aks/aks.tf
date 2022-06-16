@@ -3,12 +3,12 @@ resource "azurerm_kubernetes_cluster" "aks" {
   location            = var.resource_group.location
   resource_group_name = var.resource_group.name
   dns_prefix          = var.name
-  node_resource_group = local.node_resource_group
+  node_resource_group = local.nodes_resource_group
 
   default_node_pool {
-    name       = "default"
-    node_count = 3
-    vm_size    = "Standard_D2_v3"
+    name       = local.default_node.name
+    node_count = local.default_node.node_count
+    vm_size    = local.default_node.vm_size
   }
 
   identity {
@@ -17,8 +17,8 @@ resource "azurerm_kubernetes_cluster" "aks" {
 }
 
 resource "azurerm_kubernetes_cluster_node_pool" "application_pool" {
-  name                  = "applications"
-  node_count            = 3
-  vm_size               = "Standard_D2_v3"
+  name                  = local.application_node.name
+  node_count            = local.application_node.node_count
+  vm_size               = local.application_node.vm_size
   kubernetes_cluster_id = azurerm_kubernetes_cluster.aks.id
 }

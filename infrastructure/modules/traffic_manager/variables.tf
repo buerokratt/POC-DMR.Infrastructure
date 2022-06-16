@@ -17,3 +17,8 @@ variable "environment_name" {
   description = "Name of the environment we're provisioning"
   type        = string
 }
+
+variable "aks_ingress_health_endpoint" {
+  description = "Endpoint for AKS cluster health check"
+  type        = string
+}

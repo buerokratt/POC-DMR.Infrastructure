@@ -1,3 +1,7 @@
+locals {
+  sku = "standard"
+}
+
 data "azurerm_client_config" "current" {}
 
 resource "azurerm_key_vault" "keyvault" {
@@ -6,7 +10,7 @@ resource "azurerm_key_vault" "keyvault" {
   location            = var.location
   resource_group_name = var.resource_group_name
 
-  sku_name = "standard"
+  sku_name = local.sku
 
   enabled_for_deployment          = var.enabled_for_deployment
   enabled_for_disk_encryption     = var.enabled_for_disk_encryption
