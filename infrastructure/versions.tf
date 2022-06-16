@@ -22,7 +22,7 @@ terraform {
   # LOCAL DEV: Comment out the 'backend "azurerm" {}' block below - this ensures the tfstate to be stored locally
   #
 
-  # backend "azurerm" {}
+  backend "azurerm" {}
 }
 
 provider "azurerm" {
