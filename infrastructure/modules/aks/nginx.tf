@@ -39,13 +39,13 @@ resource "helm_release" "nginx" {
   }
 
   set {
-    name  = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/azure-dns-label-name"
-    value = azurerm_public_ip.nginx_ingress.domain_name_label
+    name  = "controller.service.externalTrafficPolicy"
+    value = "Local"
   }
 
   set {
-    name  = "controller.service.externalTrafficPolicy"
-    value = "Local"
+    name  = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/azure-dns-label-name"
+    value = azurerm_public_ip.nginx_ingress.domain_name_label
   }
 
   set {
