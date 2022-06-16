@@ -7,3 +7,11 @@ output "kube_config" {
   value     = azurerm_kubernetes_cluster.aks.kube_config_raw
   sensitive = true
 }
+
+output "ingress_pip_id" {
+  value = azurerm_public_ip.nginx_ingress.id
+}
+
+output "ingress_health_endpoint" {
+  value = local.health_endpoint
+}

@@ -5,7 +5,7 @@
 # Note: This is a pipeline that needs to run once only.
 #
 
-name: Setup
+name: One-time Setup
 
 on:
   workflow_dispatch:

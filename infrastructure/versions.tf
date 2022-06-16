@@ -5,17 +5,24 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "~> 3.5.0"
     }
+
+    helm = {
+      source  = "helm"
+      version = ">= 2.4.1"
+    }
+
+    kubernetes = {
+      source  = "kubernetes"
+      version = ">= 2.8.0"
+    }
   }
   required_version = ">= 1.1.0"
 
+  #
+  # LOCAL DEV: Comment out the 'backend "azurerm" {}' block below - this ensures the tfstate to be stored locally
+  #
+
   backend "azurerm" {}
-
-  # LOCAL DEV: Comment out the block above 'backend "azurerm" {}' and uncomment/use the backend block 
-  # below when deploying locally - this ensure tfstate to be stored locally/remotely
-
-  #backend "local" {
-  #  path = "/terraform.tfstate"
-  #}
 }
 
 provider "azurerm" {
