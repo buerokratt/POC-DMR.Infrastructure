@@ -28,3 +28,32 @@ jobs:
       azure_subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       azure_ad_tenant_id: ${{ secrets.AZURE_AD_TENANT_ID }}
       azure_storage_account_key: ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }}
+  Dev_deployment:
+    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+    uses: ./.github/workflows/reusable-terraform-deployment.yml
+    with:
+      gh_environment: Development
+      working_directory_path: infrastructure
+      environment_name: dev
+      environment_postfix: ${{ github.event.number }}
+    secrets:
+      azure_ad_client_id: ${{ secrets.AZURE_AD_CLIENT_ID }}
+      azure_ad_client_secret: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
+      azure_subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      azure_ad_tenant_id: ${{ secrets.AZURE_AD_TENANT_ID }}
+      azure_storage_account_key: ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }}
+  Prod_deployment:
+    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+    needs: Dev_deployment
+    uses: ./.github/workflows/reusable-terraform-deployment.yml
+    with:
+      gh_environment: Production
+      working_directory_path: infrastructure
+      environment_name: prod
+      environment_postfix: ${{ github.event.number }}
+    secrets:
+      azure_ad_client_id: ${{ secrets.AZURE_AD_CLIENT_ID }}
+      azure_ad_client_secret: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
+      azure_subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      azure_ad_tenant_id: ${{ secrets.AZURE_AD_TENANT_ID }}
+      azure_storage_account_key: ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }}
