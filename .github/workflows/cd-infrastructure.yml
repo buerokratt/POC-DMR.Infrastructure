@@ -36,7 +36,6 @@ jobs:
       gh_environment: Development
       working_directory_path: infrastructure
       environment_name: dev
-      environment_postfix: ${{ github.event.number }}
     secrets:
       azure_ad_client_id: ${{ secrets.AZURE_AD_CLIENT_ID }}
       azure_ad_client_secret: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
@@ -50,7 +49,6 @@ jobs:
       gh_environment: Production
       working_directory_path: infrastructure
       environment_name: prod
-      environment_postfix: ${{ github.event.number }}
     secrets:
       azure_ad_client_id: ${{ secrets.AZURE_AD_CLIENT_ID }}
       azure_ad_client_secret: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
