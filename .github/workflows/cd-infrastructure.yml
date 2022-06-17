@@ -30,7 +30,7 @@ jobs:
       azure_ad_tenant_id: ${{ secrets.AZURE_AD_TENANT_ID }}
       azure_storage_account_key: ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }}
   Dev_deployment:
-    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true
     uses: ./.github/workflows/reusable-terraform-deployment.yml
     with:
       gh_environment: Development
