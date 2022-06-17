@@ -9,6 +9,7 @@ on:
     branches:
       - main
     paths: ['.github/workflows/**','infrastructure/**']
+    types: [opened, synchronize, closed]
 
 env:
   IS_MAIN_BRANCH: github.event_name == 'push' && github.ref_name == 'main'
