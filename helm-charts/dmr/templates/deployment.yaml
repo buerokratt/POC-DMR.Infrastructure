@@ -36,14 +36,14 @@ spec:
             - name: http
               containerPort: 80
               protocol: TCP
-        #   volumeMounts:
-        #   - name: appsettings
-        #     mountPath: /app/appsettings.json
-        #     subPath: appsettings.json
-        # volumes:
-        # - name: appsettings
-        #   configMap:
-        #      name: configmap-env    
+          volumeMounts:
+          - name: appsettings
+            mountPath: /app/appsettings.json
+            subPath: appsettings.json
+        volumes:
+        - name: appsettings
+          configMap:
+             name: dmr-configmap-appsettings   
           # livenessProbe:
           #   httpGet:
           #     path: /
