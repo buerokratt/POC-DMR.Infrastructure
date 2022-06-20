@@ -49,7 +49,7 @@ spec:
       {{- with .Values.nodeSelector }}
           volumeMounts:
           - name: appsettings
-            mountPath: /app/appsettings.json
+            mountPath: /app/out/appsettings.json
             subPath: appsettings.json
       volumes:
         - name: appsettings
