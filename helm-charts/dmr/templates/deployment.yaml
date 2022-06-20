@@ -35,15 +35,7 @@ spec:
           ports:
             - name: http
               containerPort: 80
-              protocol: TCP
-          volumeMounts:
-          - name: appsettings
-            mountPath: /app/appsettings.json
-            subPath: appsettings.json
-        volumes:
-        - name: appsettings
-          configMap:
-             name: dmr-configmap-appsettings   
+              protocol: TCP 
           # livenessProbe:
           #   httpGet:
           #     path: /
@@ -55,6 +47,14 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
+          volumeMounts:
+          - name: appsettings
+            mountPath: /app/appsettings.json
+            subPath: appsettings.json
+      volumes:
+        - name: appsettings
+          configMap:
+             name: dmr-configmap-appsettings
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
