@@ -32,6 +32,20 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: MOCKCENTOPS__CHATBOTS__0__ID
+              value: bot1
+            - name: MOCKCENTOPS__CHATBOTS__0__ENDPOINT
+              value: http://bot2/dmr-api/messages
+            - name: MOCKCENTOPS__CHATBOTS__1__ID
+              value: bot2
+            - name: MOCKCENTOPS__CHATBOTS__1__ENDPOINT
+              value: http://bot2/dmr-api/messages
+            - name: DMRSERVICESETTINGS__CLASSIFIERURI
+              value: http://classifier/dmr-api/messages
+            - name: DMRSERVICESETTINGS__CENTOPSURI
+              value: http://centops
+
           ports:
             - name: http
               containerPort: 80
@@ -47,14 +61,14 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
-          volumeMounts:
-          - name: appsettings
-            mountPath: /app/out/appsettings.json
-            subPath: appsettings.json
-      volumes:
-        - name: appsettings
-          configMap:
-             name: dmr-configmap-appsettings
+      #     volumeMounts:
+      #     - name: appsettings
+      #       mountPath: /app/out/appsettings.json
+      #       subPath: appsettings.json
+      # volumes:
+      #   - name: appsettings
+      #     configMap:
+      #        name: dmr-configmap-appsettings
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
