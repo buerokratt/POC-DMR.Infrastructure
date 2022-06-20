@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "dmr.fullname" . }}-configmap-appsettings
+  labels:
+    {{- include "dmr.labels" . | nindent 4 }}
+data:
+  appsettings.json: |-
+    {
+      "Logging": {
+        "LogLevel": {
+        "Default": "Information",
+        "Microsoft.AspNetCore": "Warning"
+      }
+    },
+      "DmrServiceSettings": {
+        "ClassifierUri": "http://127.0.0.1:8080",
+        "CentOpsUri": "http://127.0.0.1:8080",
+
+      },
+      "MockCentOps": {
+        "ChatBots": [ 
+        { "Id": "bot1", "Endpoint":  "http://127.0.0.1:8080" }
+        ]
+        }
+      }
