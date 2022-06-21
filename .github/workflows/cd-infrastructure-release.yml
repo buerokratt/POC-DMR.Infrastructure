@@ -1,0 +1,34 @@
+name: Infrastructure_cd
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths: ['.github/workflows/cd-infrastructure-*','.github/workflows/reusable-terraform-deployment','infrastructure/**']
+
+jobs:
+  Dev_deployment:
+    uses: ./.github/workflows/reusable-terraform-deployment.yml
+    with:
+      gh_environment: Development
+      working_directory_path: infrastructure
+      environment_name: dev
+    secrets:
+      azure_ad_client_id: ${{ secrets.AZURE_AD_CLIENT_ID }}
+      azure_ad_client_secret: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
+      azure_subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      azure_ad_tenant_id: ${{ secrets.AZURE_AD_TENANT_ID }}
+      azure_storage_account_key: ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }}
+  Prod_deployment:
+    needs: Dev_deployment
+    uses: ./.github/workflows/reusable-terraform-deployment.yml
+    with:
+      gh_environment: Production
+      working_directory_path: infrastructure
+      environment_name: prod
+    secrets:
+      azure_ad_client_id: ${{ secrets.AZURE_AD_CLIENT_ID }}
+      azure_ad_client_secret: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
+      azure_subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      azure_ad_tenant_id: ${{ secrets.AZURE_AD_TENANT_ID }}
+      azure_storage_account_key: ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }}
