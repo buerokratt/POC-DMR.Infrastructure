@@ -34,6 +34,9 @@ module "aks" {
     name     = azurerm_resource_group.resource_group.name
   }
   keyvault_id = azurerm_key_vault_access_policy.deployer.key_vault_id
+  depends_on = [
+    azurerm_key_vault_access_policy.deployer
+  ]
 }
 
 module "traffic_manager" {
