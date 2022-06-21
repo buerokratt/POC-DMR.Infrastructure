@@ -5,6 +5,7 @@ resourceGroup="byk-admin-rg"
 keyVault="byk-admin-kv"
 storage="bykadminstg"
 container="tfstate-nonprod"
+containerProd="tfstate-prod"
 
 # Create admin resource group.
 if [ $(az group exists --name $resourceGroup) = false ]; then 
@@ -23,3 +24,4 @@ az storage account create --name $storage --resource-group $resourceGroup --loca
 
 # Create container for .tfstate file
 az storage container create --account-name $storage --name $container
+az storage container create --account-name $storage --name $containerProd
