@@ -66,3 +66,8 @@ variable "keyvault_purge_protection_enabled" {
   description = "true/false for enabling purge protection"
   type        = bool
 }
+
+variable "cosmos_throughput" {
+  description = "The database level throughput for CosmosDB"
+  type        = number
+}

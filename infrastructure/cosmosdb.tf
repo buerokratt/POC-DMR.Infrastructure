@@ -29,3 +29,10 @@ resource "azurerm_key_vault_secret" "cosmoskey" {
   value        = azurerm_cosmosdb_account.cosmos.primary_key
   key_vault_id = azurerm_key_vault.keyvault.id
 }
+
+resource "azurerm_cosmosdb_sql_database" "example" {
+  name                = "byrokratt"
+  resource_group_name = azurerm_cosmosdb_account.cosmos.resource_group_name
+  account_name        = azurerm_cosmosdb_account.cosmos.name
+  throughput          = var.cosmos_throughput
+}
