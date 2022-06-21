@@ -51,7 +51,7 @@ resource "azurerm_cosmosdb_sql_container" "participants" {
   throughput = var.cosmos_throughput
 
   indexing_policy {
-    indexing_mode = "Consistent"
+    indexing_mode = "consistent"
     included_path {
       path = "/*"
     }
