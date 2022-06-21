@@ -33,7 +33,7 @@ module "aks" {
     location = local.primary_location
     name     = azurerm_resource_group.resource_group.name
   }
-  keyvault_id = azurerm_key_vault.keyvault.id
+  keyvault_id = azurerm_key_vault_access_policy.deployer.key_vault_id
 }
 
 module "traffic_manager" {
