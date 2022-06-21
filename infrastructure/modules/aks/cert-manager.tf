@@ -6,6 +6,9 @@ resource "kubernetes_namespace" "cert_manager" {
   metadata {
     name = "cert-manager"
   }
+  depends_on = [
+    azurerm_kubernetes_cluster_node_pool.application_pool
+  ]
 }
 
 resource "helm_release" "cert_manager" {

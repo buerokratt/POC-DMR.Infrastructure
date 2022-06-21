@@ -10,3 +10,8 @@ variable "resource_group" {
     location = string
   })
 }
+
+variable "keyvault_id" {
+  description = "ID of the KV where the Kubeconfig will be stored"
+  type        = string
+}

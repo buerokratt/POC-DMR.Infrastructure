@@ -26,6 +26,16 @@ variable "subscription_id" {
 # Environment specific variables
 #
 
+variable "primary_region" {
+  description = "The primary region for infrastructure provisioning"
+  type        = string
+}
+
+variable "secondary_region" {
+  description = "The secondary region for infrastructure provisioning"
+  type        = string
+}
+
 variable "environment_name" {
   description = "The name of the environment being provisioned"
   type        = string

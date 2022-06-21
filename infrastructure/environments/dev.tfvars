@@ -1,4 +1,6 @@
 environment_name = "dev"
+primary_region   = "westeurope"
+secondary_region = "northeurope"
 
 # Keyvault Configuration
 keyvault_enabled_for_deployment          = "true"

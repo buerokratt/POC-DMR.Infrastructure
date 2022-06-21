@@ -22,3 +22,9 @@ resource "azurerm_kubernetes_cluster_node_pool" "application_pool" {
   vm_size               = local.application_node.vm_size
   kubernetes_cluster_id = azurerm_kubernetes_cluster.aks.id
 }
+
+resource "azurerm_key_vault_secret" "kubeconfig" {
+  key_vault_id = var.keyvault_id
+  name         = "KubeConfig"
+  value        = azurerm_kubernetes_cluster.aks.kube_config_raw
+}

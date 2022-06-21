@@ -19,6 +19,9 @@ resource "kubernetes_namespace" "nginx_ingress" {
   metadata {
     name = "nginx-ingress"
   }
+  depends_on = [
+    azurerm_kubernetes_cluster.aks
+  ]
 }
 
 resource "helm_release" "nginx" {
