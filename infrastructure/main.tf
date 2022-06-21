@@ -1,7 +1,8 @@
 locals {
   project_name_short = "byk"
   environment        = "${var.environment_name}${var.environment_postfix}"
-  primary_location   = "westeurope"
+  primary_location   = var.primary_region
+  secondary_location = var.secondary_region
 
   # Example: byk-dev-rg
   resource_group_name = "${local.project_name_short}-${local.environment}-rg"

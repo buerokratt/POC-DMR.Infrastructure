@@ -1,5 +1,7 @@
 environment_name    = "Set this in credentials.tfvars"
 environment_postfix = "Set this in credentials.tfvars"
+primary_region      = "uksouth"
+secondary_region    = "ukwest"
 
 # KeyVault configuration
 keyvault_enabled_for_deployment          = "true"
