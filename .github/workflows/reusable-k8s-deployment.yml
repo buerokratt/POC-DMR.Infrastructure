@@ -52,12 +52,16 @@ jobs:
           name: helm-package-${{ github.run_id }}
           path: ${{ env.temporary_download_artifact_directory }}
 
+      - name: Login to Azure
+      - uses: Azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
       - name: Get secrets from key vault
         uses: Azure/get-keyvault-secrets@v1
         with: 
           keyvault: "bykkeyvault"
           secrets: 'CosmosDbKey'
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
         id: appSecrets
      
       - name: Get AKS Credentials
