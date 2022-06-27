@@ -57,6 +57,7 @@ jobs:
         with: 
           keyvault: "bykkeyvault"
           secrets: 'CosmosDbKey'
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
         id: appSecrets
      
       - name: Get AKS Credentials
