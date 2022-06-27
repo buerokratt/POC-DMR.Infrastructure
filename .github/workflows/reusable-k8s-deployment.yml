@@ -51,6 +51,13 @@ jobs:
         with:
           name: helm-package-${{ github.run_id }}
           path: ${{ env.temporary_download_artifact_directory }}
+
+      - name: Get secrets from key vault
+      - uses: Azure/get-keyvault-secrets@v1
+        with: 
+          keyvault: bykkeyvault
+          secrets: 'CosmosDbKey'
+        id: appSecrets
      
       - name: Get AKS Credentials
         uses: Azure/aks-set-context@v1
@@ -69,4 +76,4 @@ jobs:
             --create-namespace \
             --set image.tag=${{ inputs.image_tag }} \
             --set image.repository=$container_registry_domain/$organization_domain_name/${{ inputs.app_name }} \
-            --set cosmosDbKey=${{ secrets.TESTSECRET }}
+            --set cosmosDbKey=${{ steps.appSecrets.outputs.CosmosDbKey }}
