@@ -60,7 +60,7 @@ jobs:
       - name: Get secrets from key vault
         uses: Azure/get-keyvault-secrets@v1
         with: 
-          keyvault: "bykkeyvault"
+          keyvault: "byk-dev-kv"
           secrets: 'CosmosDbKey'
         id: appSecrets
      
