@@ -53,7 +53,7 @@ jobs:
           path: ${{ env.temporary_download_artifact_directory }}
 
       - name: Login to Azure
-      - uses: Azure/login@v1
+        uses: Azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
