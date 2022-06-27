@@ -53,14 +53,14 @@ jobs:
           path: ${{ env.temporary_download_artifact_directory }}
 
       - name: Get secrets from key vault
-      - uses: Azure/get-keyvault-secrets@v1
+        uses: Azure/get-keyvault-secrets@v1
         with: 
           keyvault: "bykkeyvault"
           secrets: 'CosmosDbKey'
         id: appSecrets
      
       - name: Get AKS Credentials
-      - uses: Azure/aks-set-context@v1
+        uses: Azure/aks-set-context@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
           resource-group: ${{ inputs.resource_group_name }}
