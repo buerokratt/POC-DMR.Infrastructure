@@ -69,4 +69,4 @@ jobs:
             --create-namespace \
             --set image.tag=${{ inputs.image_tag }} \
             --set image.repository=$container_registry_domain/$organization_domain_name/${{ inputs.app_name }} \
-            --set cosmosDbKey=test
+            --set cosmosDbKey=${{ secrets.TESTSECRET }}
