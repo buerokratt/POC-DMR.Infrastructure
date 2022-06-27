@@ -31,3 +31,4 @@ jobs:
       namespace_name: applications
     secrets:
       AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+      TESTSECRET: ${{ secrets.TESTSECRET }}

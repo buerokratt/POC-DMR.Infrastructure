@@ -26,6 +26,8 @@ on:
   secrets:
     AZURE_CREDENTIALS:
       required: true
+    TESTSECRET:
+      required: true
 
 jobs:
   download_and_deploy_helm_package:
