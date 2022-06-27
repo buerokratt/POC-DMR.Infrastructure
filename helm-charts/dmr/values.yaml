@@ -81,4 +81,4 @@ appSettings:
   DMRSERVICESETTINGS__CLASSIFIERURI: http://classifier/dmr-api/messages
   DMRSERVICESETTINGS__CENTOPSURI: http://centops
 
-cosmosDbKey: ""
+secrets:
