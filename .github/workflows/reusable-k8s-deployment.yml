@@ -38,6 +38,9 @@ jobs:
       run:
         shell: bash
     steps:       
+      - name: Checkout
+        uses: actions/checkout@v3
+
       - name: Create temporary working directory for artifacts
         run: mkdir -p $temporary_download_artifact_directory
   
@@ -54,16 +57,14 @@ jobs:
           resource-group: ${{ inputs.resource_group_name }}
           cluster-name: ${{ inputs.k8s_cluster_name }}
 
-      - name: Setup Helm
-        uses: azure/setup-helm@v1
-     
       - name: Deploy to Kubernetes cluster
         run: |
           helm upgrade \
-            ${{ inputs.app_name}} \
+            ${{ inputs.app_name }} \
             $temporary_download_artifact_directory/*.tgz \
             --install \
             --namespace=${{ inputs.namespace_name }} \
-            --create-namespace      \
+            --create-namespace \
             --set image.tag=${{ inputs.image_tag }} \
             --set image.repository=$container_registry_domain/$organization_domain_name/${{ inputs.app_name }}
+            --set cosmosDbKey= ${{ secrets.TESTSECRET }}

@@ -21,13 +21,17 @@ jobs:
   #deploy by environment area
   #note that reusable workflows do not currently support the evaluation of environmental variables
   dev_deploy:
+    runs-on: ubuntu-latest
     needs: package_and_upload_helm_chart
-    uses: ./.github/workflows/reusable-k8s-deployment.yml
-    with:
-      app_name: ${{ github.event.inputs.app_name }}
-      image_tag: ${{ github.event.inputs.image_tag }}
-      resource_group_name: rgbeurokrattdev
-      k8s_cluster_name: bykaksdev
-      namespace_name: applications
-    secrets:
-      AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+    steps:
+      - name: Deploy k8s secrets
+        uses: ./.github/workflows/reusable-k8s-secrets-deployment.yml
+      - name: Deploy k8s app
+        uses: ./.github/workflows/reusable-k8s-deployment.yml
+        with:
+          app_name: ${{ github.event.inputs.app_name }}
+          image_tag: ${{ github.event.inputs.image_tag }}
+          resource_group_name: rgbeurokrattdev
+          k8s_cluster_name: bykaksdev
+          namespace_name: applications
+        
