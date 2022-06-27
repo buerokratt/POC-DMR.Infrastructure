@@ -80,5 +80,3 @@ appSettings:
   MOCKCENTOPS__CHATBOTS__1__ENDPOINT: http://bot2/dmr-api/messages
   DMRSERVICESETTINGS__CLASSIFIERURI: http://classifier/dmr-api/messages
   DMRSERVICESETTINGS__CENTOPSURI: http://centops
-
-cosmosDbKey: "Test"
