@@ -74,6 +74,9 @@ affinity: {}
 
 #appSettings/environment values
 appSettings:
+  # Please place any non-secret app settings/config values here, these correspond to the values in the
+  # appsettings.json file (.Net), double underscore (__) correspond to a nested field e.g.
+  # '"object" : { "key": "value" }' is equivalent to 'object__key: value'
   MOCKCENTOPS__CHATBOTS__0__ID: bot1
   MOCKCENTOPS__CHATBOTS__0__ENDPOINT: http://bot2/dmr-api/messages
   MOCKCENTOPS__CHATBOTS__1__ID: bot2
@@ -86,11 +89,11 @@ appSecrets:
   # For any app secrets e.g. database key, typically stored in the appsettings.json (.Net),
   # please feed them as pipeline style secrets through the Github workflow file reusable-k8s-deployment.yml
   # this is a place holder object, so they will be overwritten through the helm commands.
-  # In helm syntax this would be for example: helm upgrade --install ... --set cosmosDbKey=${{ secrets.CosmosDbKey }}.
+  # In helm syntax this would be for example: helm upgrade --install ... --set secrets.dmr.cosmosDbKey=${{ secrets.CosmosDbKey }}.
   # Please also ensure you capture any secrets in the secrets.yaml manifest under the data object e.g.
   #  data:
   #    testKey: {{ default "" .Values.cosmosDbKey | b64enc | quote }}
   # Also reference the secret key from the secrets object e.g.
-  MOCKCENTOPS__TESTSECRET:
-    secretName: dmr-appsettings-secrets
-    secretKey: testKey
+  # APP__TESTSECRET:
+  #   secretName: app-appsettings-secrets
+  #   secretKey: testKey

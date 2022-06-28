@@ -11,23 +11,16 @@ on:
       type: string
       required: true
       description: The tag/version of the docker image to be deployed in this workflow.
-    resource_group_name:
+    environment_name:
       type: string
       required: true
-      description: The name of the resource group that contains the k8s cluster, needed for authentication.
-    k8s_cluster_name:
-      type: string
-      required: true
-      description: The name of the k8s cluster, needed for authentication.
+      description: The name of the environment.
     namespace_name:
       type: string
       required: true
       description: The name of the k8s namespace to deploy the application too.
   secrets:
     AZURE_CREDENTIALS:
-      required: true
-    TESTSECRET:
-      required: true
 
 jobs:
   download_and_deploy_helm_package:
@@ -35,6 +28,11 @@ jobs:
       temporary_download_artifact_directory: ./temp/download/packages
       container_registry_domain: ghcr.io
       organization_domain_name: buerokratt
+      project_name_prefix: byk
+      resource_group_name: ${{ env.project_name_prefix }}-rg-${{ inputs.environment_name }}
+      k8s_cluster_name: ${{ env.project_name_prefix }}-aks-${{ inputs.environment_name }}
+      keyvault_name: ${{ env.project_name_prefix }}-kv-${{ inputs.environment_name }}
+
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -52,24 +50,24 @@ jobs:
           name: helm-package-${{ github.run_id }}
           path: ${{ env.temporary_download_artifact_directory }}
 
-      - name: Login to Azure
-        uses: Azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      # - name: Login to Azure
+      #   uses: Azure/login@v1
+      #   with:
+      #     creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Get secrets from key vault
-        uses: Azure/get-keyvault-secrets@v1
-        with: 
-          keyvault: "byk-dev-kv"
-          secrets: 'CosmosDbKey'
-        id: appSecrets
+      # - name: Get secrets from key vault
+      #   uses: Azure/get-keyvault-secrets@v1
+      #   with: 
+      #     keyvault: ${{ env.keyvault_name }}
+      #     secrets: 'CosmosDbKey'
+      #   id: appSecrets
      
       - name: Get AKS Credentials
         uses: Azure/aks-set-context@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-          resource-group: ${{ inputs.resource_group_name }}
-          cluster-name: ${{ inputs.k8s_cluster_name }}
+          resource-group: ${{ env.resource_group_name }}
+          cluster-name: ${{ env.k8s_cluster_name }}
 
       - name: Deploy to Kubernetes cluster
         run: |
@@ -80,5 +78,4 @@ jobs:
             --namespace=${{ inputs.namespace_name }} \
             --create-namespace \
             --set image.tag=${{ inputs.image_tag }} \
-            --set image.repository=$container_registry_domain/$organization_domain_name/${{ inputs.app_name }} \
-            --set testKey=${{ steps.appSecrets.outputs.CosmosDbKey }}
+            --set image.repository=$container_registry_domain/$organization_domain_name/${{ inputs.app_name }}
