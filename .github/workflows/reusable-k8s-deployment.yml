@@ -33,9 +33,9 @@ jobs:
       temporary_download_artifact_directory: ./temp/download/packages
       container_registry_domain: ghcr.io
       organization_domain_name: buerokratt
-      resource_group_name: ${{ inputs.project_name_prefix }}-rg-${{ inputs.environment_name }}
-      k8s_cluster_name: ${{ inputs.project_name_prefix }}-aks-${{ inputs.environment_name }}
-      keyvault_name: ${{ inputs.project_name_prefix }}-kv-${{ inputs.environment_name }}
+      resource_group_name: ${{ inputs.project_prefix_name }}-rg-${{ inputs.environment_name }}
+      k8s_cluster_name: ${{ inputs.project_prefix_name }}-aks-${{ inputs.environment_name }}
+      keyvault_name: ${{ inputs.project_prefix_name }}-kv-${{ inputs.environment_name }}
 
     runs-on: ubuntu-latest
     defaults:
