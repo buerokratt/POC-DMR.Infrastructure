@@ -89,4 +89,8 @@ appSecrets:
   # In helm syntax this would be for example: helm upgrade --install ... --set cosmosDbKey=${{ secrets.CosmosDbKey }}.
   # Please also ensure you capture any secrets in the secrets.yaml manifest under the data object e.g.
   #  data:
-  #    testKey: {{ default "" .Values.appSecrets.cosmosDbKey | b64enc | quote }}
+  #    testKey: {{ default "" .Values.cosmosDbKey | b64enc | quote }}
+  # Also reference the secret key from the secrets object e.g.
+  MOCKCENTOPS__TESTSECRET:
+    secretName: dmr-appsettings-secrets
+    secretKey: testKey
