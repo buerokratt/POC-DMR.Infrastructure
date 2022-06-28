@@ -11,20 +11,21 @@ on:
       type: string
       required: true
       description: The tag/version of the docker image to be deployed in this workflow.
-    environment_name:
-      type: string
-      required: true
-      description: The name of the environment.
     namespace_name:
       type: string
       required: true
       description: The name of the k8s namespace to deploy the application too.
+    environment_name:
+      type: string
+      required: true
+      description: The name of the environment.
+    project_prefix_name:
+      type: string
+      required: true
+      description: The prefix name of the project
   secrets:
     AZURE_CREDENTIALS:
       required: true
-
-env:
-  project_name_prefix: byk
 
 jobs:
   download_and_deploy_helm_package:
@@ -32,9 +33,9 @@ jobs:
       temporary_download_artifact_directory: ./temp/download/packages
       container_registry_domain: ghcr.io
       organization_domain_name: buerokratt
-      resource_group_name: ${{ env.project_name_prefix }}-rg-${{ inputs.environment_name }}
-      k8s_cluster_name: ${{ env.project_name_prefix }}-aks-${{ inputs.environment_name }}
-      keyvault_name: ${{ env.project_name_prefix }}-kv-${{ inputs.environment_name }}
+      resource_group_name: ${{ inputs.project_name_prefix }}-rg-${{ inputs.environment_name }}
+      k8s_cluster_name: ${{ inputs.project_name_prefix }}-aks-${{ inputs.environment_name }}
+      keyvault_name: ${{ inputs.project_name_prefix }}-kv-${{ inputs.environment_name }}
 
     runs-on: ubuntu-latest
     defaults:

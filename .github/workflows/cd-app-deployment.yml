@@ -28,5 +28,6 @@ jobs:
       image_tag: ${{ github.event.inputs.image_tag }}
       environment_name: dev
       namespace_name: applications
+      project_prefix_name: byk
     secrets:
       AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
