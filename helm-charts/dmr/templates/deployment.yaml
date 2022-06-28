@@ -31,6 +31,18 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          env:
+          {{- range $key, $value := .Values.appSettings }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+          {{- end }}
+          {{- range $key, $values := .Values.appSecrets }}
+            - name: {{ $key }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $values.secretName }}
+                  key: {{ $values.secretKey }}
+          {{- end }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
@@ -47,18 +59,6 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
-          env:
-          {{- range $key, $value := .Values.appSettings }}
-            - name: {{ $key }}
-              value: {{ $value | quote }}
-          {{- end }}
-          {{- range $key, $values := .Values.appSecrets }}
-            - name: {{ $key }}
-              valueFrom:
-                secretKeyRef:
-                  name: {{ $values.secretName }}
-                  key: {{ $values.secretKey }}
-          {{- end }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
