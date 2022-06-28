@@ -23,13 +23,15 @@ on:
     AZURE_CREDENTIALS:
       required: true
 
+env:
+  project_name_prefix: byk
+
 jobs:
   download_and_deploy_helm_package:
     env:
       temporary_download_artifact_directory: ./temp/download/packages
       container_registry_domain: ghcr.io
       organization_domain_name: buerokratt
-      project_name_prefix: byk
       resource_group_name: ${{ env.project_name_prefix }}-rg-${{ inputs.environment_name }}
       k8s_cluster_name: ${{ env.project_name_prefix }}-aks-${{ inputs.environment_name }}
       keyvault_name: ${{ env.project_name_prefix }}-kv-${{ inputs.environment_name }}
