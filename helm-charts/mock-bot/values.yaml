@@ -82,10 +82,10 @@ appSecrets:
   # PLEASE DO NOT LIST ANY APP SECRETS HERE! THIS IS A PUBLIC REPO, HARDCODED SECRETS CAN BE PUBLICLY READ
   # For any app secrets e.g. database key, typically stored in the appsettings.json (.Net),
   # please feed them as pipeline style secrets through the Github workflow file reusable-k8s-deployment.yml
-  # this would be for example: helm upgrade --install ... --set secrets.mockClassifier.cosmosDbKey=${{ secrets.CosmosDbKey }}.
+  # this would be for example: helm upgrade --install ... --set secrets.mockBot.helmValuesVariable=${{ secrets.secretValue }}.
   # Please also ensure you capture any secrets in the secrets.yaml manifest under the data object e.g.
   #  data:
-  #    testKey: {{ default "" .Values.cosmosDbKey | b64enc | quote }}
+  #    testKey: {{ default "" .Values.helmValuesVariable | b64enc | quote }}
   # Also reference the secret key from the secrets object e.g.
   # APP__TESTSECRET:
   #   secretName: app-appsettings-secrets

@@ -14,7 +14,8 @@ on:
     namespace_name:
       type: string
       required: true
-      description: The name of the k8s namespace to deploy the application too.
+      description: The name of the k8s namespace to deploy the application to.
+      default: applications
     environment_name:
       type: string
       required: true
