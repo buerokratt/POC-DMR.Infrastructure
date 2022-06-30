@@ -26,8 +26,7 @@ jobs:
     with:
       app_name: ${{ github.event.inputs.app_name }}
       image_tag: ${{ github.event.inputs.image_tag }}
-      resource_group_name: rgbeurokrattdev
-      k8s_cluster_name: bykaksdev
-      namespace_name: applications
+      environment_name: dev
+      project_prefix_name: byk
     secrets:
       AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}

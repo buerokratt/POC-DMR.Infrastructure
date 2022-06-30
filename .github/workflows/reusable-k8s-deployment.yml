@@ -11,18 +11,19 @@ on:
       type: string
       required: true
       description: The tag/version of the docker image to be deployed in this workflow.
-    resource_group_name:
-      type: string
-      required: true
-      description: The name of the resource group that contains the k8s cluster, needed for authentication.
-    k8s_cluster_name:
-      type: string
-      required: true
-      description: The name of the k8s cluster, needed for authentication.
     namespace_name:
       type: string
       required: true
-      description: The name of the k8s namespace to deploy the application too.
+      description: The name of the k8s namespace to deploy the application to.
+      default: applications
+    environment_name:
+      type: string
+      required: true
+      description: The name of the environment.
+    project_prefix_name:
+      type: string
+      required: true
+      description: The prefix name of the project
   secrets:
     AZURE_CREDENTIALS:
       required: true
@@ -33,11 +34,18 @@ jobs:
       temporary_download_artifact_directory: ./temp/download/packages
       container_registry_domain: ghcr.io
       organization_domain_name: buerokratt
+      resource_group_name: ${{ inputs.project_prefix_name }}-${{ inputs.environment_name }}-rg
+      k8s_cluster_name: ${{ inputs.project_prefix_name }}-${{ inputs.environment_name }}-aks
+      keyvault_name: ${{ inputs.project_prefix_name }}-${{ inputs.environment_name }}-kv
+
     runs-on: ubuntu-latest
     defaults:
       run:
         shell: bash
     steps:       
+      - name: Checkout
+        uses: actions/checkout@v3
+
       - name: Create temporary working directory for artifacts
         run: mkdir -p $temporary_download_artifact_directory
   
@@ -46,24 +54,34 @@ jobs:
         with:
           name: helm-package-${{ github.run_id }}
           path: ${{ env.temporary_download_artifact_directory }}
+
+      # Needed to access the keyvault and store secrets in the k8s cluster, uncomment when ready to use
+      # - name: Login to Azure
+      #   uses: Azure/login@v1
+      #   with:
+      #     creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      # - name: Get secrets from key vault
+      #   uses: Azure/get-keyvault-secrets@v1
+      #   with: 
+      #     keyvault: ${{ env.keyvault_name }}
+      #     secrets: 'secretName'
+      #   id: appSecrets
      
       - name: Get AKS Credentials
         uses: Azure/aks-set-context@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-          resource-group: ${{ inputs.resource_group_name }}
-          cluster-name: ${{ inputs.k8s_cluster_name }}
+          resource-group: ${{ env.resource_group_name }}
+          cluster-name: ${{ env.k8s_cluster_name }}
 
-      - name: Setup Helm
-        uses: azure/setup-helm@v1
-     
       - name: Deploy to Kubernetes cluster
         run: |
           helm upgrade \
-            ${{ inputs.app_name}} \
+            ${{ inputs.app_name }} \
             $temporary_download_artifact_directory/*.tgz \
             --install \
             --namespace=${{ inputs.namespace_name }} \
-            --create-namespace      \
+            --create-namespace \
             --set image.tag=${{ inputs.image_tag }} \
             --set image.repository=$container_registry_domain/$organization_domain_name/${{ inputs.app_name }}
