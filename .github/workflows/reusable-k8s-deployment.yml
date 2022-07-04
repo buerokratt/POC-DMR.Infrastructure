@@ -13,7 +13,7 @@ on:
       description: The tag/version of the docker image to be deployed in this workflow.
     namespace_name:
       type: string
-      required: true
+      required: false
       description: The name of the k8s namespace to deploy the application to.
       default: applications
     environment_name:
