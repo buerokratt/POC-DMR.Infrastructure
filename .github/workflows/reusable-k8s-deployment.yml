@@ -56,17 +56,17 @@ jobs:
           path: ${{ env.temporary_download_artifact_directory }}
 
       # Needed to access the keyvault and store secrets in the k8s cluster, uncomment when ready to use
-      # - name: Login to Azure
-      #   uses: Azure/login@v1
-      #   with:
-      #     creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Login to Azure
+        uses: Azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      # - name: Get secrets from key vault
-      #   uses: Azure/get-keyvault-secrets@v1
-      #   with: 
-      #     keyvault: ${{ env.keyvault_name }}
-      #     secrets: 'secretName'
-      #   id: appSecrets
+      - name: Get secrets from key vault
+        uses: Azure/get-keyvault-secrets@v1
+        with: 
+          keyvault: ${{ env.keyvault_name }}
+          secrets: 'cosmosDbKey'
+        id: appSecrets
      
       - name: Get AKS Credentials
         uses: Azure/aks-set-context@v1
@@ -85,3 +85,4 @@ jobs:
             --create-namespace \
             --set image.tag=${{ inputs.image_tag }} \
             --set image.repository=$container_registry_domain/$organization_domain_name/${{ inputs.app_name }}
+            --set secrets.centops.cosmosKey=${{ steps.appSecrets.outputs.cosmosDbKey }}
