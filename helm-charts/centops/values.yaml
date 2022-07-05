@@ -77,6 +77,8 @@ appSettings:
   # Please place any non-secret app settings/config values here, these correspond to the values in the
   # appsettings.json file (.Net), double underscore (__) correspond to a nested field e.g.
   # '"object" : { "key": "value" }' is equivalent to 'object__key: value'
+  COSMOSDB__DATABASENAME: cosmosdb
+  COSMOSDB__CONTAINERNAME: participants
   
 appSecrets:
   # PLEASE DO NOT LIST ANY APP SECRETS HERE! THIS IS A PUBLIC REPO, HARDCODED SECRETS CAN BE PUBLICLY READ
@@ -87,6 +89,9 @@ appSecrets:
   #  data:
   #    testKey: {{ default "" .Values.helmValuesVariable | b64enc | quote }}
   # Also reference the secret key from the secrets object e.g.
-  # APP__TESTSECRET:
-  #   secretName: app-appsettings-secrets
-  #   secretKey: testKey
+   COSMOSDB__ACCOUNT:
+     secretName: centops-appsettings-secrets
+     secretKey: cosmosAccount
+   COSMOSDB__KEY:
+     secretName: centops-appsettings-secrets
+     secretKey: cosmosKey
