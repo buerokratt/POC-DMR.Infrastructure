@@ -1,5 +1,3 @@
-# Change to be able to create a draft PR, will delete
-
 ## Setting up local development environment
 
 ### Prerequisite Technology Installs
