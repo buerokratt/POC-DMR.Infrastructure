@@ -36,7 +36,7 @@ jobs:
       organization_domain_name: buerokratt
       resource_group_name: ${{ inputs.project_prefix_name }}-${{ inputs.environment_name }}-rg
       k8s_cluster_name: ${{ inputs.project_prefix_name }}-${{ inputs.environment_name }}-aks
-      keyvault_name: ${{ inputs.project_prefix_name }}-${{ inputs.environment_name }}-kv
+      keyvault_name: byk-pr50-kv
 
     runs-on: ubuntu-latest
     defaults:
