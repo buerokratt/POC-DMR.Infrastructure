@@ -40,8 +40,8 @@ resource "helm_release" "external_dns" {
   }
 
   set {
-    name = "domainFilters[0]"
-    value = "byk-pr49-aks-ingress.westeurope.cloudapp.azure.com"
+    name = "domainFilters"
+    value = yamlencode(["byk-pr49-aks-ingress.westeurope.cloudapp.azure.com"])
   }
 
   set {
