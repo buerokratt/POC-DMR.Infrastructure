@@ -2,17 +2,12 @@
 # Deploy external_dns to the AKS cluster
 #
 
-resource "kubernetes_namespace" "external_dns" {
-  metadata {
-    name = "external-dns"
-  }
-}
-
 resource "helm_release" "external_dns" {
   name  = "external-dns"
   repository = "https://charts.bitnami.com/bitnami"
-  chart = "bitnami/external-dns"
+  chart = "external-dns"
   version = "6.6.0"
+  namespace = kubernetes_namespace.cert_manager.metadata.0.name
 
   set {
     name = "provider"
