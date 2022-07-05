@@ -40,7 +40,7 @@ resource "helm_release" "external_dns" {
   }
 
   set {
-    name = "domainFilters"
+    name = "domainFilters[0]"
     value = "byk-pr49-aks-ingress.westeurope.cloudapp.azure.com"
   }
 
