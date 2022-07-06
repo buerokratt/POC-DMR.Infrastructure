@@ -77,7 +77,7 @@ appSettings:
   # Please place any non-secret app settings/config values here, these correspond to the values in the
   # appsettings.json file (.Net), double underscore (__) correspond to a nested field e.g.
   # '"object" : { "key": "value" }' is equivalent to 'object__key: value'
-  COSMOSDB__DATABASENAME: cosmosdb
+  COSMOSDB__DATABASENAME: centops
   COSMOSDB__CONTAINERNAME: participants
   
 appSecrets:
