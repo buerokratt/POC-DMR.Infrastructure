@@ -30,6 +30,12 @@ resource "azurerm_key_vault_secret" "cosmoskey" {
   key_vault_id = azurerm_key_vault_access_policy.deployer.key_vault_id
 }
 
+resource "azurerm_key_vault_secret" "cosmosaccount" {
+  name         = "CosmosDbAccount"
+  value        = azurerm_cosmosdb_account.cosmos.endpoint
+  key_vault_id = azurerm_key_vault_access_policy.deployer.key_vault_id
+}
+
 resource "azurerm_cosmosdb_sql_database" "centops" {
   name                = "centops"
   resource_group_name = azurerm_cosmosdb_account.cosmos.resource_group_name
