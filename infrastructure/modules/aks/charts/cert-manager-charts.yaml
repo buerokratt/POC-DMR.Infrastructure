@@ -13,6 +13,9 @@ spec:
       name: letsencrypt-prod
     # Enable the HTTP-01 challenge provider
     solvers:
-      - http01:
-          ingress:
-            class: nginx
+      - dns01:
+          azureDNS:
+            subscriptionID: b683ce64-51fa-4215-8064-e42408230343
+            resourceGroupName: byk-pr49-rg
+            hostedZoneName: byk-pr49-aks-ingress.westeurope.cloudapp.azure.com
+            environment: AzurePublicCloud
