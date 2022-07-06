@@ -48,7 +48,7 @@ resource "azurerm_cosmosdb_sql_container" "participants" {
   resource_group_name   = azurerm_cosmosdb_sql_database.centops.resource_group_name
   account_name          = azurerm_cosmosdb_account.cosmos.name
   database_name         = azurerm_cosmosdb_sql_database.centops.name
-  partition_key_path    = "/pk"
+  partition_key_path    = "/PartitionKey"
   partition_key_version = 1
 
   # Currently, this container will use the whole budget set on database (see throughput value on the database resource)
