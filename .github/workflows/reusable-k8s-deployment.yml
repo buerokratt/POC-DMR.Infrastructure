@@ -84,6 +84,8 @@ jobs:
             --namespace=${{ inputs.namespace_name }} \
             --create-namespace \
             --set image.tag=${{ inputs.image_tag }} \
-            --set image.repository=$container_registry_domain/$organization_domain_name/${{ inputs.app_name }},secrets.centops.cosmosAccount=${{ steps.appSecrets.outputs.CosmosDbAccount }},secrets.centops.cosmosKey=${{ steps.appSecrets.outputs.CosmosDbKey }}
+            --set image.repository=$container_registry_domain/$organization_domain_name/${{ inputs.app_name }} \
+            --set secrets.centops.cosmosAccount=${{ steps.appSecrets.outputs.CosmosDbAccount }} \
+            --set secrets.centops.cosmosKey=${{ steps.appSecrets.outputs.CosmosDbKey }}
             
             
