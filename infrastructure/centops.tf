@@ -1,8 +1,8 @@
 resource "random_password" "centops_admin_key" {
-  length           = 14
+  length           = 30
   lower            = true
   upper            = true
-  override_special = "@:;\\/=?!$£"
+  override_special = "\\/-="
 }
 
 resource "azurerm_key_vault_secret" "centops_admin_key" {
