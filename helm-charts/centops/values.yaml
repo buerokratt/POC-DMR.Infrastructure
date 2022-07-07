@@ -79,6 +79,6 @@ appSecrets:
    COSMOSDB__KEY:
      secretName: centops-appsettings-secrets
      secretKey: cosmosKey
-   ADMIN__APIKEY:
+   CONNECTIONSTRINGS__ADMINAPIKEY:
      secretName: centops-appsettings-secrets
      secretKey: adminApiKey
