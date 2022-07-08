@@ -1,17 +1,17 @@
 name: PRs infrastructure teardown
 on:
   workflow_dispatch:
-    environment_postfix:
-      type: string
-      required: true
-      default: ""
+    inputs:
+      environment_postfix:
+        description: The PRs number which infrastructure should be removed
+        type: string
+        required: true
   pull_request:
     types:
       - closed
     paths: ['.github/workflows/cd-infrastructure-*','.github/workflows/reusable-terraform-deployment','infrastructure/**']
 
 jobs:
-      
   PR_infra_removal:
     if: github.event.pull_request.merged == true || github.event.workflow_dispatch == true
     uses: ./.github/workflows/jobs-teardown-terraform.yml
