@@ -12,8 +12,20 @@ on:
     paths: ['.github/workflows/cd-infrastructure-*','.github/workflows/reusable-terraform-deployment','infrastructure/**']
 
 jobs:
+  test:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: what event
+        run: |
+          echo ${{ github.event.action }}
+          echo ${{ github.event.workflow_dispatch }}
+          echo ${{ github.event.workflow_call }}
+          echo ${{ github.event.workflow_run.requested }}
+          ls -la /home/runner/work/_temp/_github_workflow/
+          cat /home/runner/work/_temp/_github_workflow/event.json | jq .
+
   PR_infra_removal:
-    if: github.event.pull_request.merged == true || github.event.workflow_dispatch == true
+    if: ${{ github.event.pull_request.merged == true || github.event.workflow_run.requested == true }}
     uses: ./.github/workflows/jobs-teardown-terraform.yml
     with:
       gh_environment: PR
