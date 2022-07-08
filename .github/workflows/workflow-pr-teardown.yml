@@ -1,6 +1,9 @@
 name: PRs infrastructure teardown
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - feature/19-infrastructure-pr-environment-teardown
   pull_request:
     types:
       - closed
@@ -8,7 +11,7 @@ on:
 
 jobs:
   PR_infra_removal:
-    if: github.event.pull_request.merged == true
+    #if: github.event.pull_request.merged == true
     uses: ./.github/workflows/reusable-terraform-deployment.yml
     with:
       gh_environment: PR
