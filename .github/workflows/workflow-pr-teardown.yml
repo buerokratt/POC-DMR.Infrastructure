@@ -8,13 +8,11 @@ on:
   pull_request:
     types:
       - closed
-      - converted_to_draft
-      - locked
     paths: ['.github/workflows/cd-infrastructure-*','.github/workflows/reusable-terraform-deployment','infrastructure/**']
 
 jobs:
   PR_infra_removal:
-    #if: github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true
     uses: ./.github/workflows/jobs-teardown-terraform.yml
     with:
       gh_environment: PR
