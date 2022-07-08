@@ -17,7 +17,7 @@ resource "azurerm_public_ip" "nginx_ingress" {
 
 resource "kubernetes_namespace" "nginx_ingress" {
   metadata {
-    name = "nginx-ingress"
+    name = "applications"
   }
   depends_on = [
     azurerm_kubernetes_cluster.aks
