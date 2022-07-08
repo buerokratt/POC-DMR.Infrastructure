@@ -12,7 +12,7 @@ on:
 
 jobs:
   PR_infra_removal:
-    if: github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true || github.event.workflow_run.requested == true
     uses: ./.github/workflows/jobs-teardown-terraform.yml
     with:
       gh_environment: PR
