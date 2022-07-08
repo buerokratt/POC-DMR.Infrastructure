@@ -77,15 +77,6 @@ jobs:
 
     - name: Show pull request reference number
       run: |
-        cat /home/runner/work/_temp/_github_workflow/event.json | jq .
-
-    - name: Show GH event number
-      run: echo ${{ github.event.number }}
-
-    # On push to main, build or change infrastructure according to Terraform configuration files
-    # - name: Terraform Destroy
-    #   run: |
-    #     terraform destroy --var-file=${{ env.tf_vars_file_path }} \
-    #       --var='environment_postfix=${{ inputs.environment_postfix }}' \
-    #       -auto-approve \
-    #       -input=false
+        terraform destroy --var-file=${{ env.tf_vars_file_path }} \
+          -auto-approve \
+          -input=false
