@@ -78,7 +78,6 @@ jobs:
     # On push to main, build or change infrastructure according to Terraform configuration files
     - name: Terraform Destroy
       run: |
-        terraform destroy --var-file=${{ env.tf_vars_file_path }} \
-          --var='environment_postfix=${{ inputs.environment_postfix }}' \
+        terraform destroy \
           -auto-approve \
           -input=false
