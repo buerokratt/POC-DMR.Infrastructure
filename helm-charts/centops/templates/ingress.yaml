@@ -6,7 +6,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
   annotations:
     meta.helm.sh/release-name: {{ include "centops.fullname" . }}
-    nginx.ingress.kubernetes.io/use-regex: true
+    nginx.ingress.kubernetes.io/use-regex: "true"
     nginx.ingress.kubernetes.io/rewrite-target: /$2
     cert-manager.io/clusterissuer: letsencrypt-prod
 spec:
