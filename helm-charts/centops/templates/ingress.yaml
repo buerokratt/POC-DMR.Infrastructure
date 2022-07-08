@@ -6,20 +6,19 @@ metadata:
     app.kubernetes.io/managed-by: Helm
   annotations:
     meta.helm.sh/release-name: {{ include "centops.fullname" . }}
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
-    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /
     cert-manager.io/cluster-issuer: letsencrypt-staging
-    kubernetes.io/ingress.class: nginx
 spec:
+  ingressClassName: nginx
   tls:
   - hosts:
     - byk-pr51-aks-ingress.westeurope.cloudapp.azure.com
-    secretName: tls-secret
+    secretName: letsencrypt-tls
   rules:
   - host: byk-pr51-aks-ingress.westeurope.cloudapp.azure.com
     http:
       paths:
-        - path: /centops(/|$)(.*)
+        - path: /centops
           pathType: Prefix
           backend:
             service:
