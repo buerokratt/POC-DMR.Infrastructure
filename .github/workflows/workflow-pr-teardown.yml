@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: what event
-        run: printenv
+        run: cat /home/runner/work/_temp/_github_workflow/event.json | jq .
       
   PR_infra_removal:
     if: github.event.pull_request.merged == true || github.event.workflow_run.requested == true
