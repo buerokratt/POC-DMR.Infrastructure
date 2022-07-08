@@ -14,7 +14,7 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-      - {{ include "centops.fullname" . }}.byk-pr51-aks-ingress.westeurope.cloudapp.azure.com
+      - byk-pr51-aks-ingress.westeurope.cloudapp.azure.com
       secretName: centops-tls
   rules:
     - http:
