@@ -1,9 +1,6 @@
 name: PRs infrastructure teardown
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - feature/19-infrastructure-pr-environment-teardown
   pull_request:
     types:
       - closed
