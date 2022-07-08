@@ -14,7 +14,7 @@ spec:
   tls:
     - hosts:
       - byk-pr51-aks-ingress.westeurope.cloudapp.azure.com
-      secretName: centops-tls
+      secretName: tls-secret
   rules:
     - host: byk-pr51-aks-ingress.westeurope.cloudapp.azure.com
       http:
