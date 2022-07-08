@@ -1,6 +1,10 @@
 name: PRs infrastructure teardown
 on:
   workflow_dispatch:
+    environment_postfix:
+      type: string
+      required: true
+      default: ""
   pull_request:
     types:
       - closed
