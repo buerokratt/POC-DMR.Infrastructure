@@ -11,6 +11,12 @@ on:
     paths: ['.github/workflows/cd-infrastructure-*','.github/workflows/reusable-terraform-deployment','infrastructure/**']
 
 jobs:
+  Event_name_lookup:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: what event
+        run: printenv
+      
   PR_infra_removal:
     if: github.event.pull_request.merged == true || github.event.workflow_run.requested == true
     uses: ./.github/workflows/jobs-teardown-terraform.yml
