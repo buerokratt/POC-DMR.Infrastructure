@@ -29,4 +29,3 @@ resource "azurerm_key_vault_access_policy" "deployer" {
     "Get", "List", "Update", "Create", "Import", "Delete", "Restore", "Purge"
   ]
 }
-

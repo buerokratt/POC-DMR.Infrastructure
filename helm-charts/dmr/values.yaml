@@ -78,11 +78,9 @@ appSettings:
   # appsettings.json file (.Net), double underscore (__) correspond to a nested field e.g.
   # '"object" : { "key": "value" }' is equivalent to 'object__key: value'
   MOCKCENTOPS__CHATBOTS__0__ID: bot1
-  MOCKCENTOPS__CHATBOTS__0__ENDPOINT: http://bot2/dmr-api/messages
-  MOCKCENTOPS__CHATBOTS__1__ID: bot2
-  MOCKCENTOPS__CHATBOTS__1__ENDPOINT: http://bot2/dmr-api/messages
-  DMRSERVICESETTINGS__CLASSIFIERURI: http://classifier/dmr-api/messages
-  DMRSERVICESETTINGS__CENTOPSURI: http://centops
+  MOCKCENTOPS__CHATBOTS__0__ENDPOINT: http://mock-bot-service.applications.svc.cluster.local/dmr-api/messages
+  DMRSERVICESETTINGS__CLASSIFIERURI: http://mock-classifier-service.applications.svc.cluster.local/dmr-api/messages
+  DMRSERVICESETTINGS__CENTOPSURI: http://centops-service.applications.svc.cluster.local
   
 appSecrets:
   # PLEASE DO NOT LIST ANY APP SECRETS HERE! THIS IS A PUBLIC REPO, HARDCODED SECRETS CAN BE PUBLICLY READ
