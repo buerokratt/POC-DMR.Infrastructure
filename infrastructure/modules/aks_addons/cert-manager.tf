@@ -4,7 +4,7 @@
 
 resource "kubernetes_namespace" "cert_manager" {
   metadata {
-    name = "cert-manager"
+    name = local.cert_manager_namespace
   }
 }
 
@@ -35,7 +35,7 @@ resource "kubernetes_manifest" "cluster_issuer_staging" {
     spec = {
       acme = {
         server = "https://acme-staging-v02.api.letsencrypt.org/directory"
-        email  = "buerokratt@ria.ee"
+        email  = local.cluster_issuer_email
         privateKeySecretRef = {
           name = "letsencrypt-staging"
         }
@@ -65,7 +65,7 @@ resource "kubernetes_manifest" "cluster_issuer_prod" {
     spec = {
       acme = {
         server = "https://acme-v02.api.letsencrypt.org/directory"
-        email  = "buerokratt@ria.ee"
+        email  = local.cluster_issuer_email
         privateKeySecretRef = {
           name = "letsencrypt"
         }
