@@ -13,10 +13,10 @@ spec:
   ingressClassName: nginx
   tls:
   - hosts:
-    - byk-pr51-aks-ingress.westeurope.cloudapp.azure.com
+    - byk-pr57-aks-ingress.westeurope.cloudapp.azure.com
     secretName: letsencrypt-tls
   rules:
-  - host: byk-pr51-aks-ingress.westeurope.cloudapp.azure.com
+  - host: byk-pr57-aks-ingress.westeurope.cloudapp.azure.com
     http:
       paths:
         - path: /centops(/|$)(.*)
