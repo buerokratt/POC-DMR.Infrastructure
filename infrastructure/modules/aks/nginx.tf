@@ -15,21 +15,20 @@ resource "azurerm_public_ip" "nginx_ingress" {
   ]
 }
 
-# TODO: Need to rename this to 'applications' namespace
-# resource "kubernetes_namespace" "nginx_ingress" {
-#   metadata {
-#     name = "nginx-ingress"
-#   }
-#   depends_on = [
-#     azurerm_kubernetes_cluster.aks
-#   ]
-# }
+resource "kubernetes_namespace" "nginx_ingress" {
+  metadata {
+    name = "applications"
+  }
+  depends_on = [
+    azurerm_kubernetes_cluster.aks
+  ]
+}
 
 resource "helm_release" "nginx" {
   name             = "ingress-nginx"
   repository       = "https://kubernetes.github.io/ingress-nginx"
   chart            = "ingress-nginx"
-  namespace        = "applications" # kubernetes_namespace.nginx_ingress.metadata.0.name
+  namespace        = kubernetes_namespace.nginx_ingress.metadata.0.name
   create_namespace = true
 
   set {
