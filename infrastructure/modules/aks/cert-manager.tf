@@ -53,7 +53,6 @@ resource "kubernetes_manifest" "cluster_issuer_staging" {
     }
   }
   depends_on = [
-    helm_release.cert_manager,
     kubernetes_namespace.cert_manager
   ]
 }
@@ -85,7 +84,6 @@ resource "kubernetes_manifest" "cluster_issuer_prod" {
     }
   }
   depends_on = [
-    helm_release.cert_manager,
     kubernetes_namespace.cert_manager
   ]
 }
