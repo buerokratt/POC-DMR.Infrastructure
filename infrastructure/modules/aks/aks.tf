@@ -28,3 +28,12 @@ resource "azurerm_key_vault_secret" "kubeconfig" {
   name         = "KubeConfig"
   value        = azurerm_kubernetes_cluster.aks.kube_config_raw
 }
+
+resource "kubernetes_namespace" "applications" {
+  metadata {
+    name = "applications"
+  }
+  depends_on = [
+    azurerm_kubernetes_cluster.aks
+  ]
+}

@@ -36,13 +36,25 @@ module "aks" {
   keyvault_id = azurerm_key_vault_access_policy.deployer.key_vault_id
 }
 
+module "aks_addons" {
+  source                  = "./modules/aks_addons"
+  resource_group_name     = azurerm_resource_group.resource_group.name
+  ingress_public_ip_name  = module.aks.ingress.pip_name
+  ingress_health_endpoint = module.aks.ingress.health_endpoint
+
+  depends_on = [
+    module.aks,
+    azurerm_resource_group.resource_group
+  ]
+}
+
 module "traffic_manager" {
   source                      = "./modules/traffic_manager"
   name                        = local.traffic_manager_name
   resource_group_name         = azurerm_resource_group.resource_group.name
   environment_name            = local.environment
-  aks_pip_id                  = module.aks.ingress_pip_id
-  aks_ingress_health_endpoint = module.aks.ingress_health_endpoint
+  aks_pip_id                  = module.aks.ingress.pip_id
+  aks_ingress_health_endpoint = module.aks.ingress.health_endpoint
 
   depends_on = [
     module.aks,

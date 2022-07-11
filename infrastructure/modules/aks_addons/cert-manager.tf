@@ -6,9 +6,6 @@ resource "kubernetes_namespace" "cert_manager" {
   metadata {
     name = "cert-manager"
   }
-  depends_on = [
-    azurerm_kubernetes_cluster_node_pool.application_pool
-  ]
 }
 
 resource "helm_release" "cert_manager" {
@@ -52,13 +49,9 @@ resource "kubernetes_manifest" "cluster_issuer_staging" {
       }
     }
   }
-  wait {
-    fields = {
-      "status.loadBalancer.ingress[0].ip" = "^(\\d+(\\.|$)){4}"
-    }
-  }
+
   depends_on = [
-    azurerm_kubernetes_cluster_node_pool.application_pool
+    kubernetes_namespace.cert_manager
   ]
 }
 
@@ -86,13 +79,8 @@ resource "kubernetes_manifest" "cluster_issuer_prod" {
       }
     }
   }
-  wait {
-    fields = {
-      "status.loadBalancer.ingress[0].ip" = "^(\\d+(\\.|$)){4}"
-    }
-  }
+
   depends_on = [
-    kubernetes_manifest.cluster_issuer_staging,
-    azurerm_kubernetes_cluster_node_pool.application_pool
+    kubernetes_namespace.cert_manager
   ]
 }
