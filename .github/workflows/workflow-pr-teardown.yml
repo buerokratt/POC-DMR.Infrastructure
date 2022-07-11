@@ -1,0 +1,28 @@
+name: PRs infrastructure teardown
+on:
+  workflow_dispatch:
+    inputs:
+      environment_postfix:
+        description: The PRs number which infrastructure should be removed
+        type: string
+        required: true
+  pull_request:
+    types:
+      - closed
+    paths: ['.github/workflows/cd-infrastructure-*','.github/workflows/reusable-terraform-deployment','infrastructure/**']
+
+jobs:
+  PR_infra_removal:
+    if: ${{ github.event.pull_request.merged == true || github.event.inputs.environment_postfix != null }}
+    uses: ./.github/workflows/jobs-teardown-terraform.yml
+    with:
+      gh_environment: PR
+      working_directory_path: infrastructure
+      environment_name: pr
+      environment_postfix: ${{ github.event.number }}
+    secrets:
+      azure_ad_client_id: ${{ secrets.AZURE_AD_CLIENT_ID }}
+      azure_ad_client_secret: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
+      azure_subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      azure_ad_tenant_id: ${{ secrets.AZURE_AD_TENANT_ID }}
+      azure_storage_account_key: ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }}

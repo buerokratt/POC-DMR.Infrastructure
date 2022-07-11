@@ -41,3 +41,6 @@ terraform.rc
 !dev.tfvars
 !pr.tfvars
 !credentials-template.tfvars
+
+# IDE files
+.vscode/
