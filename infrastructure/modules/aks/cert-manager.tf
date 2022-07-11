@@ -52,11 +52,15 @@ resource "kubernetes_manifest" "cluster_issuer_staging" {
       }
     }
   }
+  wait {
+    fields = {
+      "status.loadBalancer.ingress[0].ip" = "^(\\d+(\\.|$)){4}"
+    }
+  }
   depends_on = [
     azurerm_kubernetes_cluster_node_pool.application_pool
   ]
 }
-
 
 resource "kubernetes_manifest" "cluster_issuer_prod" {
   manifest = {
@@ -65,7 +69,6 @@ resource "kubernetes_manifest" "cluster_issuer_prod" {
     metadata = {
       name = "letsencrypt"
     }
-
     spec = {
       acme = {
         server = "https://acme-v02.api.letsencrypt.org/directory"
@@ -81,6 +84,11 @@ resource "kubernetes_manifest" "cluster_issuer_prod" {
           }
         }]
       }
+    }
+  }
+  wait {
+    fields = {
+      "status.loadBalancer.ingress[0].ip" = "^(\\d+(\\.|$)){4}"
     }
   }
   depends_on = [
