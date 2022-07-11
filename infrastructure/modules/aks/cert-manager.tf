@@ -53,7 +53,7 @@ resource "kubernetes_manifest" "cluster_issuer_staging" {
     }
   }
   depends_on = [
-    kubernetes_namespace.cert_manager
+    azurerm_kubernetes_cluster_node_pool.application_pool
   ]
 }
 
@@ -84,6 +84,7 @@ resource "kubernetes_manifest" "cluster_issuer_prod" {
     }
   }
   depends_on = [
-    kubernetes_namespace.cert_manager
+    kubernetes_manifest.cluster_issuer_staging,
+    azurerm_kubernetes_cluster_node_pool.application_pool
   ]
 }
