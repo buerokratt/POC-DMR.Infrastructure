@@ -35,7 +35,6 @@ resource "kubernetes_manifest" "cluster_issuer_staging" {
     metadata = {
       name = "letsencrypt-staging"
     }
-
     spec = {
       acme = {
         server = "https://acme-staging-v02.api.letsencrypt.org/directory"
@@ -54,7 +53,8 @@ resource "kubernetes_manifest" "cluster_issuer_staging" {
     }
   }
   depends_on = [
-    helm_release.cert_manager
+    helm_release.cert_manager,
+    kubernetes_namespace.cert_manager
   ]
 }
 
@@ -85,6 +85,7 @@ resource "kubernetes_manifest" "cluster_issuer_prod" {
     }
   }
   depends_on = [
-    helm_release.cert_manager
+    helm_release.cert_manager,
+    kubernetes_namespace.cert_manager
   ]
 }
