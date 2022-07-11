@@ -30,5 +30,5 @@ resource "helm_release" "cert_manager" {
 
 resource "helm_release" "cluster_issuer_staging" {
   name = "cluster-issuer"
-  chart = "${path.cwd}/addons"
+  chart = "${path.module}/addons"
 }
