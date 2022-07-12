@@ -28,7 +28,12 @@ resource "helm_release" "cert_manager" {
   ]
 }
 
-resource "helm_release" "cluster_issuer_staging" {
-  name = "cluster-issuer"
-  chart = "${path.module}/addons"
+resource "helm_release" "aks_addons" {
+  name        = "cluster-issuer"
+  chart       = "${path.module}/addons"
+  description = "Addons installed onto the AKS cluster on ${timestamp()}"
+  lint        = true
+  depends_on = [
+    helm_release.cert_manager
+  ]
 }

@@ -63,6 +63,7 @@ appSettings:
   # '"object" : { "key": "value" }' is equivalent to 'object__key: value'
   COSMOSDB__DATABASENAME: centops
   COSMOSDB__CONTAINERNAME: participants
+  ASPNETCORE_URLS: http://+:80
   
 appSecrets:
   # PLEASE DO NOT LIST ANY APP SECRETS HERE! THIS IS A PUBLIC REPO, HARDCODED SECRETS CAN BE PUBLICLY READ
