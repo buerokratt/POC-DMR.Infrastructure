@@ -45,6 +45,6 @@ resource "random_password" "mockclassifier_api_key" {
 
 resource "azurerm_key_vault_secret" "mockclassifer_api_key" {
   name         = "MockClassifierCentOpsApiKey"
-  value        = random_password.mockbot_api_key.result
+  value        = random_password.mockclassifier_api_key.result
   key_vault_id = azurerm_key_vault_access_policy.deployer.key_vault_id
 }
