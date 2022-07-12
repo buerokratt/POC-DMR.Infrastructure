@@ -29,7 +29,7 @@ resource "helm_release" "cert_manager" {
 }
 
 resource "helm_release" "aks_addons" {
-  name        = "cluster-issuer"
+  name        = "aks-addons"
   chart       = "${path.module}/addons"
   description = "Addons installed onto the AKS cluster on ${timestamp()}"
   lint        = true
