@@ -1,0 +1,84 @@
+name: Reusable terraform teardown
+on:
+  workflow_call:
+    inputs:
+      gh_environment:
+        type: string
+        required: true
+      working_directory_path:
+        type: string
+        required: true
+      environment_name:
+        type: string
+        required: true
+      environment_postfix:
+        type: string
+        required: false
+        default: ""
+    secrets:
+      azure_ad_client_id:
+        required: true
+      azure_ad_client_secret:
+        required: true
+      azure_subscription_id:
+        required: true
+      azure_ad_tenant_id:
+        required: true
+      #TODO: Move this to key vault later on, this is required for the terraform backend setup
+      azure_storage_account_key:
+        required: true
+
+env:
+  environment_full: "${{ inputs.environment_name }}${{ inputs.environment_postfix }}"
+
+jobs:
+  Terraform:
+    runs-on: ubuntu-22.04
+    environment: ${{ inputs.gh_environment }}
+    permissions:
+      actions: read
+      contents: read
+      packages: write
+      id-token: write
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        working-directory: ${{ inputs.working_directory_path }}
+        shell: bash
+    env:
+      TF_VAR_client_id: ${{ secrets.azure_ad_client_id }}
+      TF_VAR_client_secret: ${{ secrets.azure_ad_client_secret }}
+      TF_VAR_subscription_id: ${{ secrets.azure_subscription_id }}
+      TF_VAR_tenant_id: ${{ secrets.azure_ad_tenant_id }}
+      #TODO: Move this to key vault later on, this is required for the terraform backend setup
+      ARM_ACCESS_KEY: ${{ secrets.azure_storage_account_key }}
+      tf_vars_file_path: environments/${{ inputs.environment_name }}.tfvars
+      backend_config_file_path: environments/backend/${{ inputs.environment_name }}.conf
+  
+    steps:
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout
+      uses: actions/checkout@v3
+    
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v2
+ 
+    # Checks that all Terraform configuration files adhere to a canonical format
+    - name: Terraform Format
+      run: terraform fmt -check
+        
+    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+    - name: Terraform Init
+      run: terraform init -backend-config='${{ env.backend_config_file_path }}' -backend-config='key=statefile${{ env.environment_full }}.tfstate'
+
+    # Ensures all the terraform code and files are syntactically correct 
+    - name: Terraform Validate
+      run: terraform validate
+
+    # On push to main, build or change infrastructure according to Terraform configuration files
+    - name: Terraform Destroy
+      run: |
+        terraform destroy --var-file=${{ env.tf_vars_file_path }} \
+          --var='environment_postfix=${{ inputs.environment_postfix }}' \
+          -auto-approve \
+          -input=false

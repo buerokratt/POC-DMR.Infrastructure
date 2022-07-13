@@ -65,7 +65,7 @@ jobs:
         uses: Azure/get-keyvault-secrets@v1
         with: 
           keyvault: ${{ env.keyvault_name }}
-          secrets: 'CosmosDbKey, CosmosDbAccount, CentOpsAdminApiKey, AksIngressFqdn'
+          secrets: 'CosmosDbKey, CosmosDbAccount, CentOpsAdminApiKey, DmrCentOpsApiKey, AksIngressFqdn'
         id: appSecrets
      
       - name: Get AKS Credentials
@@ -88,6 +88,7 @@ jobs:
             --set ingress.host=${{ steps.appSecrets.outputs.AksIngressFqdn }} \
             --set secrets.centops.cosmosAccount=${{ steps.appSecrets.outputs.CosmosDbAccount }} \
             --set secrets.centops.cosmosKey=${{ steps.appSecrets.outputs.CosmosDbKey }} \
-            --set secrets.centops.adminApiKey=${{ steps.appSecrets.outputs.CentOpsAdminApiKey }}
+            --set secrets.centops.adminApiKey=${{ steps.appSecrets.outputs.CentOpsAdminApiKey }} \
+            --set secrets.dmr.centOpsApiKey=${{ steps.appSecrets.outputs.DmrCentOpsApiKey }}
             
             
