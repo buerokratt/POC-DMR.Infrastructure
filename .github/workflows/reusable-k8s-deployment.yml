@@ -65,7 +65,7 @@ jobs:
         uses: Azure/get-keyvault-secrets@v1
         with: 
           keyvault: ${{ env.keyvault_name }}
-          secrets: 'CosmosDbKey, CosmosDbAccount, CentOpsAdminApiKey'
+          secrets: 'CosmosDbKey, CosmosDbAccount, CentOpsAdminApiKey, DmrCentOpsApiKey'
         id: appSecrets
      
       - name: Get AKS Credentials
@@ -87,6 +87,7 @@ jobs:
             --set image.repository=$container_registry_domain/$organization_domain_name/${{ inputs.app_name }} \
             --set secrets.centops.cosmosAccount=${{ steps.appSecrets.outputs.CosmosDbAccount }} \
             --set secrets.centops.cosmosKey=${{ steps.appSecrets.outputs.CosmosDbKey }} \
-            --set secrets.centops.adminApiKey=${{ steps.appSecrets.outputs.CentOpsAdminApiKey }}
+            --set secrets.centops.adminApiKey=${{ steps.appSecrets.outputs.CentOpsAdminApiKey }} \
+            --set secrets.dmr.centOpsApiKey=${{ steps.appSecrets.outputs.DmrCentOpsApiKey }}
             
             
