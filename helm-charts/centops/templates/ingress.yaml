@@ -6,18 +6,23 @@ metadata:
     app.kubernetes.io/managed-by: Helm
   annotations:
     meta.helm.sh/release-name: {{ include "centops.fullname" . }}
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
     nginx.ingress.kubernetes.io/use-regex: "true"
     nginx.ingress.kubernetes.io/rewrite-target: /$2
+    cert-manager.io/cluster-issuer: letsencrypt
 spec:
   ingressClassName: nginx
+  tls:
+  - hosts:
+    - {{ .Values.ingress.host }}
+    secretName: letsencrypt-tls
   rules:
-    - http:
-        paths:
-          - path: /centops(/|$)(.*)
-            pathType: Prefix
-            backend:
-              service:
-                name: {{ include "centops.fullname" . }}-service
-                port:
-                  number: {{ .Values.service.port }}
+  - host: {{ .Values.ingress.host }}
+    http:
+      paths:
+        - path: /centops(/|$)(.*)
+          pathType: Prefix
+          backend:
+            service:
+              name: {{ include "centops.fullname" . }}-service
+              port:
+                number: {{ .Values.service.port }}

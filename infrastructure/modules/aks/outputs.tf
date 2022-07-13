@@ -8,10 +8,10 @@ output "kube_config" {
   sensitive = true
 }
 
-output "ingress_pip_id" {
-  value = azurerm_public_ip.nginx_ingress.id
-}
-
-output "ingress_health_endpoint" {
-  value = local.health_endpoint
+output "ingress" {
+  value = {
+    pip_id          = azurerm_public_ip.ingress.id
+    pip_name        = azurerm_public_ip.ingress.name
+    health_endpoint = local.health_endpoint
+  }
 }

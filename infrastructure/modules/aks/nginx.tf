@@ -2,19 +2,6 @@
 # Deploy Nginx Ingress Controller to the AKS cluster
 #
 
-resource "azurerm_public_ip" "nginx_ingress" {
-  name                = "${var.name}-ingress-pip"
-  resource_group_name = local.nodes_resource_group
-  location            = var.resource_group.location
-  allocation_method   = "Static"
-  sku                 = local.public_ip_sku
-  domain_name_label   = local.public_ip_domain_name_label
-
-  depends_on = [
-    azurerm_kubernetes_cluster.aks
-  ]
-}
-
 resource "kubernetes_namespace" "nginx_ingress" {
   metadata {
     name = "nginx-ingress"
@@ -48,11 +35,11 @@ resource "helm_release" "nginx" {
 
   set {
     name  = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/azure-dns-label-name"
-    value = azurerm_public_ip.nginx_ingress.domain_name_label
+    value = azurerm_public_ip.ingress.domain_name_label
   }
 
   set {
     name  = "controller.service.loadBalancerIP"
-    value = azurerm_public_ip.nginx_ingress.ip_address
+    value = azurerm_public_ip.ingress.ip_address
   }
 }

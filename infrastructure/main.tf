@@ -41,8 +41,8 @@ module "traffic_manager" {
   name                        = local.traffic_manager_name
   resource_group_name         = azurerm_resource_group.resource_group.name
   environment_name            = local.environment
-  aks_pip_id                  = module.aks.ingress_pip_id
-  aks_ingress_health_endpoint = module.aks.ingress_health_endpoint
+  aks_pip_id                  = module.aks.ingress.pip_id
+  aks_ingress_health_endpoint = module.aks.ingress.health_endpoint
 
   depends_on = [
     module.aks,
