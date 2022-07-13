@@ -13,10 +13,10 @@ spec:
   ingressClassName: nginx
   tls:
   - hosts:
-    - {{ include .Values.ingress.host }}
+    - {{ .Values.ingress.host }}
     secretName: letsencrypt-tls
   rules:
-  - host: {{ include .Values.ingress.host }}
+  - host: {{ .Values.ingress.host }}
     http:
       paths:
         - path: /centops(/|$)(.*)
