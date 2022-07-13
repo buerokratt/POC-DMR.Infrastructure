@@ -10,3 +10,9 @@ resource "azurerm_public_ip" "ingress" {
     azurerm_kubernetes_cluster.aks
   ]
 }
+
+resource "azurerm_key_vault_secret" "dns" {
+  key_vault_id = var.keyvault_id
+  name         = "AksIngressFqdn"
+  value        = azurerm_public_ip.ingress.fqdn
+}
