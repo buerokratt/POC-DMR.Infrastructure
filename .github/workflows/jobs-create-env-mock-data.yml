@@ -1,0 +1,74 @@
+name: Mock up data for environment
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment_name:
+        type: string
+        required: true
+        description: test
+    secrets:
+      API_key:
+        required: true
+
+jobs:
+  create_mock_data:
+    env:
+      baseAKSURL: https://byk-${{ inputs.environment_name }}-aks-ingress.westeurope.cloudapp.azure.com
+      centopsAdminInstitutionRoute: centops/admin/institutions
+      centopsParticipantsRoute: centops/admin/participants
+      dmrRoute: dmr/messages
+      mockBotRoute: mock-bot/dmr-api
+      mockClassifierRoute: mock-classifier/dmr-api/messages
+      institutionName: mock-institution
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Teardown mock-data
+        run: |
+          institutions=$(curl \
+          -X GET \
+          -H "Content-Type: application/json" \
+          -H "X-Api-Key: ${{ secrets.API_key }}" \
+          ${{ env.baseAKSURL }}/${{ env.centopsAdminInstitutionRoute }} \
+          )
+
+          institutionsByName=""
+
+          if [ ${#institutions} -gt 2 ] 
+          then
+            institutionsByName=$( echo "$institutions" | jq -c '[.[] | select(.name | contains("${{ env.institutionName }}"))]' )
+          fi
+
+          if [ ${#institutionsByName} -gt 2 ] 
+          then
+          #Participants
+            institutionIdDelete=$( echo "$institutionsByName" | jq -c '[.[].id]' )
+            
+            participants=$(curl \
+            -X GET \
+            -H "Content-Type: application/json" \
+            -H "X-Api-Key: ${{ secrets.API_key }}" \
+            ${{ env.baseAKSURL }}/${{ env.centopsParticipantsRoute }} \
+            )
+
+            participantsToDelete=$(echo $participants | jq -r '[.[] | select(.institutionId == ('"$institutionIdDelete"'|unique[]))]')
+
+            echo $participantsToDelete | jq -r '.[].id' | while read id ; do 
+              url=$(echo "${{ env.baseAKSURL }}/${{ env.centopsParticipantsRoute }}/${id}" | xargs)
+              curl \
+              -X DELETE \
+              -H "X-Api-Key: ${{ secrets.API_key }}" \
+              $url
+            done
+
+          #institutions
+            echo $institutionsByName | jq -r '.[].id' | while read id ; do 
+              url=$(echo "${{ env.baseAKSURL }}/${{ env.centopsAdminInstitutionRoute }}/${id}" | xargs)
+              -X DELETE \
+              -H "X-Api-Key: ${{ secrets.API_key }}" \
+              $url
+            done
+          fi            
