@@ -30,3 +30,11 @@ jobs:
       project_prefix_name: byk
     secrets:
       AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+  
+  dev_test_data_deploy:
+    needs: dev_deploy
+    uses: ./.github/workflows/jobs-create-env-mock-data.yml
+    with:
+      environment_name: dev
+    secrets:
+      API_key: ${{ secrets.API_key }}

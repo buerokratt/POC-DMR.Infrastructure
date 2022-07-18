@@ -1,12 +1,11 @@
 name: Mock up data for environment
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       environment_name:
         type: string
         required: true
-        description: test
     secrets:
       API_key:
         required: true
@@ -26,7 +25,7 @@ jobs:
       run:
         shell: bash
     steps:
-      - name: Teardown mock-data
+      - name: Teardown mock data
         run: |
           institutions=$(curl \
           -X GET \
@@ -44,9 +43,7 @@ jobs:
 
           if [ ${#institutionsByName} -gt 2 ] 
           then
-          #Participants
-            institutionIdDelete=$( echo "$institutionsByName" | jq -c '[.[].id]' )
-            
+          #Participants            
             participants=$(curl \
             -X GET \
             -H "Content-Type: application/json" \
@@ -54,21 +51,62 @@ jobs:
             ${{ env.baseAKSURL }}/${{ env.centopsParticipantsRoute }} \
             )
 
-            participantsToDelete=$(echo $participants | jq -r '[.[] | select(.institutionId == ('"$institutionIdDelete"'|unique[]))]')
+            if [ ${#participants} -gt 2 ] 
+              then
+                institutionIdDelete=$( echo "$institutionsByName" | jq -c '[.[].id]' )      
+                participantsToDelete=$(echo $participants | jq -r '[.[] | select(.institutionId == ('"$institutionIdDelete"'|unique[]))]')
 
-            echo $participantsToDelete | jq -r '.[].id' | while read id ; do 
-              url=$(echo "${{ env.baseAKSURL }}/${{ env.centopsParticipantsRoute }}/${id}" | xargs)
+                echo $participantsToDelete | jq -r '.[].id' | while read id ; do 
+                  url=$(echo "${{ env.baseAKSURL }}/${{ env.centopsParticipantsRoute }}/${id}" | xargs)
+                  curl \
+                  -X DELETE \
+                  -H "X-Api-Key: ${{ secrets.API_key }}" \
+                  $url
+                done
+              fi
+
+          #institutions
+            echo $institutionsByName | jq -r '.[].id' | while read id ; do 
+              url=$(echo "${{ env.baseAKSURL }}/${{ env.centopsAdminInstitutionRoute }}/${id}" | xargs)
               curl \
               -X DELETE \
               -H "X-Api-Key: ${{ secrets.API_key }}" \
               $url
             done
+          fi  
 
-          #institutions
-            echo $institutionsByName | jq -r '.[].id' | while read id ; do 
-              url=$(echo "${{ env.baseAKSURL }}/${{ env.centopsAdminInstitutionRoute }}/${id}" | xargs)
-              -X DELETE \
-              -H "X-Api-Key: ${{ secrets.API_key }}" \
-              $url
-            done
-          fi            
+      - name: Create mock data
+        run: |
+          createInstitutionResponse=$(curl \
+          -X POST \
+          -H "Content-Type: application/json" \
+          -H "X-Api-Key: ${{ secrets.API_key }}" \
+          -d '{"name": "mock-institution","status": "Active"}' \
+          ${{ env.baseAKSURL }}/${{ env.centopsAdminInstitutionRoute }} \
+          )
+
+          institutionId=$(jq -r '.id' <<< $createInstitutionResponse)
+
+          #DMR
+          curl \
+          -X POST \
+          -H "Content-Type: application/json" \
+          -H "X-Api-Key: ${{ secrets.API_key }}" \
+          -d '{"name": "mock-dmr","institutionId": "'$institutionId'","host": "${{ env.baseAKSURL }}/${{ env.dmrRoute }}","type":"Dmr","status": "Active","apiKey":"${{ secrets.API_key }}"}' \
+          ${{ env.baseAKSURL }}/${{ env.centopsParticipantsRoute }}
+
+          #MockBot
+          curl \
+          -X POST \
+          -H "Content-Type: application/json" \
+          -H "X-Api-Key: ${{ secrets.API_key }}" \
+          -d '{"name": "mock-bot","institutionId": "'$institutionId'","host": "${{ env.baseAKSURL }}/${{ env.mockBotRoute }}","type":"Chatbot","status": "Active","apiKey":"${{ secrets.API_key }}"}' \
+          ${{ env.baseAKSURL }}/${{ env.centopsParticipantsRoute }}
+
+          #MockClassifier
+          curl \
+          -X POST \
+          -H "Content-Type: application/json" \
+          -H "X-Api-Key: ${{ secrets.API_key }}" \
+          -d '{"name": "mock-classifier","institutionId": "'$institutionId'","host": "${{ env.baseAKSURL }}/${{ env.mockClassifierRoute }}","type":"Classifier","status": "Active","apiKey":"${{ secrets.API_key }}"}' \
+          ${{ env.baseAKSURL }}/${{ env.centopsParticipantsRoute }}
