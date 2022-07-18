@@ -31,7 +31,7 @@ jobs:
     secrets:
       AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
   
-  dev_test_data_deploy:
+  dev_mock_data_deploy:
     needs: dev_deploy
     uses: ./.github/workflows/jobs-create-env-mock-data.yml
     with:
