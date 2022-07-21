@@ -68,6 +68,7 @@ appSettings:
   MOCKCENTOPS__CHATBOTS__0__ENDPOINT: http://mock-bot-service.applications.svc.cluster.local/dmr-api/messages
   DMRSERVICESETTINGS__CLASSIFIERURI: http://mock-classifier-service.applications.svc.cluster.local/dmr-api/messages
   DMRSERVICESETTINGS__CENTOPSURI: http://centops-service.applications.svc.cluster.local
+  ASPNETCORE_URLS: http://+:8080
   
 appSecrets:
   # PLEASE DO NOT LIST ANY APP SECRETS HERE! THIS IS A PUBLIC REPO, HARDCODED SECRETS CAN BE PUBLICLY READ
