@@ -64,7 +64,7 @@ resource "random_password" "mockbot1_participant_key" {
 
 resource "azurerm_key_vault_secret" "mockbot1_participant_key" {
   name         = "MockBot1CentOpsApiKey"
-  value        = random_password.mockbot1_api_key.result
+  value        = random_password.mockbot1_participant_key.result
   key_vault_id = azurerm_key_vault_access_policy.deployer.key_vault_id
 }
 
