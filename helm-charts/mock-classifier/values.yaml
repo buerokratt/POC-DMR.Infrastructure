@@ -82,5 +82,5 @@ appSecrets:
   #    secretKey: testKey
 
   DMRSERVICESETTINGS__CENTOPSAPIKEY:
-    secretName: dmr-appsettings-secrets
+    secretName: mock-classifier-appsettings-secrets
     secretKey: centOpsApiKey

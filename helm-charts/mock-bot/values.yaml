@@ -66,7 +66,7 @@ appSettings:
   # '"object" : { "key": "value" }' is equivalent to 'object__key: value'
   DMRSERVICESETTINGS__DMRREQUESTPROCESSINTERVALMS: 5000
   DMRSERVICESETTINGS__CENTOPSURI: http://centops-service.applications.svc.cluster.local
-  BOTSETTINGS__ID: MockBot
+  BOTSETTINGS__ID: MockBot1
   ASPNETCORE_URLS: http://+:8080
   
 appSecrets:
@@ -82,9 +82,9 @@ appSecrets:
   #   secretName: app-appsettings-secrets
   #   secretKey: testKey
   CONNECTIONSTRINGS__APIKEY:
-    secretName: mockbot-appsettings-secrets
+    secretName: mock-bot-appsettings-secrets
     secretKey: apiKey
 
   DMRSERVICESETTINGS__CENTOPSAPIKEY:
-    secretName: dmr-appsettings-secrets
+    secretName: mock-bot-appsettings-secrets
     secretKey: centOpsApiKey
