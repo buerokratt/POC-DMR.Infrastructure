@@ -43,7 +43,7 @@ resource "random_password" "mockclassifier_participant_key" {
   override_special = "/-="
 }
 
-resource "azurerm_key_vault_secret" "mockclassifer_participant_key" {
+resource "azurerm_key_vault_secret" "mockclassifier_participant_key" {
   name         = "MockClassifierCentOpsApiKey"
   value        = random_password.mockclassifier_participant_key.result
   key_vault_id = azurerm_key_vault_access_policy.deployer.key_vault_id
