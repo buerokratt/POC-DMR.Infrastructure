@@ -62,7 +62,7 @@ resource "random_password" "mockbot1_participant_key" {
   override_special = "/-="
 }
 
-resource "azurerm_key_vault_secret" "mockbot1_mockbot1_participant_keyapi_key" {
+resource "azurerm_key_vault_secret" "mockbot1_participant_key" {
   name         = "MockBot1ApiKey"
   value        = random_password.mockbot1_participant_key.result
   key_vault_id = azurerm_key_vault_access_policy.deployer.key_vault_id

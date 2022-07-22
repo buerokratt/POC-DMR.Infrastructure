@@ -89,6 +89,7 @@ jobs:
             --set secrets.centops.cosmosAccount=${{ steps.appSecrets.outputs.CosmosDbAccount }} \
             --set secrets.centops.cosmosKey=${{ steps.appSecrets.outputs.CosmosDbKey }} \
             --set secrets.centops.adminApiKey=${{ steps.appSecrets.outputs.CentOpsAdminApiKey }} \
+            --set secrets.dmr.centOpsApiKey=${{ steps.appSecrets.outputs.DmrCentOpsApiKey }}
             --set secrets.mock-bot.apiKey=${{ steps.appSecrets.outputs.MockBot1ApiKey }} \
             --set secrets.mock-bot.centOpsApiKey=${{ steps.appSecrets.outputs.MockBot1CentOpsApiKey }} \
             --set secrets.mock-classifier.centOpsApiKey=${{ steps.appSecrets.outputs.MockClassifierCentOpsApiKey }}
