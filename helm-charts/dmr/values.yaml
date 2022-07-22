@@ -64,9 +64,6 @@ appSettings:
   # Please place any non-secret app settings/config values here, these correspond to the values in the
   # appsettings.json file (.Net), double underscore (__) correspond to a nested field e.g.
   # '"object" : { "key": "value" }' is equivalent to 'object__key: value'
-  MOCKCENTOPS__CHATBOTS__0__ID: bot1
-  MOCKCENTOPS__CHATBOTS__0__ENDPOINT: http://mock-bot-service.applications.svc.cluster.local/dmr-api/messages
-  DMRSERVICESETTINGS__CLASSIFIERURI: http://mock-classifier-service.applications.svc.cluster.local/dmr-api/messages
   DMRSERVICESETTINGS__CENTOPSURI: http://centops-service.applications.svc.cluster.local
   ASPNETCORE_URLS: http://+:8080
   
