@@ -64,10 +64,10 @@ appSettings:
   # Please place any non-secret app settings/config values here, these correspond to the values in the
   # appsettings.json file (.Net), double underscore (__) correspond to a nested field e.g.
   # '"object" : { "key": "value" }' is equivalent to 'object__key: value'
-  DMRSERVICESETTINGS__DMRAPIURI: http://dmr-service.applications.svc.cluster.local/messages
-  DMRSERVICESETTINGS__DMRREQUESTPROCESSINTERVALMS: 5000
-  BOTSETTINGS__ID: MockBot
   ASPNETCORE_URLS: http://+:8080
+  DMRSERVICESETTINGS__DMRREQUESTPROCESSINTERVALMS: 5000
+  DMRSERVICESETTINGS__CENTOPSURI: http://centops-service.applications.svc.cluster.local
+  BOTSETTINGS__ID: MockBot1
   
 appSecrets:
   # PLEASE DO NOT LIST ANY APP SECRETS HERE! THIS IS A PUBLIC REPO, HARDCODED SECRETS CAN BE PUBLICLY READ
@@ -81,3 +81,10 @@ appSecrets:
   # APP__TESTSECRET:
   #   secretName: app-appsettings-secrets
   #   secretKey: testKey
+  CONNECTIONSTRINGS__APIKEY:
+    secretName: mock-bot-appsettings-secrets
+    secretKey: apiKey
+
+  DMRSERVICESETTINGS__CENTOPSAPIKEY:
+    secretName: mock-bot-appsettings-secrets
+    secretKey: centOpsApiKey
