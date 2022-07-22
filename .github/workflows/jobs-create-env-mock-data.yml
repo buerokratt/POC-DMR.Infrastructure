@@ -25,6 +25,12 @@ jobs:
       run:
         shell: bash
     steps:
+      - name: Get secrets from key vault
+        uses: Azure/get-keyvault-secrets@v1
+        with: 
+          keyvault: ${{ env.keyvault_name }}
+          secrets: 'DmrCentOpsApiKey, Mockbot1CentOpsApiKey, MockClassifierCentOpsApiKey, CentOpsAdminApiKey'
+        id: appSecrets
       - name: Teardown mock data
         run: |
           institutions=$(curl \
