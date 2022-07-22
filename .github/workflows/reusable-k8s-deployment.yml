@@ -92,4 +92,4 @@ jobs:
             --set secrets.dmr.centOpsApiKey=${{ steps.appSecrets.outputs.DmrCentOpsApiKey }} \
             --set secrets.mockBot.apiKey=${{ steps.appSecrets.outputs.MockBot1ApiKey }} \
             --set secrets.mockBot.centOpsApiKey=${{ steps.appSecrets.outputs.MockBot1CentOpsApiKey }} \
-            --set secrets.mock-classifier.centOpsApiKey=${{ steps.appSecrets.outputs.MockClassifierCentOpsApiKey }}
+            --set secrets.mockClassifier.centOpsApiKey=${{ steps.appSecrets.outputs.MockClassifierCentOpsApiKey }}
