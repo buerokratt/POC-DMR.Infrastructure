@@ -63,21 +63,21 @@ resource "random_password" "mockbot1_participant_key" {
 }
 
 resource "azurerm_key_vault_secret" "mockbot1_participant_key" {
-  name         = "MockBot1ApiKey"
-  value        = random_password.mockbot1_participant_key.result
+  name         = "MockBot1CentOpsApiKey"
+  value        = random_password.mockbot1_api_key.result
   key_vault_id = azurerm_key_vault_access_policy.deployer.key_vault_id
 }
 
-resource "random_password" "mockbot1_api_key" {
+resource "random_password" "mockbot1_chatapi_key" {
   length           = 30
   lower            = true
   upper            = true
   override_special = "/-="
 }
 
-resource "azurerm_key_vault_secret" "mockbot1_api_key" {
+resource "azurerm_key_vault_secret" "mockbot1_chatapi_key" {
   name         = "MockBot1CentOpsApiKey"
-  value        = random_password.mockbot1_api_key.result
+  value        = random_password.mockbot1_chatapi_key.result
   key_vault_id = azurerm_key_vault_access_policy.deployer.key_vault_id
 }
 
@@ -95,15 +95,15 @@ resource "azurerm_key_vault_secret" "mockbot2_participant_key" {
   key_vault_id = azurerm_key_vault_access_policy.deployer.key_vault_id
 }
 
-resource "random_password" "mockbot2_api_key" {
+resource "random_password" "mockbot2_chatapi_key" {
   length           = 30
   lower            = true
   upper            = true
   override_special = "/-="
 }
 
-resource "azurerm_key_vault_secret" "mockbot2_api_key" {
+resource "azurerm_key_vault_secret" "mockbot2_chatapi_key" {
   name         = "MockBot2ApiKey"
-  value        = random_password.mockbot2_api_key.result
+  value        = random_password.mockbot2_chatapi_key.result
   key_vault_id = azurerm_key_vault_access_policy.deployer.key_vault_id
 }
