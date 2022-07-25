@@ -38,3 +38,12 @@ jobs:
       environment_name: dev
     secrets:
       API_key: ${{ secrets.API_key }}
+
+  integration_test:
+    needs: dev_mock_data_deploy
+    uses: ./.github/workflows/jobs-integration-test.yml
+    with:
+      environment_name: dev
+      project_prefix_name: byk
+    secrets:
+      AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
