@@ -7,7 +7,7 @@ env:
   Bot1Url: "https://byk-dev-aks-ingress.westeurope.cloudapp.azure.com/mock-bot"
   Bot1ApiKey: "",
   CentOpsUrl: "https://byk-dev-aks-ingress.westeurope.cloudapp.azure.com/centops",
-  CentOpsApiKey: "",
+  CentOpsApiKey: {{ secrets.API_key }},
   ClassifierInternalUrl: "https://mock-classifier-service.applications.svc.cluster.local",
   DmrInternalUrl: "https://dmr-service.applications.svc.cluster.local",
   Bot1InternalUrl: "https://mock-bot-service.applications.svc.cluster.local",
