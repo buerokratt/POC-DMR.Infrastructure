@@ -41,7 +41,7 @@ jobs:
 
   integration_test:
     needs: dev_deploy
-    uses: ./.github/workflows/jobs_intewgration-test.yml
+    uses: ./.github/workflows/jobs-integration-test.yml
     with:
       envirnment_name: dev
     secrets:
