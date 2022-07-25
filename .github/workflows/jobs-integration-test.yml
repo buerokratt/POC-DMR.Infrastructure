@@ -35,7 +35,7 @@ jobs:
       id: appSecrets
       
     - name: Set CentOpsApiKey from KeyVault
-      run: echo "CentOpsApiKey = ${{ steps.appSecrets.outputs.CosmosDbKey }}"
+      run: echo "CentOpsApiKey = ${{ steps.appSecrets.outputs.CentOpsAdminApiKey }}"
       
     - name: Set Bot1ApiKey from KeyVault
       run: echo "Bot1ApiKey = ${{ steps.appSecrets.outputs.MockBot1ApiKey }}"
