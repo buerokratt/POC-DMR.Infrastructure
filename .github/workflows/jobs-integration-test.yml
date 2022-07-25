@@ -42,15 +42,6 @@ jobs:
         keyvault: ${{ env.keyvault_name }}
         secrets: 'CentOpsAdminApiKey, MockBot1ApiKey'
       id: appSecrets
-      
-    - name: Set CentOpsApiKey from KeyVault
-      run: echo "set CentOpsApiKey = ${{ steps.appSecrets.outputs.CentOpsAdminApiKey }}"
-      
-    - name: Set Bot1ApiKey from KeyVault
-      run: echo "set Bot1ApiKey = ${{ steps.appSecrets.outputs.MockBot1ApiKey }}"
-      
-    - name: Display (debug)
-      run: echo $CentOpsApiKey
     
     - name: Checkout Test repo
       uses: actions/checkout@v3
@@ -62,4 +53,7 @@ jobs:
       run: dotnet build Tests/src/Tests.IntegrationTests/*.csproj
        
     - name: Test Test repo
+      env: 
+        CentOpsApiKey: ${{ steps.appSecrets.outputs.CentOpsAdminApiKey }}
+        Bot1ApiKey: ${{ steps.appSecrets.outputs.MockBot1ApiKey }}
       run: dotnet test Tests/src/Tests.IntegrationTests/*.csproj --no-build
