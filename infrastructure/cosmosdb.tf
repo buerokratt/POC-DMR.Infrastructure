@@ -24,9 +24,7 @@ resource "azurerm_cosmosdb_account" "cosmos" {
   }
   
   backup {
-    type                  = "Periodic",
-    interval_in_minutes   = 1440
-    retention_in_hours    = 192
+    type                  = "Continuous",
     storage_redundancy    = "Geo"
   }
 }
