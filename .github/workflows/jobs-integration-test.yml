@@ -35,10 +35,10 @@ jobs:
       id: appSecrets
       
     - name: Set CentOpsApiKey from KeyVault
-      run: echo "CentOpsApiKey = ${{ steps.appSecrets.outputs.CentOpsAdminApiKey }}"
+      run: echo "set CentOpsApiKey = ${{ steps.appSecrets.outputs.CentOpsAdminApiKey }}"
       
     - name: Set Bot1ApiKey from KeyVault
-      run: echo "Bot1ApiKey = ${{ steps.appSecrets.outputs.MockBot1ApiKey }}"
+      run: echo "set Bot1ApiKey = ${{ steps.appSecrets.outputs.MockBot1ApiKey }}"
     
     - name: Checkout Test repo
       uses: actions/checkout@v3
