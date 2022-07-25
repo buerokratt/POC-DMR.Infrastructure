@@ -71,3 +71,8 @@ variable "cosmos_throughput" {
   description = "The database level throughput for CosmosDB"
   type        = number
 }
+
+variable "cosmos_throughput2" {
+  description = "The database level throughput for CosmosDB"
+  type        = number
+}
