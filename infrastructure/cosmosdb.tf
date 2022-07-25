@@ -22,7 +22,7 @@ resource "azurerm_cosmosdb_account" "cosmos" {
     location          = local.secondary_location
     failover_priority = 1
   }
-  
+
   backup {
     type = "Continuous"
   }
