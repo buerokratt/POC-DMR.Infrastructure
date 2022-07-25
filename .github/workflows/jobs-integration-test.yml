@@ -15,8 +15,8 @@ on:
         required: true
     
 env:
-  Bot1Url: "https://byk-dev-aks-ingress.westeurope.cloudapp.azure.com/mock-bot"
-  CentOpsUrl: "https://byk-dev-aks-ingress.westeurope.cloudapp.azure.com/centops"
+  Bot1Url: "https://${{ inputs.project_prefix_name }}-${{ inputs.environment_name }}-aks-ingress.westeurope.cloudapp.azure.com/mock-bot"
+  CentOpsUrl: "https://${{ inputs.project_prefix_name }}-${{ inputs.environment_name }}-aks-ingress.westeurope.cloudapp.azure.com/centops"
   ClassifierInternalUrl: "https://mock-classifier-service.applications.svc.cluster.local"
   DmrInternalUrl: "https://dmr-service.applications.svc.cluster.local"
   Bot1InternalUrl: "https://mock-bot-service.applications.svc.cluster.local"
