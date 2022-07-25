@@ -38,3 +38,11 @@ jobs:
       environment_name: dev
     secrets:
       API_key: ${{ secrets.API_key }}
+
+  integration_test:
+    needs: dev_deploy
+    uses: ./.github/workflows/jobs_intewgration-test.yml
+    with:
+      envirnment_name: dev
+    secrets:
+      AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
