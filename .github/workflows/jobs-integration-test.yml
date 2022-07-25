@@ -1,25 +1,41 @@
 name: Integration test
 on:
   workflow_call:
-    inputs:
+    secrets:
+      AZURE_CREDENTIALS:
+        required: true
     
 env:
   Bot1Url: "https://byk-dev-aks-ingress.westeurope.cloudapp.azure.com/mock-bot"
-  Bot1ApiKey: "",
-  CentOpsUrl: "https://byk-dev-aks-ingress.westeurope.cloudapp.azure.com/centops",
-  CentOpsApiKey: {{ secrets.API_key }},
-  ClassifierInternalUrl: "https://mock-classifier-service.applications.svc.cluster.local",
-  DmrInternalUrl: "https://dmr-service.applications.svc.cluster.local",
-  Bot1InternalUrl: "https://mock-bot-service.applications.svc.cluster.local",
+  Bot1ApiKey: " "
+  CentOpsUrl: "https://byk-dev-aks-ingress.westeurope.cloudapp.azure.com/centops"
+  CentOpsApiKey: "{{ secrets.API_key }}"
+  ClassifierInternalUrl: "https://mock-classifier-service.applications.svc.cluster.local"
+  DmrInternalUrl: "https://dmr-service.applications.svc.cluster.local"
+  Bot1InternalUrl: "https://mock-bot-service.applications.svc.cluster.local"
   GenerateTestData: "false"
     
-Jobs:
+jobs:
+
   IntegrationTest:
-    runs-on: ubuntu-latest   
-    needs: BuildUnitTest
+    runs-on: ubuntu-latest
+    env:
+      keyvault_name: ${{ inputs.project_prefix_name }}-${{ inputs.environment_name }}-kv
 
     steps:
     - uses: actions/checkout@v3
+
+    - name: Login to Azure
+      uses: Azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Get secrets from key vault
+      uses: Azure/get-keyvault-secrets@v1
+      with: 
+        keyvault: ${{ env.keyvault_name }}
+        secrets: 'CentOpsAdminApiKey, MockBot1ApiKey'
+      id: appSecrets
     
     - name: Checkout Test repo
       uses: actions/checkout@v3
