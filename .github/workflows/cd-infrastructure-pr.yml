@@ -1,4 +1,4 @@
-name: Infrastructure_cd
+name: Infra - PR
 on:
   workflow_dispatch:
   pull_request:

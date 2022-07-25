@@ -1,4 +1,4 @@
-name: Infrastructure_cd
+name: Infra - release
 on:
   workflow_dispatch:
   push:

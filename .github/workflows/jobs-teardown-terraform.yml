@@ -1,4 +1,4 @@
-name: Reusable terraform teardown
+name: Infra - PR teardown
 on:
   workflow_call:
     inputs:
