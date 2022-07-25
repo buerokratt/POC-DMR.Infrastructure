@@ -41,7 +41,7 @@ jobs:
         repository: buerokratt/Tests
         path: Tests
         
-    - name: Build Test repo
+    - name: Build integration test
       run: dotnet build Tests/src/Tests.IntegrationTests/*.csproj
        
     - name: Execute integration test
