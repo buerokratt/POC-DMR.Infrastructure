@@ -12,17 +12,7 @@ on:
         description: The prefix name of the project
     secrets:
       AZURE_CREDENTIALS:
-        required: true
-    
-env:
-  Bot1Url: "https://${{ inputs.project_prefix_name }}-${{ inputs.environment_name }}-aks-ingress.westeurope.cloudapp.azure.com/mock-bot"
-  CentOpsUrl: "https://${{ inputs.project_prefix_name }}-${{ inputs.environment_name }}-aks-ingress.westeurope.cloudapp.azure.com/centops"
-  ClassifierInternalUrl: "https://mock-classifier-service.applications.svc.cluster.local"
-  DmrInternalUrl: "https://dmr-service.applications.svc.cluster.local"
-  Bot1InternalUrl: "https://mock-bot-service.applications.svc.cluster.local"
-  GenerateTestData: "false"
-  keyvault_name: ${{ inputs.project_prefix_name }}-${{ inputs.environment_name }}-kv
-    
+        required: true    
 jobs:
 
   IntegrationTest:
@@ -37,6 +27,8 @@ jobs:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: Get secrets from key vault
+      env:
+        keyvault_name: ${{ inputs.project_prefix_name }}-${{ inputs.environment_name }}-kv
       uses: Azure/get-keyvault-secrets@v1
       with: 
         keyvault: ${{ env.keyvault_name }}
@@ -52,8 +44,14 @@ jobs:
     - name: Build Test repo
       run: dotnet build Tests/src/Tests.IntegrationTests/*.csproj
        
-    - name: Test Test repo
+    - name: Execute integration test's
       env: 
         CentOpsApiKey: ${{ steps.appSecrets.outputs.CentOpsAdminApiKey }}
         Bot1ApiKey: ${{ steps.appSecrets.outputs.MockBot1ApiKey }}
+        Bot1Url: "https://${{ inputs.project_prefix_name }}-${{ inputs.environment_name }}-aks-ingress.westeurope.cloudapp.azure.com/mock-bot"
+        CentOpsUrl: "https://${{ inputs.project_prefix_name }}-${{ inputs.environment_name }}-aks-ingress.westeurope.cloudapp.azure.com/centops"
+        ClassifierInternalUrl: "https://mock-classifier-service.applications.svc.cluster.local"
+        DmrInternalUrl: "https://dmr-service.applications.svc.cluster.local"
+        Bot1InternalUrl: "https://mock-bot-service.applications.svc.cluster.local"
+        GenerateTestData: "false"
       run: dotnet test Tests/src/Tests.IntegrationTests/*.csproj --no-build
