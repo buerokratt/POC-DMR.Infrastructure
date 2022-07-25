@@ -24,7 +24,7 @@ resource "azurerm_cosmosdb_account" "cosmos" {
   }
   
   backup {
-    type  = "Continuous"
+    type = "Continuous"
   }
 }
 
