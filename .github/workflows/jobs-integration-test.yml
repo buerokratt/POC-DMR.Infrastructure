@@ -7,20 +7,17 @@ on:
     
 env:
   Bot1Url: "https://byk-dev-aks-ingress.westeurope.cloudapp.azure.com/mock-bot"
-  Bot1ApiKey: " "
   CentOpsUrl: "https://byk-dev-aks-ingress.westeurope.cloudapp.azure.com/centops"
-  CentOpsApiKey: "{{ secrets.API_key }}"
   ClassifierInternalUrl: "https://mock-classifier-service.applications.svc.cluster.local"
   DmrInternalUrl: "https://dmr-service.applications.svc.cluster.local"
   Bot1InternalUrl: "https://mock-bot-service.applications.svc.cluster.local"
   GenerateTestData: "false"
+  keyvault_name: ${{ inputs.project_prefix_name }}-${{ inputs.environment_name }}-kv
     
 jobs:
 
   IntegrationTest:
     runs-on: ubuntu-latest
-    env:
-      keyvault_name: ${{ inputs.project_prefix_name }}-${{ inputs.environment_name }}-kv
 
     steps:
     - uses: actions/checkout@v3
@@ -36,6 +33,12 @@ jobs:
         keyvault: ${{ env.keyvault_name }}
         secrets: 'CentOpsAdminApiKey, MockBot1ApiKey'
       id: appSecrets
+      
+    - name: Set CentOpsApiKey from KeyVault
+      run: echo "CentOpsApiKey = ${{ steps.appSecrets.outputs.CosmosDbKey }}"
+      
+    - name: Set Bot1ApiKey from KeyVault
+      run: echo "Bot1ApiKey = ${{ steps.appSecrets.outputs.MockBot1ApiKey }}"
     
     - name: Checkout Test repo
       uses: actions/checkout@v3
