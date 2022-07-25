@@ -1,0 +1,34 @@
+name: Integration test
+on:
+  workflow_call:
+    inputs:
+    
+env:
+  Bot1Url: "https://byk-dev-aks-ingress.westeurope.cloudapp.azure.com/mock-bot"
+  Bot1ApiKey: "",
+  CentOpsUrl: "https://byk-dev-aks-ingress.westeurope.cloudapp.azure.com/centops",
+  CentOpsApiKey: "",
+  ClassifierInternalUrl: "https://mock-classifier-service.applications.svc.cluster.local",
+  DmrInternalUrl: "https://dmr-service.applications.svc.cluster.local",
+  Bot1InternalUrl: "https://mock-bot-service.applications.svc.cluster.local",
+  GenerateTestData: "false"
+    
+Jobs:
+  IntegrationTest:
+    runs-on: ubuntu-latest   
+    needs: BuildUnitTest
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Checkout Test repo
+      uses: actions/checkout@v3
+      with:
+        repository: buerokratt/Tests
+        path: Tests
+        
+    - name: Build Test repo
+      run: dotnet build Tests/src/Tests.IntegrationTests/*.csproj --no-restore
+       
+    - name: Test Test repo
+      run: dotnet test Tests/src/Tests.IntegrationTests/*.csproj --no-build
