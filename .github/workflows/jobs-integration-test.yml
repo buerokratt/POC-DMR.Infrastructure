@@ -44,7 +44,7 @@ jobs:
     - name: Build Test repo
       run: dotnet build Tests/src/Tests.IntegrationTests/*.csproj
        
-    - name: Execute integration test's
+    - name: Execute integration test
       env: 
         CentOpsApiKey: ${{ steps.appSecrets.outputs.CentOpsAdminApiKey }}
         Bot1ApiKey: ${{ steps.appSecrets.outputs.MockBot1ApiKey }}
