@@ -22,6 +22,13 @@ resource "azurerm_cosmosdb_account" "cosmos" {
     location          = local.secondary_location
     failover_priority = 1
   }
+  
+  backup {
+    type                  = "Periodic",
+    interval_in_minutes   = 1440
+    retention_in_hours    = 192
+    storage_redundancy    = "Geo"
+  }
 }
 
 resource "azurerm_key_vault_secret" "cosmoskey" {
