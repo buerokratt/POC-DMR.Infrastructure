@@ -7,7 +7,7 @@ metadata:
   annotations:
     meta.helm.sh/release-name: {{ include "mock-bot.fullname" . }}
     nginx.ingress.kubernetes.io/use-regex: "true"
-    nginx.ingress.kubernetes.io/rewrite-target: /client-api/$2
+    nginx.ingress.kubernetes.io/rewrite-target: $2
     cert-manager.io/cluster-issuer: letsencrypt
 spec:
   ingressClassName: nginx
@@ -19,7 +19,7 @@ spec:
   - host: {{ .Values.ingress.host }}
     http:
         paths:
-          - path: /mock-bot/client-api(/|$)(.*)
+          - path: /mock-bot(/|$)(.*)
             pathType: Prefix
             backend:
               service:
