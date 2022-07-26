@@ -68,6 +68,6 @@ variable "keyvault_purge_protection_enabled" {
 }
 
 variable "cosmos_throughput" {
-  description = "The database level throughput for CosmosDB yo!"
+  description = "The database level throughput for CosmosDB"
   type        = number
 }
