@@ -1,4 +1,4 @@
-name: Deploy to k8s cluster
+name: Deploy application
 
 on:
   workflow_dispatch:
