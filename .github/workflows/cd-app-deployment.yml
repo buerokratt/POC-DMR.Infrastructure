@@ -26,7 +26,7 @@ jobs:
     with:
       app_name: ${{ github.event.inputs.app_name }}
       image_tag: ${{ github.event.inputs.image_tag }}
-      environment_name: dev
+      environment_name: pr73
       project_prefix_name: byk
     secrets:
       AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
@@ -35,7 +35,7 @@ jobs:
     needs: dev_deploy
     uses: ./.github/workflows/jobs-create-env-mock-data.yml
     with:
-      environment_name: dev
+      environment_name: pr73
     secrets:
       API_key: ${{ secrets.API_key }}
 
@@ -43,7 +43,7 @@ jobs:
     needs: dev_mock_data_deploy
     uses: ./.github/workflows/jobs-integration-test.yml
     with:
-      environment_name: dev
+      environment_name: pr73
       project_prefix_name: byk
     secrets:
       AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
