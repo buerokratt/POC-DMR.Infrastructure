@@ -1,3 +1,10 @@
+#
+# Infrastructure - release workflow
+# 
+# This workflow applies infrastructure changes that have been merged into 'main'
+# to the 'dev' and 'prod' environments.
+#
+
 name: Infrastructure - release
 on:
   workflow_dispatch:

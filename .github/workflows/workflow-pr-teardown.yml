@@ -1,3 +1,8 @@
+#
+# PR infrastructure teardown workflow
+#
+# This workflow tears down the given *PR* environment. It triggers automatically when a PR is closed and merged.
+
 name: PRs infrastructure teardown
 on:
   workflow_dispatch:

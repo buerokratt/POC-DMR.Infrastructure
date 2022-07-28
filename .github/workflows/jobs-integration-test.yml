@@ -1,3 +1,12 @@
+#
+# Integration test workflow
+# 
+# This workflow executes integration tests against deployed infrastructure and code to
+# validate that it is functioning correctly. 
+#
+# Integrating tests in the 'main' branch of the 'Tests' repository are executed by default.
+#
+
 name: Integration test
 on:
   workflow_call:

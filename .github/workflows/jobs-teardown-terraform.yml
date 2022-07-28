@@ -1,3 +1,13 @@
+#
+# Infrastructure - PR teardown workflow
+# 
+# This workflow tears down an environment of the given name.
+#
+# It requires the environment to have been originally deployed via terraform as it
+# calls the 'terraform destroy' command to perform the teardown, which requires an
+# existing tfstate file.
+#
+
 name: Infrastructure - PR teardown
 on:
   workflow_call:

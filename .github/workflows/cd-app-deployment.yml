@@ -1,3 +1,11 @@
+#
+# Deploy application workflow
+# 
+# This workflow deploys an application with the given name and image tag to the
+# dev environment.  Application repositories trigger this workflow to deploy changes
+# to the dev environment
+#
+
 name: Deploy application
 
 on:

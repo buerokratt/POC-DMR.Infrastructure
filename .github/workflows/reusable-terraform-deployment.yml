@@ -1,3 +1,8 @@
+#
+# Terraform deployment reusable workflow
+#
+# This workflow deploys an environment of the given name into Azure using Terraform.
+
 name: Reusable_terraform_deployment
 on:
   workflow_call:
