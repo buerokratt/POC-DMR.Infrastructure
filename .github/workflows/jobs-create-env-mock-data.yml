@@ -1,3 +1,10 @@
+#
+# Create mock data workflow
+# 
+# This workflow creates mock institutions and participants for the given environment 
+# so we can run tests against it.
+#
+
 name: Mock up data for environment
 
 on:

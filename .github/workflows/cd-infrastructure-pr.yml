@@ -1,3 +1,9 @@
+#
+# Infrastructure - PR workflow
+# 
+# This workflow provisions a PR environment from the infrastructure terraform in a PR branch.
+#
+
 name: Infrastructure - PR
 on:
   workflow_dispatch:

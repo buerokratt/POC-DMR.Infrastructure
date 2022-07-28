@@ -1,3 +1,9 @@
+#
+# Deploy application reusable workflow
+#
+# This workflow deploys the given application image (using Helm) into the AKS cluster in the given environment.
+#
+
 name: Reusable deploy to k8s cluster
 
 on:

@@ -1,3 +1,10 @@
+#
+# Helm package upload reusable workflow
+# 
+# This workflow packages the helm chart for the given application and uploads it
+# to artifacts directory.
+#
+
 name: Reusable Helm package upload
 
 on:
