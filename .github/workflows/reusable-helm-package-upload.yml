@@ -1,11 +1,8 @@
 #
 # Helm package upload reusable workflow
 # 
-# This workflow tears down an environment of the given name.
-#
-# It requires the environment to have been originally deployed via terraform as it
-# calls the 'terraform destroy' command to perform the teardown, which requires an
-# existing tfstate file.
+# This workflow packages the helm chart for the given application and uploads it
+# to artifacts directory.
 #
 
 name: Reusable Helm package upload
