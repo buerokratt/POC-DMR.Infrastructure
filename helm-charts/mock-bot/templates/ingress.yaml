@@ -1,4 +1,5 @@
-{{- $path := printf "/%s/client-api(/|$)(.*)" .Values.fullnameOverride -}}
+{{- $name := default "mock-bot" .Values.fullnameOverride -}}
+{{- $path := printf "/%s/client-api(/|$)(.*)" $name "mock-bot" -}}
 
 apiVersion: networking.k8s.io/v1
 kind: Ingress
