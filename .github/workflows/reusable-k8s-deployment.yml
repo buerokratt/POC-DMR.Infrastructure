@@ -71,7 +71,7 @@ jobs:
         uses: Azure/get-keyvault-secrets@v1
         with: 
           keyvault: ${{ env.keyvault_name }}
-          secrets: 'CosmosDbKey, CosmosDbAccount, CentOpsAdminApiKey, DmrCentOpsApiKey, AksIngressFqdn, MockBot1CentOpsApiKey, MockBot1ApiKey, MockClassifierCentOpsApiKey'
+          secrets: 'CosmosDbKey, CosmosDbAccount, CentOpsAdminApiKey, DmrCentOpsApiKey, AksIngressFqdn, MockBot1CentOpsApiKey, MockBot1ApiKey, MockBot2CentOpsApiKey, MockBot2ApiKey, MockClassifierCentOpsApiKey'
         id: appSecrets
      
       - name: Get AKS Credentials
@@ -98,4 +98,24 @@ jobs:
             --set secrets.dmr.centOpsApiKey=${{ steps.appSecrets.outputs.DmrCentOpsApiKey }} \
             --set secrets.mockBot.apiKey=${{ steps.appSecrets.outputs.MockBot1ApiKey }} \
             --set secrets.mockBot.centOpsApiKey=${{ steps.appSecrets.outputs.MockBot1CentOpsApiKey }} \
+            --set secrets.mockClassifier.centOpsApiKey=${{ steps.appSecrets.outputs.MockClassifierCentOpsApiKey }}
+
+      - name: Deploy MockBot2 to Kubernetes cluster
+        if: ${{ inputs.app_name }} == 'mock-bot'
+        run: |
+          helm upgrade \
+            ${{ inputs.app_name }}-2 \
+            $temporary_download_artifact_directory/*.tgz \
+            --install \
+            --namespace=${{ inputs.namespace_name }} \
+            --create-namespace \
+            --set image.tag=${{ inputs.image_tag }} \
+            --set image.repository=$container_registry_domain/$organization_domain_name/${{ inputs.app_name }} \
+            --set ingress.host=${{ steps.appSecrets.outputs.AksIngressFqdn }} \
+            --set secrets.centops.cosmosAccount=${{ steps.appSecrets.outputs.CosmosDbAccount }} \
+            --set secrets.centops.cosmosKey=${{ steps.appSecrets.outputs.CosmosDbKey }} \
+            --set secrets.centops.adminApiKey=${{ steps.appSecrets.outputs.CentOpsAdminApiKey }} \
+            --set secrets.dmr.centOpsApiKey=${{ steps.appSecrets.outputs.DmrCentOpsApiKey }} \
+            --set secrets.mockBot.apiKey=${{ steps.appSecrets.outputs.MockBot2ApiKey }} \
+            --set secrets.mockBot.centOpsApiKey=${{ steps.appSecrets.outputs.MockBot2CentOpsApiKey }} \
             --set secrets.mockClassifier.centOpsApiKey=${{ steps.appSecrets.outputs.MockClassifierCentOpsApiKey }}
