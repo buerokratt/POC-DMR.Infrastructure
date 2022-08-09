@@ -112,6 +112,8 @@ jobs:
             --set nameOverride=mock-bot-2 \
             --set fullnameOverride=mock-bot-2 \
             --set appSettings.BOTSETTINGS__ID=MockBot2 \
+            --set appSecrets.CONNECTIONSTRINGS__APIKEY.secretName=mock-bot-2-appsettings-secrets \
+            --set appSecrets.DMRSERVICESETTINGS__CENTOPSAPIKEY.secretName=mock-bot-2-appsettings-secrets \
             --set image.tag=${{ inputs.image_tag }} \
             --set image.repository=$container_registry_domain/$organization_domain_name/${{ inputs.app_name }} \
             --set ingress.host=${{ steps.appSecrets.outputs.AksIngressFqdn }} \
