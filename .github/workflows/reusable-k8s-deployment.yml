@@ -109,8 +109,8 @@ jobs:
             --install \
             --namespace=${{ inputs.namespace_name }} \
             --create-namespace \
-            --set nameOverride=mockbot2 \
-            --set fullnameOverride=mockbot2 \
+            --set nameOverride=mock-bot-2 \
+            --set fullnameOverride=mock-bot-2 \
             --set image.tag=${{ inputs.image_tag }} \
             --set image.repository=$container_registry_domain/$organization_domain_name/${{ inputs.app_name }} \
             --set ingress.host=${{ steps.appSecrets.outputs.AksIngressFqdn }} \
