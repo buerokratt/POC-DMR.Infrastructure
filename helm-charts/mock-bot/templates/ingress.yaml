@@ -1,4 +1,4 @@
-{{- $path := "/" .Values.fullnameOverride "/client-api(/|$)(.*)" -}}
+{{- $path := "/".Values.fullnameOverride"/client-api(/|$)(.*)" -}}
 
 apiVersion: networking.k8s.io/v1
 kind: Ingress
